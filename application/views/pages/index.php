@@ -1,23 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<a class="py-2" href="#">
-
-<header>
-    <nav class="site-header sticky-top py-2">
-    <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-3 d-none d-md-inline-block font-weight-bold" href="#">
-        <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>">
-        Gym Master
-      </a>
-      <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Membership</a>
-      <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Pricing</a>
-      <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Schedules</a>
-      <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Classes</a>
-      <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Contact</a>
-    </div>
-  </nav>
-</header>
-
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 bg-light hero-image">
   <div class="col-md-4 p-lg-4 my-5">
     <div class="card">
@@ -34,7 +16,7 @@
           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
         <button type="button" class="btn btn-danger btn-block">Log in</button>
-        <button type="button" class="btn btn-outline-danger btn-block">Register as a new user</button>
+        <a href="<?php echo base_url('register') ?>" class="btn btn-sm btn-outline-muted btn-block">Register a new user</a>
       </form>
       </div>
     </div>

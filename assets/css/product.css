@@ -15,6 +15,10 @@
   max-width: 960px;
 }
 
+textarea {
+  resize: none;
+}
+
 /*
  * Custom translucent site header
  */

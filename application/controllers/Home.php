@@ -17,9 +17,17 @@ class Home extends CI_Controller {
         $this->renderDashboard('pages/index');
     }
 
+    /**
+     * Displays the login page
+     */
     public function login() {
         $this->renderDashboard('pages/login');
     }
+
+    public function register() {
+        $this->renderDashboard('pages/register');
+    }
+
 
     /**
      * Method to render template (header - body - footer)
