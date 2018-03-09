@@ -1,8 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST');
-
 
 /**
  * Home Class
@@ -14,18 +11,21 @@ header('Access-Control-Allow-Methods: GET, POST');
 class Home extends CI_Controller {
 
     public function index() {
-        $this->renderDashboard('pages/index');
+        $this->render('pages/index');
     }
 
     /**
      * Displays the login page
      */
     public function login() {
-        $this->renderDashboard('pages/login');
+        $this->render('pages/login');
     }
-
+    
+    /**
+     * Displays the register page
+     */
     public function register() {
-        $this->renderDashboard('pages/register');
+        $this->render('pages/register');
     }
 
 
@@ -33,8 +33,10 @@ class Home extends CI_Controller {
      * Method to render template (header - body - footer)
      * @param  [string] $page
      */
-    public function renderDashboard($page) {
-        $this->load->view('components/header');
+    public function render($page, $isDashboard = false) {
+        $data['isDashboard'] = $isDashboard;
+        
+        $this->load->view('components/header', $data);
         $this->load->view($page);
         $this->load->view('components/footer');
     }

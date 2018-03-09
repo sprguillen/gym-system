@@ -60,3 +60,10 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['login'] = 'home/login';
 $route['register'] = 'home/register';
+
+
+/**
+ * Dashboard Routes
+ */
+
+$route['dashboard/home'] = 'dashboard/index';

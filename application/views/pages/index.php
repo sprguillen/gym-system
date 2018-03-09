@@ -16,7 +16,6 @@
           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
         <button type="button" class="btn btn-danger btn-block">Log in</button>
-        <a href="<?php echo base_url('register') ?>" class="btn btn-sm btn-outline-muted btn-block">Register a new user</a>
       </form>
       </div>
     </div>
