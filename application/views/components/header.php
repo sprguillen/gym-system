@@ -3,8 +3,8 @@
 <head>
     <title>Elevation Fitness</title>
     <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" />
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/open-iconic-bootstrap.min.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/css/product.css'); ?>" />
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 </head>
 <body>
 
