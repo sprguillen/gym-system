@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 bg-light hero-image">
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 bg-light">
+  <h3 class="text-dark"><?php echo $page; ?></h3>
+  <hr/>
   <div class="col-md-8 p-lg-8 mx-auto my-5">
     <div class="card">
       <div class="card-body">
@@ -12,7 +14,7 @@
           <div class="row">
             <div class="col-md-12 mb-3">
                 <a href="#peronsalInfo" class="text-info">
-                  <img class="img rounded-circle" src="<?php echo base_url('assets/images/glyphicons/png/glyphicons-4-user.png'); ?>" alt="">
+                  <i class="fa fa-user-md"></i>
                   Personal Information
                 </a>
               </div>
@@ -104,7 +106,7 @@
           <div class="row mb-2">
             <div class="col-md-12 mb-3">
               <a href="#peronsalInfo" class="text-info">
-                <img class="img rounded-circle" src="<?php echo base_url('assets/images/glyphicons/png/glyphicons-443-earphone.png'); ?>" alt="">
+                <i class="fa fa-user-md"></i>
                 Emergency Contact
               </a>
             </div>
@@ -132,7 +134,7 @@
           <div class="row">
             <div class="col-md-12 mb-3">
               <a href="#peronsalInfo" class="text-info">
-                <img class="img rounded" src="<?php echo base_url('assets/images/glyphicons/png/glyphicons-30-notes-2.png'); ?>" alt="">
+                <i class="fa fa-medkit"></i>
                 Biometrics and Identification
               </a>
             </div>

@@ -15,7 +15,18 @@ class Dashboard extends CI_Controller {
         $data['page'] = 'Home: Quickstart';
 
         $this->render('pages/dashboard/home', $data);
+    }  
+
+
+    /**
+     * Displays the register page
+     */
+    public function register() {
+        $data['page'] = 'Members: Register';
+
+        $this->render('pages/dashboard/register', $data);
     }
+
 
     /**
      * Method to render template (header - body - footer)

@@ -20,13 +20,6 @@ class Home extends CI_Controller {
     public function login() {
         $this->render('pages/login');
     }
-    
-    /**
-     * Displays the register page
-     */
-    public function register() {
-        $this->render('pages/register');
-    }
 
 
     /**
