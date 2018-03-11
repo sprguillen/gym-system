@@ -67,3 +67,4 @@ $route['register'] = 'Home_controller/register';
  */
 
 $route['dashboard/home'] = 'Dashboard_controller/index';
+$route['members/register'] = 'Dashboard_controller/register';

@@ -9,13 +9,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Created on March 6, 2018
  */
 
-class Dashboard extends CI_Controller {
+class Dashboard_controller extends CI_Controller {
 
     public function index() {
         $data['page'] = 'Home: Quickstart';
 
         $this->render('pages/dashboard/home', $data);
     }
+
+
+    /**
+     * Displays the register page
+     */
+    public function register() {
+        $data['page'] = 'Members: Register';
+
+        $this->render('pages/dashboard/register', $data);
+    }
+
 
     /**
      * Method to render template (header - body - footer)
