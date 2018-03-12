@@ -9,14 +9,18 @@
 				<form name="login-input" action="Home_controller/login_user_process">
 					<div class="form-group">
 						<label for="user_input">Username</label>
-						<input type="email" class="form-control" id="user_input" aria-describedby="emailHelp" placeholder="Enter email">
+						<input type="text" class="form-control" id="user_input" aria-describedby="emailHelp" placeholder="Enter username">
 					</div>
 					<div class="form-group">
 						<label for="pass_input">Password</label>
 						<input type="password" class="form-control" id="pass_input" placeholder="Password">
 					</div>
-					<button type="button" class="btn btn-danger btn-block">Log in</button>
+					<!-- <button type="button" class="btn btn-danger btn-block">Log in</button> -->
+					<input type="submit" class="btn btn-danger btn-block" value="Log in">
 				</form>
+				<?php
+					echo "<h5 class='text-danger text-center'>" . validation_errors() . "</h5>";
+				?>
 			</div>
 		</div>
 	</div>
