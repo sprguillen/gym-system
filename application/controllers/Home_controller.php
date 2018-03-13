@@ -42,10 +42,9 @@ class Home_controller extends CI_Controller {
      */
     public function login_user_process() {
         $this->load->helper('url');
-        $this->form_validation->set_rules('user_input', 'Username', 'required');
-		$this->form_validation->set_rules('pass_input', 'Password', 'required');
+        $this->form_validation->set_rules('user_input', 'Username', 'trim|required');
+		$this->form_validation->set_rules('pass_input', 'Password', 'trim|required');
 
-        echo 'here';
         if ($this->form_validation->run() === FALSE) {
             echo 'false';
         } else {
@@ -69,18 +68,18 @@ class Home_controller extends CI_Controller {
                         'img' => $userProfileData[0]->img
                     );
 
-                    // $this->session->set_userdata('logged_in', $sessionData);
-                    echo $sessionData;
+                    $this->session->set_userdata('logged_in', $sessionData);
+                    redirect(base_url('dashboard/home'));
                 }
             } else {
+                echo "ERRORORROERUJOER";
                 $data = array(
                     'errorMessage' => 'Invalid Username and/or Password'
                 );
+                $this->session->set_flashdata('error', $data);
+    			redirect(base_url(''));
             }
 
-            // Add error data in session
-			$this->session->set_flashdata('error', $data);
-			redirect(base_url('login'));
         }
 
     }

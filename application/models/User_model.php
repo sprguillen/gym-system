@@ -25,7 +25,7 @@ class User_model extends CI_Model {
     public function get_user_profile($userProfileId) {
         $this->db->select('*');
 		$this->db->from('user_profile');
-		$this->db->where('user_profile_id', $userProfileId);
+		$this->db->where('id', $userProfileId);
         $this->db->limit(1);
 		$query = $this->db->get();
 
