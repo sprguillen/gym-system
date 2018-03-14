@@ -11,6 +11,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard_controller extends CI_Controller {
 
+    public function __construct() {
+        parent::__construct();
+
+        // Load form helper library
+        $this->load->helper('form');
+
+        // Load form validation library
+        $this->load->library('form_validation');
+
+        // Load session library
+        $this->load->library('session');
+
+        if (!$this->session->userdata('logged_in')) {
+            redirect(base_url(''));
+        }
+    }
+
     public function index() {
         $data['page'] = 'Home: Quickstart';
 
@@ -40,5 +57,13 @@ class Dashboard_controller extends CI_Controller {
         $this->load->view('components/header', $data);
         $this->load->view($page, $data);
         $this->load->view('components/footer');
+    }
+
+    /**
+     * Logs you out of the system
+     */
+    public function logout() {
+        $this->session->unset_userdata('logged_in');
+        redirect(base_url(''));
     }
 }

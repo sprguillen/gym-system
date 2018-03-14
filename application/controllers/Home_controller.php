@@ -27,14 +27,11 @@ class Home_controller extends CI_Controller {
     }
 
     public function index() {
-        $this->render('pages/index');
-    }
-
-    /**
-     * Displays the login page
-     */
-    public function login() {
-        $this->render('pages/login');
+        if (!$this->session->userdata('logged_in')) {
+            $this->render('pages/index');
+        } else {
+            redirect(base_url('dashboard/home'));
+        }
     }
 
     /**

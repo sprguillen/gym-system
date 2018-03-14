@@ -57,8 +57,8 @@ $route['translate_uri_dashes'] = FALSE;
 /**
  * CUSTOM ROUTES
  */
-
-$route['login'] = 'Home_controller/login';
+//
+// $route['login'] = 'Home_controller/login';
 $route['register'] = 'Home_controller/register';
 
 
@@ -67,4 +67,5 @@ $route['register'] = 'Home_controller/register';
  */
 
 $route['dashboard/home'] = 'Dashboard_controller/index';
+$route['dashboard/logout'] = "Dashboard_controller/logout";
 $route['members/register'] = 'Dashboard_controller/register';

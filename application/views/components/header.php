@@ -16,7 +16,7 @@
         Elevation Fitness
       </a>
 
-      
+
       <?php if ($isDashboard): ?>
         <?php
           $nav = ['Home', 'Members', 'Programs', 'Coaches'];
@@ -24,19 +24,19 @@
 
           switch ($segment) {
             case 'dashboard':
-              $nav[0] = '<strong>' . $nav[0] . '</strong>'; 
+              $nav[0] = '<strong>' . $nav[0] . '</strong>';
               break;
 
             case 'members':
-              $nav[1] = '<strong>' . $nav[1] . '</strong>'; 
+              $nav[1] = '<strong>' . $nav[1] . '</strong>';
               break;
 
             case 'programs':
-              $nav[2] = '<strong>' . $nav[2] . '</strong>'; 
+              $nav[2] = '<strong>' . $nav[2] . '</strong>';
               break;
 
             case 'coaches':
-              $nav[3] = '<strong>' . $nav[3] . '</strong>'; 
+              $nav[3] = '<strong>' . $nav[3] . '</strong>';
               break;
           }
         ?>
@@ -46,7 +46,7 @@
         <a class="py-3 d-none pr-4 d-md-inline-block" href="#"><?php echo $nav[2]; ?></a>
         <a class="py-3 d-none pr-4 d-md-inline-block" href="#"><?php echo $nav[3]; ?></a>
 
-        <a class="btn btn-outline-dark py-3" href="#">Logout</a>
+        <a class="btn btn-outline-dark py-3" href="<?php echo base_url('dashboard/logout'); ?>">Logout</a>
       <?php endif; ?>
 
       <?php if (!$isDashboard): ?>
