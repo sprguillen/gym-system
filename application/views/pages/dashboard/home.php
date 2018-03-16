@@ -11,7 +11,7 @@
           <h2 class="card-title font-weight-bold text-dark">42 Members</h2>
           <hr/>
           <a href="<?php echo base_url('members/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Register a new member</a>
-          <a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-users fa-xs"></i> View all members</a>
+          <a href="<?php echo base_url('members') ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-users fa-xs"></i> View all members</a>
         </div>
       </div>
     </div>

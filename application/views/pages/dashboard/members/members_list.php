@@ -21,35 +21,36 @@
   </h3>
   <hr/>
   <div class="row">
-    <div class="col-sm-4">
-      <div class="card text-center">
-        <div class="card-body">
-          <h2 class="card-title font-weight-bold text-dark">42 Members</h2>
-          <hr/>
-          <a href="<?php echo base_url('members/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Register a new member</a>
-          <a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-users fa-xs"></i> View all members</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card text-center">
-         <div class="card-body">
-          <h2 class="card-title font-weight-bold text-dark">6 Programs</h2>
-          <hr/>
-          <a href="#" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Assign a member to a program</a>
-          <a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-basketball-ball fa-xs"></i> View all programs</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="card text-center">
-         <div class="card-body">
-          <h2 class="card-title font-weight-bold text-dark">9 Coaches</h2>
-          <hr/>
-          <a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-bowling-ball fa-xs"></i> View all coaches</a>
-          <a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar-alt fa-xs"></i> View all schedules</a>
-        </div>
-      </div>
-    </div>
+    <table class="table table-sm table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Payment Scheme</th>
+          <th scope="col">Enrollment Duration</th>
+          <th scope="col">Classes Enrolled</th>
+          <th scope="col">Paid?</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($sampleUsers as $key => $value): ?>
+        <tr>
+          <th scope="row"><?php echo $key+1; ?></th>
+          <td><?php echo $value['name']; ?></td>
+          <td><?php echo $value['scheme']; ?></td>
+          <td><?php echo $value['duration']; ?></td>
+          <td><?php echo $value['classes']; ?></td>
+          <td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
+          <td>
+            <button type="button" class="btn btn-primary">Freeze</button>
+            <button type="button" class="btn btn-warning">View</button>
+            <button type="button" class="btn btn-info">Edit</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </td>
+        </tr> 
+        <?php endforeach; ?>
+      </tbody>
+    </table>
   </div>
 </div>

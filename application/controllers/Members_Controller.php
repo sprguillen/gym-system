@@ -21,7 +21,81 @@ class Members_Controller extends CI_Controller {
             redirect(base_url('/'));
         } 
 
-        redirect(base_url('dashboard/home'));
+        $data['sampleUsers'] = [
+            [
+                'name' => 'Gab del Rosario',
+                'scheme' => '6 months',
+                'duration' => '14 Jan 2018 - 14 Aug 2018',
+                'classes' => 'Weight Training',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'John Lloyd Cruz',
+                'scheme' => '1 month',
+                'duration' => '14 March 2018 - 14 Apr 2018',
+                'classes' => 'Boxing',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Nikki Gil',
+                'scheme' => '6 months',
+                'duration' => '14 Jan 2018 - 18 Aug 2018',
+                'classes' => 'Weight Training',
+                'isPaid' => FALSE
+            ],
+            [
+                'name' => 'Dianne Molina',
+                'scheme' => '1 year',
+                'duration' => '14 Feb 2018 - 18 Feb 2019',
+                'classes' => 'Yoga',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Marianne Seremesa',
+                'scheme' => '1 month',
+                'duration' => '23 Apr 2018 - 23 May 2018',
+                'classes' => 'Wushu',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Gab del Rosario',
+                'scheme' => '6 months',
+                'duration' => '14 Jan 2018 - 14 Aug 2018',
+                'classes' => 'Weight Training',
+                'isPaid' => FALSE
+            ],
+            [
+                'name' => 'John Lloyd Cruz',
+                'scheme' => '1 month',
+                'duration' => '14 March 2018 - 14 Apr 2018',
+                'classes' => 'Boxing',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Nikki Gil',
+                'scheme' => '6 months',
+                'duration' => '14 Jan 2018 - 18 Aug 2018',
+                'classes' => 'Weight Training',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Dianne Molina',
+                'scheme' => '1 year',
+                'duration' => '14 Feb 2018 - 18 Feb 2019',
+                'classes' => 'Yoga',
+                'isPaid' => TRUE
+            ],
+            [
+                'name' => 'Marianne Seremesa',
+                'scheme' => '1 month',
+                'duration' => '23 Apr 2018 - 23 May 2018',
+                'classes' => 'Wushu',
+                'isPaid' => TRUE
+            ],
+
+        ];
+
+        $this->render('members_list', $data);
     }
 
     /**
