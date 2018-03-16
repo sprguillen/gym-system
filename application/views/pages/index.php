@@ -6,31 +6,33 @@
 			<div class="card-body">
 				<h4 class="text-dark text-center">Log in to your account.</h4>
 				<hr/>
+
+				<?php if (validation_errors() || $this->session->flashdata('error')): ?>
+				<div class="alert alert-danger" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					</button>
+					<?php
+						echo "<small>";
+						echo validation_errors();
+						echo $this->session->flashdata('error')['message'];
+						echo "</small>";
+					?>
+				</div>
+				<?php endif; ?>
+	
 				<form name="login-input" action="Home_controller/login_user_process" method="POST">
 					<div class="form-group">
 						<label for="user_input">Username</label>
-						<input type="text" class="form-control" name="user_input" aria-describedby="emailHelp" placeholder="Enter username">
+						<input type="text" class="form-control" name="user_input" aria-describedby="emailHelp" placeholder="Enter username" required>
 					</div>
 					<div class="form-group">
 						<label for="pass_input">Password</label>
-						<input type="password" class="form-control" name="pass_input" placeholder="Password">
+						<input type="password" class="form-control" name="pass_input" placeholder="Password" required>
 					</div>
 					<!-- <button type="button" class="btn btn-danger btn-block">Log in</button> -->
 					<input type="submit" class="btn btn-danger btn-block" value="Log in">
 				</form>
-				<?php
-					if (validation_errors()) {
-						echo "<h5 class='text-danger text-center'>";
-						echo validation_errors();
-						echo "</h5>";
-					}
-
-					if($this->session->flashdata('error')){
-						echo "<h5 class='text-danger text-center'>";
-						echo $this->session->flashdata('error')['errorMessage'];
-						echo "</h5>";
-					}
-				?>
 			</div>
 		</div>
 	</div>

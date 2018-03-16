@@ -71,8 +71,9 @@ class Home_controller extends CI_Controller {
             } else {
                 echo "ERRORORROERUJOER";
                 $data = array(
-                    'errorMessage' => 'Invalid Username and/or Password'
+                    'message' => 'The username and/or password you entered is incorrect.'
                 );
+
                 $this->session->set_flashdata('error', $data);
     			redirect(base_url(''));
             }
