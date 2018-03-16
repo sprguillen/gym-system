@@ -1,6 +1,15 @@
 /**
  * CUSTOM CSS
  */
+
+.card-width {
+  max-width: 20rem;
+}
+
+.fixed-height {
+  max-height: 390px;
+}
+
 .hero-image {
   background: url('../../assets/images/header.jpg');
   /*max-height: 500px;*/

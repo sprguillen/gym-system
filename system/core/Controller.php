@@ -95,7 +95,7 @@ class CI_Controller {
 
 	public function log($data = null) {
 		echo "<pre>";
-        print_r($data);
+        var_dump($data);
         echo "</pre>";
 	}
 

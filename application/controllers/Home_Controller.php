@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Created on March 6, 2018
  */
 
-class Home_controller extends CI_Controller {
+class Home_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -24,14 +24,15 @@ class Home_controller extends CI_Controller {
 
         // Load database
         $this->load->model('user_model');
+
     }
 
     public function index() {
         if (!$this->session->userdata('logged_in')) {
-            $this->render('pages/index');
-        } else {
-            redirect(base_url('dashboard/home'));
+            redirect(base_url('/'));
         }
+
+        redirect(base_url('dashboard/home'));
     }
 
     /**

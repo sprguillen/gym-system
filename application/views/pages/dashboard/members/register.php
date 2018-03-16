@@ -1,7 +1,24 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3">
-  <h3 class="text-dark"><?php echo $page; ?></h3>
+
+  <?php
+    foreach ($breadcrumbs as $index => $route) {
+
+      foreach ($route as $name => $url) {
+        echo '<a class="mt-0" href="' . base_url($url) . '">' . $name . '</a>';
+        
+      }
+      
+      if ($index < (count($breadcrumbs) - 1)) {
+        echo ' &middot ';
+      }
+    }
+  ?>
+
+  <h3 class="text-dark">
+    Register
+  </h3>
   <hr/>
   <div class="col-md-8 p-lg-8 mx-auto my-5">
     <div class="card">

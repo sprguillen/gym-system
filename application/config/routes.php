@@ -59,13 +59,23 @@ $route['translate_uri_dashes'] = FALSE;
  */
 //
 // $route['login'] = 'Home_controller/login';
-$route['register'] = 'Home_controller/register';
+$route['register'] = 'Home_Controller/register';
 
 
 /**
  * Dashboard Routes
  */
 
-$route['dashboard/home'] = 'Dashboard_controller/index';
-$route['dashboard/logout'] = "Dashboard_controller/logout";
-$route['members/register'] = 'Dashboard_controller/register';
+$route['dashboard/home'] = 'Dashboard_Controller/index';
+$route['dashboard/logout'] = 'Dashboard_Controller/logout';
+
+/**
+ * Members
+ */
+$route['members'] = 'Members_Controller/index';
+$route['members/register'] = 'Members_Controller/register';
+
+/**
+ * Coaches
+ */
+$route['coaches'] = 'Coaches_Controller/getList';

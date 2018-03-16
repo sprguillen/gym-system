@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Created on March 6, 2018
  */
 
-class Dashboard_controller extends CI_Controller {
+class Dashboard_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -19,9 +19,6 @@ class Dashboard_controller extends CI_Controller {
 
         // Load form validation library
         $this->load->library('form_validation');
-
-        // Load session library
-        $this->load->library('session');
 
         if (!$this->session->userdata('logged_in')) {
             redirect(base_url(''));
