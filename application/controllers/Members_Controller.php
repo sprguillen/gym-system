@@ -16,10 +16,10 @@ class Members_Controller extends CI_Controller {
         $this->breadcrumbs->set(['Members' => 'members']);
     }
 
-    public function index() {
+    public function list() {
         if (!$this->session->userdata('logged_in')) {
             redirect(base_url('/'));
-        } 
+        }
 
         $data['sampleUsers'] = [
             [
@@ -95,7 +95,7 @@ class Members_Controller extends CI_Controller {
 
         ];
 
-        $this->render('members_list', $data);
+        $this->render('list', $data);
     }
 
     /**
@@ -112,14 +112,14 @@ class Members_Controller extends CI_Controller {
      * @param  [string] $page
      */
     public function render($page, $data = []) {
-        
+
         $data['isDashboard'] = TRUE;
-        
+
         $data['breadcrumbs'] = $this->breadcrumbs->get();
         $this->load->view('components/header', $data);
-        $page = 'pages/dashboard/members/' . $page;
+        $page = 'pages/members/' . $page;
         $this->load->view($page, $data);
-        
+
         $this->load->view('components/footer');
     }
 

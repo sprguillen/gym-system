@@ -28,7 +28,7 @@ class Dashboard_Controller extends CI_Controller {
     public function index() {
         $data['page'] = 'Home: Quickstart';
 
-        $this->render('pages/dashboard/home', $data);
+        $this->render('pages/dashboard', $data);
     }
 
 

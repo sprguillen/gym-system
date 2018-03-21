@@ -29,10 +29,10 @@ class Home_Controller extends CI_Controller {
 
     public function index() {
         if (!$this->session->userdata('logged_in')) {
-            redirect(base_url('/'));
+            $this->render('pages/index');
+        } else {
+            redirect(base_url('dashboard'));
         }
-
-        redirect(base_url('dashboard/home'));
     }
 
     /**
@@ -67,7 +67,7 @@ class Home_Controller extends CI_Controller {
                     );
 
                     $this->session->set_userdata('logged_in', $sessionData);
-                    redirect(base_url('dashboard/home'));
+                    redirect(base_url('dashboard'));
                 }
             } else {
                 echo "ERRORORROERUJOER";
