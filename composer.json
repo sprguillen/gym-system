@@ -1,6 +1,6 @@
 {
 	"description": "The CodeIgniter framework",
-	"name": "codeigniter/framework",
+	"name": "gym-system",
 	"type": "project",
 	"homepage": "https://codeigniter.com",
 	"license": "MIT",
