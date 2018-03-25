@@ -1,0 +1,98 @@
+.wizard ul {
+    list-style: none! important;
+    padding: 0;
+    margin: 0;
+}
+
+.wizard > .steps > ul > li,
+.wizard > .actions > ul > li {
+    float: left;
+}
+
+.wizard ul > li,
+.tabcontrol ul > li {
+    display: block;
+    padding: 0;
+}
+
+ol > li, ul > li {
+    line-height: 1.5em;
+}
+
+.wizard > .steps > ul > li {
+    width: 25%;
+}
+
+.wizard > .steps {
+    background: #2184be;
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.wizard > .steps a {
+    color: #fff;
+    display: block;
+    width: auto;
+    margin: 0 .5em .5em;
+    padding: 1em 1em;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.wizard > .steps .current a,
+.wizard > .steps .current a:hover,
+.wizard > .steps .current a:active {
+    color: #000;
+    cursor: default;
+}
+
+.wizard > .steps a,
+.wizard > .steps a:hover,
+.wizard > .steps a:active {
+    display: block;
+    width: auto;
+    margin: 0 .5em .5em;
+    padding: 1em, 1em;
+    text-decoration: none;
+}
+
+.wizard a, .tabcontrol a {
+    outline: 0;
+}
+
+.wizard > .steps .current-info,
+.tabcontrol > .steps .current-info {
+    position: absolute;
+    left: -999em;
+}
+
+.wizard > .steps .number {
+    font-size: 1.429em;
+}
+
+.error {
+    color: #FF0000;
+}
+
+.wizard > .actions > ul {
+    display: inline-block;
+    text-align: right;
+}
+
+.wizard > .actions > ul > li {
+    margin 0 .5em;
+}
+
+.wizard > .actions {
+    position: relative;
+    display: block;
+    text-align: right;
+    width: 100%;
+}
+
+.wizard > .content > .title,
+.tabcontrol > .content > .title {
+    position: absolute;
+    left: -999em;
+}

@@ -2,194 +2,177 @@
 
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3">
 
-  <?php
-    foreach ($breadcrumbs as $index => $route) {
+    <?php
+        foreach ($breadcrumbs as $index => $route) {
 
-      foreach ($route as $name => $url) {
-        echo '<a class="mt-0" href="' . base_url($url) . '">' . $name . '</a>';
-        
-      }
-      
-      if ($index < (count($breadcrumbs) - 1)) {
-        echo ' &middot ';
-      }
-    }
-  ?>
+            foreach ($route as $name => $url) {
+                echo '<a class="mt-0" href="' . base_url($url) . '">' . $name . '</a>';
+            }
 
-  <h3 class="text-dark">
-    Register
-  </h3>
-  <hr/>
-  <div class="col-md-8 p-lg-8 mx-auto my-5">
-    <div class="card">
-      <div class="card-body">
-        <h2 class="text-dark text-center">Register</h2>
-        <h5 class="text-muted text-center">Join the pursuit of health and wellness.</h5>
-        <hr/>
+            if ($index < (count($breadcrumbs) - 1)) {
+                echo ' &middot ';
+            }
+        }
+    ?>
 
-        <form>
-          <div class="row">
-            <div class="col-md-12 mb-3">
-                <a href="#peronsalInfo" class="text-info">
-                  <i class="fa fa-user-md"></i>
-                  Personal Information
-                </a>
-              </div>
-          </div>
+    <h3 class="text-dark">
+        Register
+    </h3>
+    <hr/>
+    <div class="col-md-8 p-lg-8 mx-auto my-5">
+        <form id="registration_form" action="Members_Controller/process_registration" method="post">
+            <h3>Profile</h3>
+            <fieldset>
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-dark text-center">Register</h2>
+                        <h5 class="text-muted text-center">Join the pursuit of health and wellness.</h5>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <a href="#peronsalInfo" class="text-info">
+                                    <i class="fa fa-user-md"></i>
+                                    Personal Information
+                                </a>
+                            </div>
+                        </div>
 
-          <div class="row mb-2">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">First name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Juan">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Middle name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Antonio">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Last name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Saluminag">
-              </div>
-            </div>
-            
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Address</label>
-                <textarea class="form-control" placeholder="Door 4 Frontier St., Garden Heights, Sasa, Davao City" rows="3"></textarea>
-              </div>
-            </div>
+                        <div class="row mb-2">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="fname-text">First</label>
+                                    <input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="mname-text">Middle</label>
+                                    <input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="lname-text">Last</label>
+                                    <input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname">
+                                </div>
+                            </div>
 
-            <div class="col-md-3">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Date of birth</label>
-                <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              </div>
-            </div>  
-            <div class="col-md-3">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Gender</label>
-                <select class="form-control">
-                  <option value="female">Female</option>
-                  <option value="male">Male</option>
-                </select>
-              </div>
-            </div>  
-            <div class="col-md-3">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Weight (in kgs)</label>
-                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="58">
-              </div>
-            </div>  
-            <div class="col-md-3">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Height (in cm)</label>
-                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="136">
-              </div>
-            </div>          
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="text-dark" for="address-text">Address</label>
+                                    <textarea class="form-control" id="address-text" placeholder="Door 4 Frontier St., Garden Heights, Sasa, Davao City" rows="3" name="address"></textarea>
+                                </div>
+                            </div>
 
-            <div class="col-md-6">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Phone number</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="+639168912341">
-              </div>
-            </div>  
-            <div class="col-md-6">
-             <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">E-mail address</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="paz.saluminag@gmail.com">
-              </div>
-            </div>  
-            
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Do you take any medications?</label>
-                <textarea class="form-control" placeholder="If multiple, separate by comma" rows="3"></textarea>
-              </div>
-            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="text-dark" for="birth-date">Date of birth</label>
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="text-dark" for="gender-input">Gender</label>
+                                    <select class="form-control" id="gender-input" name="gender">
+                                        <option></option>
+                                        <option value="female">Female</option>
+                                        <option value="male">Male</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="text-dark" for="weight-number">Weight (in kgs)</label>
+                                    <input type="number" class="form-control" id="weight-number" placeholder="58" name="weight">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="text-dark" for="height-number">Height (in cm)</label>
+                                    <input type="number" class="form-control" id="height-number" placeholder="136" name="height">
+                                </div>
+                            </div>
 
-            <div class="col-md-12">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Do you have any allergies?</label>
-                <textarea class="form-control" placeholder="If multiple, separate by comma" rows="3"></textarea>
-              </div>
-            </div>
-          </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-dark" for="number-text">Phone number</label>
+                                    <input type="text" class="form-control" id="number-text" placeholder="+639168912341">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="text-dark" for="email-input">E-mail address</label>
+                                    <input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp" placeholder="paz.saluminag@gmail.com">
+                                </div>
+                            </div>
 
-          <div class="row mb-2">
-            <div class="col-md-12 mb-3">
-              <a href="#peronsalInfo" class="text-info">
-                <i class="fa fa-user-md"></i>
-                Emergency Contact
-              </a>
-            </div>
+                            <div class="col-md-12 mb-3">
+                                <a href="#peronsalInfo" class="text-info">
+                                    <i class="fa fa-user-md"></i>
+                                    Emergency Contact
+                                </a>
+                            </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Full name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Jenny Amorsolo">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Relationship</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Wife">
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group">
-                <label class="text-dark" for="exampleInputEmail1">Phone number</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="+639123812352">
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 mb-3">
-              <a href="#peronsalInfo" class="text-info">
-                <i class="fa fa-medkit"></i>
-                Biometrics and Identification
-              </a>
-            </div>
-            
-            <div class="col-md-4">
-              <div class="card">
-                <img class="card-img-top w-25 mx-auto" src="<?php echo base_url('assets/images/thumb.png'); ?>" alt="">
-                <div class="card-body">
-                  <h5 class="card-title text-dark">Biometrics</h5>
-                  <p class="card-text">Please place your fingerprint on the machine to scan.</p>
-                  <a href="#" class="btn btn-outline-danger btn-block" >Scan fingerprint</a>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="emergency-name">Contact Full Name</label>
+                                    <input type="text" class="form-control" id="emergency-name" placeholder="Jenny Amorsolo" name="emergency-name">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="relationship-text">Relationship</label>
+                                    <input type="text" class="form-control" id="relationship-text" placeholder="Wife" name="relationship">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="text-dark" for="tel-input">Phone number</label>
+                                    <input type="tel" class="form-control" id="tel-input" placeholder="+639123812352" name="emergency-contact">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <img class="card-img-top w-50 mx-auto" src="<?php echo base_url('assets/images/face.png'); ?>" alt="">
-                <div class="card-body">
-                  <h5 class="card-title text-dark">Biometrics</h5>
-                  <p class="card-text">Please place your fingerprint on the machine to scan.</p>
-                  <a href="#" class="btn btn-outline-danger btn-block">Upload Photo</a>
+            </fieldset>
+
+
+            <h3>Identification</h3>
+            <fieldset>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <a href="#peronsalInfo" class="text-info">
+                                    <i class="fa fa-medkit"></i>
+                                    Biometrics and Identification
+                                </a>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <img class="card-img-top w-25 mx-auto" src="<?php echo base_url('assets/images/thumb.png'); ?>" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-dark">Biometrics</h5>
+                                        <p class="card-text">Please place your fingerprint on the machine to scan.</p>
+                                        <a href="#" class="btn btn-outline-danger btn-block" >Scan fingerprint</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <img class="card-img-top w-50 mx-auto" src="<?php echo base_url('assets/images/face.png'); ?>" alt="">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-dark">Take A Picture</h5>
+                                        <p class="card-text">Please standby and let our camera take a picture of you.</p>
+                                        <a href="#" class="btn btn-outline-danger btn-block">Upload Photo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <button type="button" class="btn btn-danger btn-lg btn-block mb-3">Save profile</button>
-                  <button type="button" class="btn btn-outline-danger btn-block btn-lg  ">Cancel</button>
-                </div>
-              </div>
-            </div>
-          </div>
+            </fieldset>
         </form>
-
-
-        
-      </div>
     </div>
-  </div>
 </div>
