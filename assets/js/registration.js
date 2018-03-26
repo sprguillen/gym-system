@@ -27,48 +27,48 @@ $(function () {
             fname: {
                 required: true,
                 minlength: 2
-            },
-            mname: {
-                required: true,
-                minlength: 2
-            },
-            lname: {
-                required: true,
-                minlength: 2
-            },
-            weight: {
-                required: true,
-                number: true
-            },
-            height: {
-                required: true,
-                number: true
-            },
-            email: {
-                required: true,
-                email: true
-            },
-            birthdate: {
-                required: true,
-                date: true
-            },
-            gender: {
-                required: true
-            },
-            cellnumber: {
-                required: true,
-                digits: true
-            },
-            ename: {
-                required: true,
-                minlength: 8
-            },
-            econtact: {
-                required: true,
-                digits: true
-            },
-            relationship: {
-                required: true
+            // },
+            // mname: {
+            //     required: true,
+            //     minlength: 2
+            // },
+            // lname: {
+            //     required: true,
+            //     minlength: 2
+            // },
+            // weight: {
+            //     required: true,
+            //     number: true
+            // },
+            // height: {
+            //     required: true,
+            //     number: true
+            // },
+            // email: {
+            //     required: true,
+            //     email: true
+            // },
+            // birthdate: {
+            //     required: true,
+            //     date: true
+            // },
+            // gender: {
+            //     required: true
+            // },
+            // cellnumber: {
+            //     required: true,
+            //     digits: true
+            // },
+            // ename: {
+            //     required: true,
+            //     minlength: 8
+            // },
+            // econtact: {
+            //     required: true,
+            //     digits: true
+            // },
+            // relationship: {
+            //     required: true
             }
         }
     });
