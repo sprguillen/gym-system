@@ -96,3 +96,17 @@ ol > li, ul > li {
     position: absolute;
     left: -999em;
 }
+
+.actions > ul > li {
+    padding: 0 1em;
+    outline: none;
+    border: 0;
+    background-color: #2184be;
+    line-height: 40px;
+    display: inline-block;
+}
+
+.actions > ul > li > a {
+    text-decoration: none;
+    color: #fff;
+}

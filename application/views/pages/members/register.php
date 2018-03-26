@@ -96,7 +96,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="text-dark" for="number-text">Phone number</label>
-                                    <input type="text" class="form-control" id="number-text" placeholder="+639168912341">
+                                    <input type="text" class="form-control" id="number-text" placeholder="+639168912341" name="cellnumber">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -116,7 +116,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="text-dark" for="emergency-name">Contact Full Name</label>
-                                    <input type="text" class="form-control" id="emergency-name" placeholder="Jenny Amorsolo" name="emergency-name">
+                                    <input type="text" class="form-control" id="emergency-name" placeholder="Jenny Amorsolo" name="ename">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -128,7 +128,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="text-dark" for="tel-input">Phone number</label>
-                                    <input type="tel" class="form-control" id="tel-input" placeholder="+639123812352" name="emergency-contact">
+                                    <input type="tel" class="form-control" id="tel-input" placeholder="+639123812352" name="econtact">
                                 </div>
                             </div>
                         </div>
