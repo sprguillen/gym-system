@@ -21,7 +21,7 @@
 				</div>
 				<?php endif; ?>
 	
-				<form name="login-input" action="Home_controller/login_user_process" method="POST">
+				<form name="login-input" action="Home_Controller/login_user_process" method="POST">
 					<div class="form-group">
 						<label for="user_input">Username</label>
 						<input type="text" class="form-control" name="user_input" aria-describedby="emailHelp" placeholder="Enter username" required>

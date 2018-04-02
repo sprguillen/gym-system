@@ -58,7 +58,7 @@ $route['translate_uri_dashes'] = FALSE;
  * CUSTOM ROUTES
  */
 //
-// $route['login'] = 'Home_controller/login';
+// $route['login'] = 'Home_Controller/login';
 $route['register'] = 'Home_Controller/register';
 
 
@@ -73,7 +73,9 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
  * Members
  */
 $route['members/list'] = 'Members_Controller/list';
+$route['members/list/(:any)'] = 'Members_Controller/list';
 $route['members/register'] = 'Members_Controller/register';
+$route['members/edit/(:any)'] = 'Members_Controller/edit';
 
 /**
  * Coaches

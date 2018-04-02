@@ -42,7 +42,7 @@ class Coaches_Controller extends CI_Controller {
         
         $data['breadcrumbs'] = $this->breadcrumbs->get();
         $this->load->view('components/header', $data);
-        $page = 'pages/dashboard/coaches/' . $page;
+        $page = 'pages/coaches/' . $page;
         $this->load->view($page, $data);
         
         $this->load->view('components/footer');

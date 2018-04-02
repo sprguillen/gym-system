@@ -28,35 +28,36 @@
 
       <?php if ($isDashboard): ?>
         <?php
+          $title = ['Home', 'Members', 'Programs', 'Coaches'];
           $nav = ['Home', 'Members', 'Programs', 'Coaches'];
           $segment = $this->uri->segment(1);
 
           switch ($segment) {
             case 'dashboard':
-              $nav[0] = '<strong>' . $nav[0] . '</strong>';
+              $title[0] = '<strong>' . $nav[0] . '</strong>';
               break;
 
             case 'members':
-              $nav[1] = '<strong>' . $nav[1] . '</strong>';
+              $title[1] = '<strong>' . $nav[1] . '</strong>';
               break;
 
             case 'programs':
-              $nav[2] = '<strong>' . $nav[2] . '</strong>';
+              $title[2] = '<strong>' . $nav[2] . '</strong>';
               break;
 
             case 'coaches':
-              $nav[3] = '<strong>' . $nav[3] . '</strong>';
+              $title[3] = '<strong>' . $nav[3] . '</strong>';
               break;
           }
         ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('dashboard'); ?>"><?php echo $nav[0]; ?></a>
+                    <a class="nav-link" href="<?php echo base_url('dashboard'); ?>"><?php echo $title[0]; ?></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="dropdownMembersButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <?php echo $nav[1]; ?>
+                        <?php echo $title[1]; ?>
                     </a>
                     <div class="pull-right dropdown-menu" aria-labelledby="dropdownMembersButton">
                         <a class="dropdown-item" href="<?php echo base_url('members/list'); ?>">Members List</a>
@@ -64,7 +65,10 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><?php echo $nav[2]; ?></a>
+                    <a class="nav-link" href="<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(lcfirst($nav[3])); ?>"><?php echo $title[3]; ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('dashboard/logout'); ?>">Logout</a>
