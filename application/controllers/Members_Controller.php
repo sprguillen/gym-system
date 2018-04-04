@@ -15,7 +15,6 @@ class Members_Controller extends CI_Controller {
 
         // Load helpers
         $this->load->helper('form');
-        $this->load->helper('utility_function');
 
         // Load libraries
         $this->load->library('form_validation');
@@ -139,7 +138,7 @@ class Members_Controller extends CI_Controller {
         if ($this->form_validation->run() === FALSE) {
 
         } else {
-            
+
         }
     }
 
