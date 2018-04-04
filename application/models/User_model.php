@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Simon Guillen (sprguillen@gmail.com)
+ * User model (handles login, new members, logout, get user details)
+ */
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User_model extends CI_Model {

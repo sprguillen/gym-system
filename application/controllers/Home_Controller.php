@@ -22,6 +22,9 @@ class Home_Controller extends CI_Controller {
         // Load session library
         $this->load->library('session');
 
+        // Load URL helper
+        $this->load->helper('url');
+
         // Load database
         $this->load->model('user_model');
 
@@ -39,12 +42,16 @@ class Home_Controller extends CI_Controller {
      * Process page login
      */
     public function login_user_process() {
-        $this->load->helper('url');
         $this->form_validation->set_rules('user_input', 'Username', 'trim|required');
 		$this->form_validation->set_rules('pass_input', 'Password', 'trim|required');
 
         if ($this->form_validation->run() === FALSE) {
-            echo 'false';
+            $data = array(
+                'message' => 'Please enter your username and/or password.'
+            );
+
+            $this->session->set_flashdata('error', $data);
+            redirect(base_url(''));
         } else {
             $data = array(
 				'username' => $this->input->post('user_input'),
@@ -70,7 +77,6 @@ class Home_Controller extends CI_Controller {
                     redirect(base_url('dashboard'));
                 }
             } else {
-                echo "ERRORORROERUJOER";
                 $data = array(
                     'message' => 'The username and/or password you entered is incorrect.'
                 );

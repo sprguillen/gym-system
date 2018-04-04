@@ -4,15 +4,22 @@
     <title>Elevation Fitness</title>
     <!-- Stylesheet declarations  -->
     <link rel="stylesheet" href="<?php echo base_url('assets/vendors/bootstrap-4.0.0/dist/css/bootstrap.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/registration.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/css/product.css'); ?>" />
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <!-- Stylesheet declarations end -->
 
     <!-- JS declarations -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/bootstrap-4.0.0/dist/js/bootstrap.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery.steps-1.1.0/jquery.steps.min.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery-validation-1.17.0/dist/jquery.validate.min.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery-validation-1.17.0/dist/additional-methods.min.js"); ?>"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/js/Registration.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/js/ValidationMessage.js"); ?>"></script>
     <!-- JS declarations end -->
 </head>
 <body>
@@ -20,10 +27,10 @@
 <header>
     <nav class="site-header sticky-top py-2">
     <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-3 d-none d-md-inline-block font-weight-bold" href="<?php echo base_url(); ?>">
-        <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>">
-        Elevation Fitness
-      </a>
+        <a class="py-3 d-none d-md-inline-block font-weight-bold" href="<?php echo base_url(); ?>">
+            <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>">
+            Elevation Fitness
+        </a>
 
 
       <?php if ($isDashboard): ?>
@@ -77,14 +84,14 @@
         </nav>
 
 
-      <?php endif; ?>
+            <?php endif; ?>
 
-      <?php if (!$isDashboard): ?>
-        <a class="py-3 d-none pr-4 d-md-inline-block" href="#">About</a>
-        <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Pricing</a>
-        <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Facilities</a>
-        <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Contact</a>
-      <?php endif; ?>
-    </div>
-  </nav>
+                <?php if (!$isDashboard): ?>
+                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">About</a>
+                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Pricing</a>
+                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Facilities</a>
+                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Contact</a>
+            <?php endif; ?>
+        </div>
+    </nav>
 </header>
