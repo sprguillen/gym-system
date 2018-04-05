@@ -64,24 +64,66 @@
         <?php endforeach; ?>
       </tbody>
     </table>
+
   </div>
+    <div class="btn-group float-right d-flex" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-outline-danger w-100">Prev</button>
+      <button type="button" class="btn btn-danger w-100">Next</button>
+    </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Enroll a Program</h5>
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Enroll a Program</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Select a program</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>Yoga</option>
+            <option>Wushu</option>
+            <option>Functional Fitness</option>
+            <option>Boxing</option>
+            <option>Weight Training</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Select a coach</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>Antoni</option>
+            <option>Tan</option>
+            <option>Karamo</option>
+            <option>Jonathan</option>
+            <option>Bobby</option>
+          </select>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Not yet paid
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Paid in full
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Partially paid
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-danger">Submit</button>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

@@ -72,6 +72,7 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
 /**
  * Members
  */
+$route['members'] = 'Members_Controller/members_list';
 $route['members/list'] = 'Members_Controller/members_list';
 $route['members/list/(:any)'] = 'Members_Controller/members_list';
 $route['members/register'] = 'Members_Controller/register';

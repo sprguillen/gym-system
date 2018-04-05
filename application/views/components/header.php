@@ -26,73 +26,59 @@
 <body>
 
 <header>
-    <nav class="site-header sticky-top py-2">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-            <a class="py-3 d-none d-md-inline-block font-weight-bold" href="<?php echo base_url(); ?>">
-                <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>">
-                Elevation Fitness
-            </a>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">
+        <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>"> 
+        <a class="d-none d-md-inline-block font-weight-bold text-danger" href="<?php echo base_url(); ?>">Elevation Fitness</a>
+      </h5>
+        
+        <?php if ($isDashboard): ?>
+            <?php
+              $title = ['Home', 'Members', 'Programs', 'Coaches'];
+              $nav = ['Home', 'Members', 'Programs', 'Coaches'];
+              $segment = $this->uri->segment(1);
 
+              switch ($segment) {
+                case 'dashboard':
+                  $title[0] = '<strong>' . $nav[0] . '</strong>';
+                  break;
 
-            <?php if ($isDashboard): ?>
-                <?php
-                  $title = ['Home', 'Members', 'Programs', 'Coaches'];
-                  $nav = ['Home', 'Members', 'Programs', 'Coaches'];
-                  $segment = $this->uri->segment(1);
+                case 'members':
+                  $title[1] = '<strong>' . $nav[1] . '</strong>';
+                  break;
 
-                  switch ($segment) {
-                    case 'dashboard':
-                      $title[0] = '<strong>' . $nav[0] . '</strong>';
-                      break;
+                case 'programs':
+                  $title[2] = '<strong>' . $nav[2] . '</strong>';
+                  break;
 
-                    case 'members':
-                      $title[1] = '<strong>' . $nav[1] . '</strong>';
-                      break;
+                case 'coaches':
+                  $title[3] = '<strong>' . $nav[3] . '</strong>';
+                  break;
+            }
+        ?>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-danger" href="<?php echo base_url('dashboard'); ?>"><?php echo $title[0]; ?></a>
+          <a class="btn btn-link text-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <?php echo $title[1]; ?>
+          </a>
 
-                    case 'programs':
-                      $title[2] = '<strong>' . $nav[2] . '</strong>';
-                      break;
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item text-danger" href="<?php echo base_url('members/list'); ?>">Members List</a>
+            <a class="dropdown-item text-danger" href="<?php echo base_url('members/register'); ?>">Member Registration</a>   
+          </div>
+        <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
+        <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[3])); ?>"><?php echo $title[3]; ?></a>
+      </nav>
+      <a class="btn btn-outline-danger" href="<?php echo base_url('dashboard/logout'); ?>">Log out</a>
+    </div>
+    <?php endif; ?>
 
-                    case 'coaches':
-                      $title[3] = '<strong>' . $nav[3] . '</strong>';
-                      break;
-                }
-            ?>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('dashboard'); ?>"><?php echo $title[0]; ?></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" id="dropdownMembersButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php echo $title[1]; ?>
-                        </a>
-                        <div class="pull-right dropdown-menu" aria-labelledby="dropdownMembersButton">
-                            <a class="dropdown-item" href="<?php echo base_url('members/list'); ?>">Members List</a>
-                            <a class="dropdown-item" href="<?php echo base_url('members/register'); ?>">Member Registration</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url(lcfirst($nav[3])); ?>"><?php echo $title[3]; ?></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('dashboard/logout'); ?>">Logout</a>
-                    </li>
-                </ul>
-            </nav>
-
-
-            <?php endif; ?>
-
-                <?php if (!$isDashboard): ?>
-                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">About</a>
-                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Pricing</a>
-                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Facilities</a>
-                    <a class="py-3 d-none pr-4 d-md-inline-block" href="#">Contact</a>
-            <?php endif; ?>
-        </div>
-    </nav>
+    <?php if (!$isDashboard): ?>
+        <a class="p-2 text-danger" href="#">About</a>
+        <a class="p-2 text-danger" href="#">Pricing</a>
+        <a class="p-2 text-danger" href="#">Facilities</a>
+        <a class="p-2 text-danger" href="#">Contact</a>
+    <?php endif; ?>
 </header>
+
+    

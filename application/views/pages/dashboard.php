@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<div class="position-relative overflow-hidden p-md-5 bg-light">
+<div class="position-relative overflow-hidden p-md-5">
   <h3 class="text-dark"><?php echo $page; ?></h3>
   <hr/>
 
