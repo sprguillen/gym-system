@@ -91,17 +91,22 @@ $(function () {
         }
     });
 
-    Webcam.set({
-        width: 320,
-        height: 240,
-        image_format: 'jpeg',
-        jpeg_quality: 90
-    });
-    Webcam.attach("#registration-cam");
-
-    $('#take-snapshot').on('click', function () {
-        Webcam.snap(function (data_uri) {
-            $('input[name="img"]').val(data_uri);
+    if ($('#registration-cam').length) {
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
         });
-    });
+
+        Webcam.attach("#registration-cam");
+
+        $('#take-snapshot').on('click', function () {
+            Webcam.snap(function (data_uri) {
+                $('input[name="img"]').val(data_uri);
+            });
+        });
+    }
+
+
 });
