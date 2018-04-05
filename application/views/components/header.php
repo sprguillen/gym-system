@@ -17,7 +17,7 @@
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery.steps-1.1.0/jquery.steps.min.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery-validation-1.17.0/dist/jquery.validate.min.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery-validation-1.17.0/dist/additional-methods.min.js"); ?>"></script>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
     <script type="text/javascript" src="<?php echo base_url("assets/js/Registration.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/js/ValidationMessage.js"); ?>"></script>
     <!-- JS declarations end -->
