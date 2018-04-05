@@ -1,5 +1,25 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<div class="modal fade" id="dialog-form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Take a picture</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <div id="registration-cam"></div>
+                    <br/>
+                    <button class="btn btn-primary" id="take-snapshot">Capture</button>
+                    <input type="hidden" name="img">
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3">
 
     <?php
@@ -165,7 +185,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title text-dark">Take A Picture</h5>
                                         <p class="card-text">Please standby and let our camera take a picture of you.</p>
-                                        <a href="#" class="btn btn-outline-danger btn-block">Upload Photo</a>
+                                        <a data-toggle="modal" href="#dialog-form" class="btn btn-outline-danger btn-block" id="upload-photo">Upload Photo</a>
                                     </div>
                                 </div>
                             </div>

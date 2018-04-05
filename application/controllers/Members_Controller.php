@@ -34,7 +34,7 @@ class Members_Controller extends CI_Controller {
     /**
      * Displays a list of members
      */
-    public function list() {
+    public function members_list() {
 
         $data['type'] = ($this->type === NULL)? 'active': $this->type;
 

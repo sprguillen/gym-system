@@ -72,10 +72,11 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
 /**
  * Members
  */
-$route['members/list'] = 'Members_Controller/list';
-$route['members/list/(:any)'] = 'Members_Controller/list';
+$route['members/list'] = 'Members_Controller/members_list';
+$route['members/list/(:any)'] = 'Members_Controller/members_list';
 $route['members/register'] = 'Members_Controller/register';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
+$route['members/process_member_register'] = 'Members_Controller/process_member_register';
 
 /**
  * Coaches
