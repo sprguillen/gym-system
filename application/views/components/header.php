@@ -28,10 +28,10 @@
 <header>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
       <h5 class="my-0 mr-md-auto font-weight-normal">
-        <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>"> 
+        <img class="header-icon" src="<?php echo base_url('assets/images/fitness.png'); ?>">
         <a class="d-none d-md-inline-block font-weight-bold text-danger" href="<?php echo base_url(); ?>">Elevation Fitness</a>
       </h5>
-        
+
         <?php if ($isDashboard): ?>
             <?php
               $title = ['Home', 'Members', 'Programs', 'Coaches'];
@@ -63,8 +63,9 @@
           </a>
 
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item text-danger" href="<?php echo base_url('members/list'); ?>">Members List</a>
-            <a class="dropdown-item text-danger" href="<?php echo base_url('members/register'); ?>">Member Registration</a>   
+            <a class="dropdown-item text-danger" href="<?php echo base_url('members/list/guest'); ?>">Guests</a>
+            <a class="dropdown-item text-danger" href="<?php echo base_url('members/list'); ?>">Members </a>
+            <a class="dropdown-item text-danger" href="<?php echo base_url('members/register'); ?>">Member Registration</a>
           </div>
         <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
         <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[3])); ?>"><?php echo $title[3]; ?></a>
@@ -80,5 +81,3 @@
         <a class="p-2 text-danger" href="#">Contact</a>
     <?php endif; ?>
 </header>
-
-    

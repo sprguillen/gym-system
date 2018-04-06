@@ -7,9 +7,9 @@
 
       foreach ($route as $name => $url) {
         echo '<a class="mt-0" href="' . base_url($url) . '">' . $name . '</a>';
-        
+
       }
-      
+
       if ($index < (count($breadcrumbs) - 1)) {
         echo ' &middot ';
       }
@@ -31,40 +31,73 @@
       <li class="nav-item">
         <a class="nav-link <?php echo ($type === 'frozen')? 'text-white bg-danger': 'text-danger'; ?>" href="<?php echo base_url('members/list/frozen'); ?>">Frozen</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link <?php echo ($type === 'guest')? 'text-white bg-danger': 'text-danger'; ?>" href="<?php echo base_url('members/list/guest'); ?>">Guest</a>
+      </li>
     </ul>
   </div>
   <div class="row">
-    <table class="table table-sm table-hover">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Full Name</th>
-          <th scope="col">Payment Scheme</th>
-          <th scope="col">Enrollment Duration</th>
-          <th scope="col">Programs Enrolled</th>
-          <th scope="col">Paid?</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($sampleUsers as $key => $value): ?>
-        <tr>
-          <th scope="row"><?php echo $key+1; ?></th>
-          <td><a href="#"><?php echo $value['name']; ?></a></td>
-          <td><?php echo $value['scheme']; ?></td>
-          <td><?php echo $value['duration']; ?></td>
-          <td><?php echo $value['classes']; ?></td>
-          <td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
-          <td>
-            <!-- <button type="button" class="btn btn-primary">Freeze</button> -->
-           <!--  <button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-info edit">Edit</button> -->
-            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Enroll a program</button>
-          </td>
-        </tr> 
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <?php if ($type !== 'guest'): ?>
+      <table class="table table-sm table-hover">
+        <thead class="thead">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Payment Scheme</th>
+            <th scope="col">Enrollment Duration</th>
+            <th scope="col">Programs Enrolled</th>
+            <th scope="col">Paid?</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($sampleUsers as $key => $value): ?>
+          <tr>
+            <th scope="row"><?php echo $key+1; ?></th>
+            <td><a class="text-danger" href="#"><?php echo $value['name']; ?></a></td>
+            <td><?php echo $value['scheme']; ?></td>
+            <td><?php echo $value['duration']; ?></td>
+            <td><?php echo $value['classes']; ?></td>
+            <td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
+            <td>
+              <!-- <button type="button" class="btn btn-primary">Freeze</button> -->
+             <!--  <button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-info edit">Edit</button> -->
+              <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Enroll a program</button>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
 
+    <?php if ($type === 'guest'): ?>
+      <table class="table table-sm table-hover">
+        <thead class="thead">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Date Enrolled</th>
+            <th scope="col">Program Enrolled</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($sampleUsers as $key => $value): ?>
+          <tr>
+            <th scope="row"><?php echo $key+1; ?></th>
+            <td><?php echo $value['name']; ?></td>
+            <td><?php echo $value['duration']; ?></td>
+            <td><?php echo $value['classes']; ?></td>
+            <td>
+              <!-- <button type="button" class="btn btn-primary">Freeze</button> -->
+             <!--  <button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-info edit">Edit</button> -->
+              <button type="button" class="btn btn-outline-danger register">Register as member</button>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php endif; ?>
   </div>
     <div class="btn-group float-right d-flex" role="group" aria-label="Basic example">
       <button type="button" class="btn btn-outline-danger w-100">Prev</button>
@@ -85,11 +118,11 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Select a program</label>
           <select class="form-control" id="exampleFormControlSelect1">
-            <option>Yoga</option>
-            <option>Wushu</option>
-            <option>Functional Fitness</option>
-            <option>Boxing</option>
             <option>Weight Training</option>
+            <option>Yoga</option>
+            <option>Zumba</option>
+            <option>Boxing</option>
+            <option>Functional Fitness</option>
           </select>
         </div>
         <div class="form-group">
@@ -102,23 +135,22 @@
             <option>Bobby</option>
           </select>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
-          <label class="form-check-label" for="defaultCheck1">
-            Not yet paid
-          </label>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Payment Scheme</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>1 month</option>
+            <option>3 months</option>
+            <option>6 months</option>
+            <option>1 year</option>
+          </select>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
-          <label class="form-check-label" for="defaultCheck1">
-            Paid in full
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" value="" id="defaultCheck1">
-          <label class="form-check-label" for="defaultCheck1">
-            Partially paid
-          </label>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Payment Status</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option>Paid in full</option>
+            <option>Partially paid</option>
+            <option>Not paid</option>
+          </select>
         </div>
       </div>
       <div class="modal-footer">
@@ -131,10 +163,9 @@
 
 <script type="text/javascript" charset="utf-8" async defer>
   $(document).ready(function() {
-    $(".edit").click(function(e) {
+    $(".register").click(function(e) {
       e.preventDefault();
-      let userId = $(this).data("id");
-      window.location.href = '/gym-system/members/edit/' + userId;
+      window.location.href = '/gym-system/members/register';
     });
   });
 </script>
