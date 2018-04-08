@@ -110,3 +110,7 @@ ol > li, ul > li {
     text-decoration: none;
     color: #fff;
 }
+
+.modal-button-container {
+    padding: 1em 0em 0em 0em;
+}

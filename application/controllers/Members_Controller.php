@@ -149,26 +149,25 @@ class Members_Controller extends CI_Controller {
 
     public function process_member_register() {
         $this->load->helper('url');
-        $this->form_validation->set_rules('fname', 'First Name', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('mname', 'Middle Name', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('lname', 'Last Name', 'trim|required');
-        $this->form_validation->set_rules('address', 'Address', 'trim|required');
-        $this->form_validation->set_rules('birthdate', 'Date of birth', 'trim|required|callback__check_date_format');
-        $this->form_validation->set_message('callback__check_date_format','Date not valid (mm/dd/yyyy)');
-        $this->form_validation->set_rules('gender', 'Gender', 'trim|required');
-        $this->form_validation->set_rules('weight', 'Weight', 'required|decimal');
-        $this->form_validation->set_rules('height', 'Height', 'required|decimal');
-        $this->form_validation->set_rules('cellnumber', 'Mobile Number', 'required|numeric');
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('ename', 'Contact Name', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('relationship', 'Relationship', 'trim|required');
-        $this->form_validation->set_rules('econtact', 'Emergency Mobile Number', 'required|numeric');
 
-        if ($this->form_validation->run() === FALSE) {
+        print_r($_POST);
+        $data = array(
+            'fname' => $_POST['fname'],
+            'mname' => $_POST['mname'],
+            'lname' => $_POST['lname'],
+            'address' => $_POST['address'],
+            'birthdate' => $_POST['birthdate'],
+            'gender' => $_POST['gender'],
+            'weight' => $_POST['weight'],
+            'height' => $_POST['height'],
+            'cellnumber' => $_POST['cellnumber'],
+            'email' => $_POST['email'],
+            'ename' => $_POST['ename'],
+            'relationship' => $_POST['relationship'],
+            'econtact' => $_POST['econtact']
+        );
 
-        } else {
-
-        }
+        echo json_encode($data);
     }
 
     /**

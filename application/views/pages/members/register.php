@@ -9,8 +9,10 @@
             <div class="modal-body">
                 <center>
                     <div id="registration-cam"></div>
-                    <br/>
-                    <button class="btn btn-primary" id="take-snapshot">Capture</button>
+                    <div class="modal-button-container">
+                        <button class="btn btn-primary" id="take-snapshot">Capture</button>
+                        <button class="btn btn-primary" id="recapture">Re-capture</button>
+                    </div>
                     <input type="hidden" name="img">
                 </center>
             </div>
