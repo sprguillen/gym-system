@@ -72,7 +72,9 @@ class Home_Controller extends CI_Controller {
                         'lastname' => $userProfileData[0]->lname,
                         'img' => $userProfileData[0]->img
                     );
-
+                    // Initializes access mode as `staff`
+                    $this->session->set_userdata('mode', 'staff');
+                    
                     $this->session->set_userdata('logged_in', $sessionData);
                     redirect(base_url('dashboard'));
                 }

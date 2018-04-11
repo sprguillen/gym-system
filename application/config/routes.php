@@ -80,6 +80,13 @@ $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
 
 /**
+ * Admin Mode
+ */
+$route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
+$route['admin/lock/(:any)'] = 'Admin_Controller/lock';
+
+
+/**
  * Coaches
  */
 $route['coaches'] = 'Coaches_Controller/getList';

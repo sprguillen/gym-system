@@ -58,7 +58,7 @@
         ?>
       <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-danger" href="<?php echo base_url('dashboard'); ?>"><?php echo $title[0]; ?></a>
-          <a class="btn btn-link text-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <!-- <a class="btn btn-link text-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <?php echo $title[1]; ?>
           </a>
 
@@ -66,8 +66,9 @@
             <a class="dropdown-item text-danger" href="<?php echo base_url('members/list/guest'); ?>">Guests</a>
             <a class="dropdown-item text-danger" href="<?php echo base_url('members/list'); ?>">Members </a>
             <a class="dropdown-item text-danger" href="<?php echo base_url('members/register'); ?>">Member Registration</a>
-          </div>
-        <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
+          </div> -->
+        <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[1])); ?>"><?php echo $title[1]; ?></a>
+        <a class="p-2 text-danger" href="#<?php echo base_url(lcfirst($nav[2])); ?>"><?php echo $title[2]; ?></a>
         <a class="p-2 text-danger" href="<?php echo base_url(lcfirst($nav[3])); ?>"><?php echo $title[3]; ?></a>
       </nav>
       <a class="btn btn-outline-danger" href="<?php echo base_url('dashboard/logout'); ?>">Log out</a>

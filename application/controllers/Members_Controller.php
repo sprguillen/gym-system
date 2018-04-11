@@ -24,7 +24,7 @@ class Members_Controller extends CI_Controller {
         // Load models
         $this->load->model('user_model');
 
-        $this->breadcrumbs->set(['Members' => 'members']);
+        $this->breadcrumbs->set(['Dashboard' => '/', 'Members' => 'members']);
         $this->type = $this->uri->segment(3);
 
         if (!$this->session->userdata('logged_in')) {
@@ -181,19 +181,19 @@ class Members_Controller extends CI_Controller {
      * Displays a list of members
      */
     public function members_list() {
-
         if (!in_array($this->type, $this->membership_types)) {
             redirect(base_url('members/list/active'));
         }
 
         $data['type'] = ($this->type === NULL)? 'active': $this->type;
-
+        $data['user_mode'] = $this->session->userdata('mode');
         $data['sampleUsers'] = $this->get_members();
-        
+
+        $this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
         if ($this->type === 'guest') {
             $data['sampleUsers'] = $this->get_guests();
         }
-
+        
         $this->render('list', $data);
     }
 
@@ -204,8 +204,9 @@ class Members_Controller extends CI_Controller {
      */
     public function edit() {
         $userId = $this->uri->segment(3);
+        $name = 'Juan Saluminag';
 
-        $this->breadcrumbs->set(['Register' => 'members/register']);
+        $this->breadcrumbs->set(['Edit: ' . $name => 'members/edit/' . $userId]);
 
         $this->render('register');
     }
