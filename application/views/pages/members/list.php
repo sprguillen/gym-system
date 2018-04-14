@@ -57,7 +57,6 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Full Name</th>
-            <th scope="col">Payment Scheme</th>
             <th scope="col">Enrollment Duration</th>
             <th scope="col">Programs Enrolled</th>
             <th scope="col">Paid?</th>
@@ -65,11 +64,10 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($sampleUsers as $key => $value): ?>
+          <?php foreach ($members as $key => $value): ?>
           <tr>
             <th scope="row"><?php echo $key+1; ?></th>
             <td><a class="text-info" href="#"><?php echo $value['name']; ?></a></td>
-            <td><?php echo $value['scheme']; ?></td>
             <td><?php echo $value['duration']; ?></td>
             <td><?php echo $value['classes']; ?></td>
             <td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
