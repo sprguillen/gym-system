@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="modal fade" id="dialog-form" role="dialog">
+<div class="modal fade" id="registration-dialog" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -189,7 +189,7 @@
                       <div class="card-body">
                           <h5 class="card-title text-dark">Take A Picture</h5>
                           <p class="card-text">Please standby and let our camera take a picture of you.</p>
-                          <a data-toggle="modal" href="#dialog-form" class="btn btn-outline-danger btn-block" id="upload-photo">Upload Photo</a>
+                          <a data-toggle="modal" href="#registration-dialog" class="btn btn-outline-danger btn-block" id="upload-photo">Upload Photo</a>
                       </div>
                   </div>
               </div>

@@ -114,3 +114,7 @@ ol > li, ul > li {
 .modal-button-container {
     padding: 1em 0em 0em 0em;
 }
+
+.align-top {
+    vertical-align: top;
+}

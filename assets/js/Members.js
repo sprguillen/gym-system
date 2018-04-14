@@ -1,5 +1,5 @@
 $(function () {
-    var dialog, form = $("#registration_form").show();
+    var form = $("#registration_form").show();
     $("#recapture").hide();
 
     form.steps({
