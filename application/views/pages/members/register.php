@@ -66,19 +66,32 @@
               <div class="col-md-4">
                   <div class="form-group">
                       <label class="text-dark" for="fname-text">First</label>
-                      <input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname">
+                      <?php $guest_data = $this->session->flashdata('guest_data') ?>
+                      <?php if ($guest_data) { ?>
+                          <input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname" value="<?php echo $guest_data->fname ?>">
+                      <?php } else { ?>
+                          <input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname" value="">
+                      <?php } ?>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                       <label class="text-dark" for="mname-text">Middle</label>
-                      <input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname">
+                      <?php if ($guest_data) { ?>
+                          <input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname" value="<?php echo $guest_data->mname ?>">
+                      <?php } else { ?>
+                          <input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname">
+                      <?php } ?>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                       <label class="text-dark" for="lname-text">Last</label>
-                      <input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname">
+                      <?php if ($guest_data) { ?>
+                          <input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname" value="<?php echo $guest_data->lname ?>">
+                      <?php } else { ?>
+                          <input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname">
+                      <?php } ?>
                   </div>
               </div>
 
@@ -98,11 +111,17 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label class="text-dark" for="gender-input">Gender</label>
-                      <select class="form-control" id="gender-input" name="gender">
-                          <option selected disabled>Select gender</option>
-                          <option value="female">Female</option>
-                          <option value="male">Male</option>
-                      </select>
+                      <?php if ($guest_data) { ?>
+                          <select class="form-control" id="gender-input" name="gender">
+                              <?php echo "<option selected value='" . $guest_data->gender . "'>" . $guest_data->gender . "</option>" ?>
+                          </select>
+                      <?php } else { ?>
+                          <select class="form-control" id="gender-input" name="gender">
+                              <option selected disabled>Select gender</option>
+                              <option value="female">Female</option>
+                              <option value="male">Male</option>
+                          </select>
+                      <?php } ?>
                   </div>
               </div>
               <div class="col-md-3">

@@ -79,6 +79,7 @@ $route['members/list/inactive'] = 'Members_Controller/members_list';
 $route['members/list/frozen'] = 'Members_Controller/members_list';
 $route['members/list/guest'] = 'Members_Controller/members_list';
 $route['members/list/get_member_details'] = 'Members_Controller/get_member_details';
+$route['members/list/register'] = 'Members_Controller/register';
 $route['members/register'] = 'Members_Controller/register';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';

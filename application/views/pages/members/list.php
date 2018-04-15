@@ -100,7 +100,7 @@
 			  		<?php foreach ($members as $key => $value): ?>
 			  			<tr>
 							<th scope="row"><?php echo $key+1; ?></th>
-							<td><a class="text-info member-dialog-link" data-toggle="modal" href="#member-detail-dialog" id="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></a></td>
+							<td><a class="text-info member-dialog-link" data-toggle="modal" href="#member-detail-dialog" data-id="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></a></td>
 							<td><?php echo $value['duration']; ?></td>
 							<td><?php echo $value['classes']; ?></td>
 							<td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
@@ -129,7 +129,7 @@
 			  		</tr>
 				</thead>
 				<tbody>
-			  		<?php foreach ($sampleUsers as $key => $value): ?>
+			  		<?php foreach ($guests as $key => $value): ?>
 			  			<tr>
 							<th scope="row"><?php echo $key+1; ?></th>
 							<td><?php echo $value['name']; ?></td>
@@ -138,7 +138,7 @@
 							<td>
 					 		<!-- <button type="button" class="btn btn-primary">Freeze</button> -->
 					 		<!--  <button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-info edit">Edit</button> -->
-					  			<button type="button" class="btn btn-outline-danger btn-sm register">Register as member</button>
+					  			<button type="button" class="btn btn-outline-danger btn-sm register-bttn" data-id="<?php echo $value['id'] ?>">Register as member</button>
 							</td>
 			  			</tr>
 			  		<?php endforeach; ?>

@@ -120,17 +120,16 @@ $(function () {
     }
 
     $('.member-dialog-link').on('click', function () {
-        var memberId = $(this).attr('id');
+        var memberId = $(this).data('id');
         $.ajax({
-            method: "POST",
-            url: "get_member_details",
+            method: 'GET',
+            url: 'get_member_details',
             data: {
                 id: memberId
             }
         }).done(function (response) {
             var memberData = JSON.parse(response);
 
-            console.log(memberData);
             $('#member-detail-fname').val(memberData['fname']);
             $('#member-detail-mname').val(memberData['mname']);
             $('#member-detail-lname').val(memberData['lname']);
@@ -141,6 +140,21 @@ $(function () {
             $('#member-detail-height').val(memberData['height']);
             $('#member-detail-contact').val(memberData['contact']);
             $('#member-detail-email').val(memberData['email']);
-        })
+        });
+    });
+
+    $('.register-bttn').on('click', function () {
+        var memberId = $(this).data('id');
+        
+        $.ajax({
+            method: 'GET',
+            url: 'get_member_details',
+            data: {
+                id: memberId,
+                type: 'guest'
+            }
+        }).done(function (response) {
+            window.location.replace('register');
+        });
     });
 });

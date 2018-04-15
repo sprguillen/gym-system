@@ -70,7 +70,20 @@ class Members_Controller extends CI_Controller {
 	 * @return {array} $members
 	 */
 	public function get_guests() {
-		return null;
+		$return_data = [];
+		$members = $this->member_model->get_all_membership_by_status('Not Applicable');
+
+		foreach ($members as $member) {
+			$pushed_data = [
+				'id' => $member->id,
+				'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+				'duration' => $member->date_expired,
+				'classes' => $member->type
+			];
+			array_push($return_data, $pushed_data);
+		}
+
+		return $return_data;
 	}
 
 	/**
@@ -78,10 +91,17 @@ class Members_Controller extends CI_Controller {
 	 * @return {str} 
 	 */
 	public function get_member_details() {
-		$member_id = $_POST['id'];
+		$member_id = $_GET['id'];
 
 		$result = $this->member_model->get_member_data_by_id($member_id);
-		echo json_encode($result[0]);
+		
+		if ($_GET['type'] === 'guest') {
+			$this->session->set_flashdata('guest_data', $result[0]);
+			echo true;
+		} else {
+			echo json_encode($result[0]);
+		}
+		
 	}
 
 	/**
@@ -98,7 +118,7 @@ class Members_Controller extends CI_Controller {
 
 		$this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
 		if ($this->type === 'guest') {
-			$data['sampleUsers'] = $this->get_guests();
+			$data['guests'] = $this->get_guests();
 		}
 		
 		$this->render('list', $data);
