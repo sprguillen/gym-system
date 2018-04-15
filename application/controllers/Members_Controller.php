@@ -74,6 +74,17 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
+	 * (Called by AJAX) Get member details and return the member JSON
+	 * @return {str} 
+	 */
+	public function get_member_details() {
+		$member_id = $_POST['id'];
+
+		$result = $this->member_model->get_member_data_by_id($member_id);
+		echo json_encode($result[0]);
+	}
+
+	/**
 	 * Displays a list of members
 	 */
 	public function members_list() {

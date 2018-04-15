@@ -119,5 +119,28 @@ $(function () {
         });
     }
 
+    $('.member-dialog-link').on('click', function () {
+        var memberId = $(this).attr('id');
+        $.ajax({
+            method: "POST",
+            url: "get_member_details",
+            data: {
+                id: memberId
+            }
+        }).done(function (response) {
+            var memberData = JSON.parse(response);
 
+            console.log(memberData);
+            $('#member-detail-fname').val(memberData['fname']);
+            $('#member-detail-mname').val(memberData['mname']);
+            $('#member-detail-lname').val(memberData['lname']);
+            $('#member-detail-address').val(memberData['address']);
+            $('#member-detail-birth').val(memberData['date_of_birth']);
+            $('#member-detail-gender').val(memberData['gender']);
+            $('#member-detail-weight').val(memberData['weight']);
+            $('#member-detail-height').val(memberData['height']);
+            $('#member-detail-contact').val(memberData['contact']);
+            $('#member-detail-email').val(memberData['email']);
+        })
+    });
 });

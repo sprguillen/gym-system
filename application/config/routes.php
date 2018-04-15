@@ -74,7 +74,11 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
  */
 $route['members'] = 'Members_Controller/members_list';
 $route['members/list'] = 'Members_Controller/members_list';
-$route['members/list/(:any)'] = 'Members_Controller/members_list';
+$route['members/list/active'] = 'Members_Controller/members_list';
+$route['members/list/inactive'] = 'Members_Controller/members_list';
+$route['members/list/frozen'] = 'Members_Controller/members_list';
+$route['members/list/guest'] = 'Members_Controller/members_list';
+$route['members/list/get_member_details'] = 'Members_Controller/get_member_details';
 $route['members/register'] = 'Members_Controller/register';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
