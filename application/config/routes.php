@@ -83,6 +83,9 @@ $route['members/list/register'] = 'Members_Controller/register';
 $route['members/register'] = 'Members_Controller/register';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
+$route['members/attendance'] = 'Members_Controller/get_attendance';
+$route['members/attendance/(:any)'] = 'Members_Controller/get_attendance';
+
 
 /**
  * Admin Mode

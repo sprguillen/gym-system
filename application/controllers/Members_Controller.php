@@ -117,6 +117,7 @@ class Members_Controller extends CI_Controller {
 		$data['members'] = $this->get_members($this->type);
 
 		$this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
+
 		if ($this->type === 'guest') {
 			$data['guests'] = $this->get_guests();
 		}
@@ -171,6 +172,113 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
+	 * Temporary method to display the header for the attendance table
+	 * Please change to dynamic data
+	 * @param  [string] $view_type
+	 * @return [string]           
+	 */
+	public function get_sched_header($view_type) {
+		$header_title = 'Today - ' . date('M d, Y');
+
+		switch ($view_type) {
+			case 'weekly':
+				$header_title = 'April 23-28, 2018';
+			break;
+			case 'monthly':
+				$header_title = 'April 2018';
+			break;
+
+		}
+
+		return $header_title;
+	}
+
+	/**
+	 * Get member attendance of a specific date 
+	 */
+	public function get_attendance() {
+		$view_type = ($this->uri->segment(3) === NULL)? 'daily': $this->uri->segment(3);
+
+		$data['view_header'] = $this->get_sched_header($view_type);
+		$data['view_type'] = $view_type;
+		$data['type'] = ($this->type === NULL)? 'active': $this->type;
+
+		$data['members'] = [
+			[
+
+				'id' => '1',
+				'date' => 'April 23, 2018',
+				'logged_in' => '6:47 AM',
+				'name' => 'Resa Embutin',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '2',
+				'date' => 'April 23, 2018',
+				'logged_in' => '8:27 AM',
+				'name' => 'Arnel Pablo',
+				'staff' => 'John Torralba',
+				'notes' => 'New guest'
+			],
+			[
+				'id' => '3',
+				'date' => 'April 24, 2018',
+				'logged_in' => '9:03 AM',
+				'name' => 'Charles Malata',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '4',
+				'date' => 'April 25, 2018',
+				'logged_in' => '11:44 AM',
+				'name' => 'Jay Cruz',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '5',
+				'date' => 'April 25, 2018',
+				'logged_in' => '12:01 PM',
+				'name' => 'Bong George',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '6',
+				'date' => 'April 26, 2018',
+				'logged_in' => '3:28 PM',
+				'name' => 'Sigrid Angkang',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '7',
+				'date' => 'April 26, 2018',
+				'logged_in' => '4:59 PM',
+				'name' => 'Leon Prudencio',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+			[
+				'id' => '8',
+				'date' => 'April 27, 2018',
+				'logged_in' => '6:10 PM',
+				'name' => 'Richard Tamala',
+				'staff' => 'John Torralba',
+				'notes' => ''
+			],
+
+		];
+
+
+		$this->breadcrumbs->set(['Members Attendance' => 'members/attendance']);
+
+		$this->render('attendance', $data);
+	}
+
+	/**
 	 * Method to render template (header - body - footer)
 	 * @param  [string] $page
 	 */
@@ -192,14 +300,12 @@ class Members_Controller extends CI_Controller {
 	 * @param  [string] date
 	 */
 	public function check_date_format($date) {
-		if (preg_match("/[0-12]{2}/[0-31]{2}/[0-9]{4}/", $date)) {
-			if (checkdate(substr($date, 0, 2), substr($date, 3, 2), substr($date, 6, 4))) {
-					return true;
-			} else {
-					return false;
-			}
-		} else {
-			return false;
+		$matched = preg_match("/[0-12]{2}/[0-31]{2}/[0-9]{4}/", $date);
+
+		if ($matched) {
+			return checkdate(substr($date, 0, 2), substr($date, 3, 2), substr($date, 6, 4)); 
 		}
+
+		return $matched;
 	}
 }
