@@ -94,10 +94,11 @@ class Members_Controller extends CI_Controller {
 		$member_id = $_GET['id'];
 
 		$result = $this->member_model->get_member_data_by_id($member_id);
-		
-		if ($_GET['type'] === 'guest') {
-			$this->session->set_flashdata('guest_data', $result[0]);
-			echo true;
+		if (array_key_exists('type', $_GET)) {
+			if ($_GET['type'] === 'guest') {
+				$this->session->set_flashdata('guest_data', $result[0]);
+				echo true;
+			}
 		} else {
 			echo json_encode($result[0]);
 		}
