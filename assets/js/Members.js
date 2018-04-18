@@ -128,6 +128,7 @@ $(function () {
                 id: memberId
             }
         }).done(function (response) {
+            console.log(response);
             var memberData = JSON.parse(response);
 
             $('#member-detail-fname').val(memberData['fname']);
