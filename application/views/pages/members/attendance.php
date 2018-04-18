@@ -75,6 +75,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Staff</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Logged In</th>
                     <th scope="col">Notes</th>
                     <th scope="col"></th>

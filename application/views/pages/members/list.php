@@ -51,7 +51,7 @@
   
   	<div class="col-md-12">
 		<div class="float-right">
-	  		<div class="input-group mb-4">
+	  		<div class="input-group">
 				<a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('members/register'); ?>"><i class="fa fa-plus"></i> New</a>
 				<input type="text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
 				<div class="input-group-append">
@@ -77,13 +77,26 @@
 		</ul>
 	
 		<div class="float-right mb-2">
-		  	<?php if ($user_mode === 'staff'): ?>
-				<a class="text-success btn-sm ml-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
-		  	<?php endif; ?>
-		  	<?php if ($user_mode === 'admin'): ?>
-				<a class="text-danger btn-sm ml-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
-		  	<?php endif; ?>
+		  	
+			<div class="input-group">	  	
+				<?php if ($user_mode === 'staff'): ?>
+					<a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
+			  	<?php endif; ?>
+			  	<?php if ($user_mode === 'admin'): ?>
+					<a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
+			  	<?php endif; ?>
+
+			  	<select class="form-control form-control-sm ml-2" id="filterByProgram">
+					<option selected disabled>Filter by program</option>
+					<option>Weight Training</option>
+					<option>Yoga</option>
+					<option>Zumba</option>
+					<option>Boxing</option>
+					<option>Functional Fitness</option>
+				</select>
+			</div>
 		</div>
+
 		<?php if ($type !== 'guest'): ?>
 		  	<table class="table table-sm table-hover">
 				<thead class="thead">
@@ -108,7 +121,7 @@
 				  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">Enroll</button>
 				  				<?php if ($user_mode === 'admin'): ?>
 									<button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-sm btn-info edit">Edit</button>
-									<button type="button" class="btn btn-sm btn-outline-primary">Freeze</button>
+									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
 				  				<?php endif; ?>
 							</td>
 			  			</tr>
@@ -204,6 +217,32 @@
 	  </div>
 	  <div class="modal-footer">
 		<button type="button" class="btn btn-danger">Submit</button>
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<div class="modal fade" id="freezeMember" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 class="modal-title text-danger" id="exampleModalLabel">Freeze Member</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <div class="modal-body">
+		<p>Are you sure you want to freeze membership of Simon Guillen? This action <strong>cannot</strong> be undone.</p>
+
+		<div class="form-group">
+		  <label for="username">Freeze until:</label>
+		  <input type="date" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+		</div>
+		<p class="text-warning">You can only freeze membership until October 17, 2018.</p>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-danger submitAdmin">Submit</button>
 		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
 	  </div>
 	</div>
