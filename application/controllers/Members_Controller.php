@@ -210,6 +210,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 23, 2018',
 				'logged_in' => '6:47 AM',
 				'name' => 'Resa Embutin',
+				'type' => 'Guest',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -218,6 +219,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 23, 2018',
 				'logged_in' => '8:27 AM',
 				'name' => 'Arnel Pablo',
+				'type' => 'Guest',
 				'staff' => 'John Torralba',
 				'notes' => 'New guest'
 			],
@@ -226,6 +228,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 24, 2018',
 				'logged_in' => '9:03 AM',
 				'name' => 'Charles Malata',
+				'type' => 'Guest',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -234,6 +237,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 25, 2018',
 				'logged_in' => '11:44 AM',
 				'name' => 'Jay Cruz',
+				'type' => 'Guest',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -242,6 +246,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 25, 2018',
 				'logged_in' => '12:01 PM',
 				'name' => 'Bong George',
+				'type' => 'Member',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -250,6 +255,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 26, 2018',
 				'logged_in' => '3:28 PM',
 				'name' => 'Sigrid Angkang',
+				'type' => 'Member',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -258,6 +264,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 26, 2018',
 				'logged_in' => '4:59 PM',
 				'name' => 'Leon Prudencio',
+				'type' => 'Member',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -266,6 +273,7 @@ class Members_Controller extends CI_Controller {
 				'date' => 'April 27, 2018',
 				'logged_in' => '6:10 PM',
 				'name' => 'Richard Tamala',
+				'type' => 'Member',
 				'staff' => 'John Torralba',
 				'notes' => ''
 			],
@@ -277,6 +285,21 @@ class Members_Controller extends CI_Controller {
 
 		$this->render('attendance', $data);
 	}
+
+	/**
+	 * Get member details by id
+	 * @return [type] [description]
+	 */
+	public function get_details() {
+		$user_id = $this->uri->segment(3);
+
+		$data['type'] = ($this->type === NULL)? 'active': $this->type;
+		$data['user_mode'] = $this->session->userdata('mode');
+		
+		$this->breadcrumbs->set(['Member Information: Leon Tamala' => 'members/info/' . $user_id]);
+		$this->render('information', $data);
+	}
+
 
 	/**
 	 * Method to render template (header - body - footer)
