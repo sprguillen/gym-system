@@ -158,4 +158,11 @@ $(function () {
             window.location.replace('register');
         });
     });
+
+    $('#filter-dropdown').change(function () {
+        var program = $(this).val();
+        
+        $('.filter-program[data-program!="' + program + '"]').hide();
+        $('.filter-program[data-program="' + program + '"]').show();
+    });
 });
