@@ -104,7 +104,7 @@
 			  		<?php foreach ($members as $key => $value): ?>
 			  			<tr>
 							<th scope="row"><?php echo $key+1; ?></th>
-							<td><a class="text-info member-dialog-link" data-toggle="modal" href="#member-detail-dialog" data-id="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></a></td>
+							<td><a class="text-info member-dialog-link" href="<?php echo base_url('members/info/' . $value['id']); ?>"><?php echo $value['name']; ?></a></td>
 							<td><?php echo $value['duration']; ?></td>
 							<td><?php echo $value['classes']; ?></td>
 							<td><?php echo $value['isPaid']; ?></td>

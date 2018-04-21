@@ -88,6 +88,7 @@
                     <td><?php echo $row['date']; ?></td>
                     <td><?php echo $row['name']; ?></td>
                     <td><?php echo $row['staff']; ?></td>
+                    <td><?php echo $row['type']; ?></td>
                     <td><?php echo $row['logged_in']; ?></td>
                     <td><?php echo $row['notes'] ?></td>
                 </tr>
