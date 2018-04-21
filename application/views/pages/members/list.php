@@ -115,7 +115,7 @@
 							<td><a class="text-info member-dialog-link" data-toggle="modal" href="#member-detail-dialog" data-id="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></a></td>
 							<td><?php echo $value['duration']; ?></td>
 							<td><?php echo $value['classes']; ?></td>
-							<td><?php echo ($value['isPaid'])? 'Yes': 'No'; ?></td>
+							<td><?php echo $value['isPaid']; ?></td>
 							<td>
 				  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">Enroll</button>
 				  				<?php if ($user_mode === 'admin'): ?>

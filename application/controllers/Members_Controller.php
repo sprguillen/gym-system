@@ -37,30 +37,41 @@ class Members_Controller extends CI_Controller {
 	 * @return {array} $membersgwapo akong
 	 */
 	public function get_members($status) {
+		$paid_arry = [];
 		$return_data = [];
 		$members = $this->member_model->get_all_membership_by_status($status);
-		
-		foreach ($members as $member) {
-			$date_started = date('d M Y', strtotime($member->date_started));
-			$date_expired = date('d M Y', strtotime($member->date_expired));
 
-			if (time() - (60*60*24) <= strtotime($member->date_expired)) {
-				$paid = true;
+		foreach ($members as $member) {
+
+			if (strpos($member->programs_status, ',') !== false) {
+				$status_arry = explode(",", $member->programs_status);
+				foreach ($status_arry as $sa) {
+					if ($sa === 'Active') {
+						$paid = "Yes";
+					} else {
+						$paid = "No";
+					}
+					array_push($paid_arry, $paid);
+				}
+				$paid = implode(",", $paid_arry);
 			} else {
-				$paid = false;
+				if ($member->programs_status === 'Active') {
+					$paid = 'Yes';
+				} else {
+					$paid = 'No';
+				}
 			}
 
 			$pushed_data = [
 				'id' => $member->id,
 				'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
-				'duration' => $date_started . '-' . $date_expired,
-				'classes' => $member->type,
+				'duration' => $member->duration,
+				'classes' => $member->programs_type,
 				'isPaid' => $paid
 			];
+
 			array_push($return_data, $pushed_data);
 		}
-
-		
 
 		return $return_data;
 	}
@@ -77,8 +88,8 @@ class Members_Controller extends CI_Controller {
 			$pushed_data = [
 				'id' => $member->id,
 				'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
-				'duration' => $member->date_expired,
-				'classes' => $member->type
+				'duration' => $member->duration,
+				'classes' => $member->programs_type
 			];
 			array_push($return_data, $pushed_data);
 		}

@@ -19,9 +19,12 @@ class Member_model extends CI_Model {
     }
 
     public function get_all_membership_by_status($status) {
-    	$sql = "SELECT m.id, m.fname, m.mname, m.lname, ms.date_started, ms.date_expired, status,
-    		p.type FROM member m JOIN membership ms on m.id = ms.member_id JOIN program p
-    		on ms.program_id = p.id WHERE ms.status = ?"; 
+    	$sql = "SELECT m.id, m.fname, m.mname, m.lname, 
+            GROUP_CONCAT(CONCAT(DATE_FORMAT(ms.date_started, '%M %d %Y'), 
+            ' - ', DATE_FORMAT(ms.date_expired, '%M %d %Y')) SEPARATOR ', ') as duration, 
+            GROUP_CONCAT(status) as programs_status, GROUP_CONCAT(p.type) as programs_type
+            FROM member m JOIN membership ms on m.id = ms.member_id JOIN program p
+    		on ms.program_id = p.id WHERE ms.status = ? GROUP BY m.id"; 
 
     	return $this->db->query($sql, $status)->result();
     }
