@@ -85,14 +85,6 @@
 			  	<?php if ($user_mode === 'admin'): ?>
 					<a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
 			  	<?php endif; ?>
-
-			  	<select class="form-control form-control-sm ml-2" id="filter-dropdown">
-					<option selected disabled>Filter by program</option>
-					<option value="Weight Training">Weight Training</option>
-					<option value="Boxing">Boxing</option>
-					<option value="Yoga">Yoga</option>
-					<option value="Zumba">Zumba</option>
-				</select>
 			</div>
 		</div>
 
@@ -110,7 +102,7 @@
 				</thead>
 				<tbody>
 			  		<?php foreach ($members as $key => $value): ?>
-			  			<tr class="filter-program" data-program="<?php echo $value['classes'] ?>">
+			  			<tr>
 							<th scope="row"><?php echo $key+1; ?></th>
 							<td><a class="text-info member-dialog-link" data-toggle="modal" href="#member-detail-dialog" data-id="<?php echo $value['id'] ?>"><?php echo $value['name']; ?></a></td>
 							<td><?php echo $value['duration']; ?></td>
