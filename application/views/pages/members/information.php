@@ -64,35 +64,35 @@
                 <tbody>
                     <tr>
                         <th scope="row">Full Name</th>
-                        <td>Meffrey C. Tamala</td>
+                        <td><?php echo $member->fname . " " . $member->mname . " " . $member->lname; ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Address</th>
-                        <td>Blk 4 Lot 6 Frontier St. Lanang Executive Homes, Davao City, 8000</td>
+                        <td><?php echo $member->address; ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Date of birth</th>
-                        <td>November 9, 1989</td>
+                        <td><?php echo date('M d Y', strtotime($member->date_of_birth)); ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Gender</th>
-                        <td>Male</td>
+                        <td><?php echo $member->gender ?></td>
                     </tr>
                     <tr>
                         <th scope="row">Weight</th>
-                        <td>53 kgs</td>
+                        <td><?php echo $member->weight ?> kgs</td>
                     </tr>
                     <tr>
                         <th scope="row">Height</th>
-                        <td>147 cm</td>
+                        <td><?php echo $member->height ?> cm</td>
                     </tr>
                     <tr>
                         <th scope="row">Phone number</th>
-                        <td>0915 172 4918</td>
+                        <td><?php echo $member->contact ?></td>
                     </tr>
                     <tr>
                         <th scope="row">E-mail address</th>
-                        <td>ascii.meffrey@gmail.com</td>
+                        <td><?php echo $member->email ?></td>
                     </tr>
                     <tr>
                         <th scope="row">In case of emergency</th>

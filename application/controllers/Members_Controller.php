@@ -33,51 +33,67 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
-	 * Sample data only - call the db methdo here
-	 * @return {array} $membersgwapo akong
+	 * Sample data only - call the db method here
+	 * @return {array} $members
 	 */
 	public function get_members($status) {
 		$paid_arry = [];
 		$return_data = [];
-		$members = $this->member_model->get_all_membership_by_status($status);
+		if ($status === 'active') {
+			$members_with_membership = $this->member_model->get_all_membership_by_status($status);
 
-		foreach ($members as $member) {
-
-			if (strpos($member->programs_status, ',') !== false) {
-				$status_arry = explode(",", $member->programs_status);
-				foreach ($status_arry as $sa) {
-					if ($sa === 'Active') {
-						$paid = "Yes";
-					} else {
-						$paid = "No";
+			foreach ($members_with_membership as $member) {
+				if (strpos($member->programs_status, ',') !== false) {
+					$status_arry = explode(",", $member->programs_status);
+					foreach ($status_arry as $sa) {
+						if ($sa === 'Active') {
+							$paid = "Yes";
+						} else {
+							$paid = "No";
+						}
+						array_push($paid_arry, $paid);
 					}
-					array_push($paid_arry, $paid);
-				}
-				$paid = implode(",", $paid_arry);
-			} else {
-				if ($member->programs_status === 'Active') {
-					$paid = 'Yes';
+					$paid = implode(",", $paid_arry);
 				} else {
-					$paid = 'No';
+					if ($member->programs_status === 'Active') {
+						$paid = 'Yes';
+					} else {
+						$paid = 'No';
+					}
 				}
+
+				$pushed_data = [
+					'id' => $member->id,
+					'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+					'duration' => $member->duration,
+					'classes' => $member->programs_type,
+					'isPaid' => $paid
+				];
+
+				array_push($return_data, $pushed_data);
 			}
 
-			$pushed_data = [
-				'id' => $member->id,
-				'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
-				'duration' => $member->duration,
-				'classes' => $member->programs_type,
-				'isPaid' => $paid
-			];
+		} else if ($status === 'inactive') {
+			$members_without_membership = $this->member_model->get_no_membership_member();
 
-			array_push($return_data, $pushed_data);
+			foreach ($members_without_membership as $member) {
+				$pushed_data = [
+					'id' => $member->id,
+					'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+					'duration' => "-",
+					'classes' => "Member has not enrolled yet",
+					'isPaid' => "Not yet"
+				];
+
+				array_push($return_data, $pushed_data);
+			}
 		}
 
 		return $return_data;
 	}
 
 	/**
-	 * Sample data only - call the db methdo here
+	 * Sample data only - call the db method here
 	 * @return {array} $members
 	 */
 	public function get_guests() {
@@ -99,21 +115,24 @@ class Members_Controller extends CI_Controller {
 
 	/**
 	 * (Called by AJAX) Get member details and return the member JSON
-	 * @return {str} 
+	 * @return {bool} 
 	 */
-	public function get_member_details() {
+	public function get_details_via_ajax() {
 		$member_id = $_GET['id'];
 
 		$result = $this->member_model->get_member_data_by_id($member_id);
-		if (array_key_exists('type', $_GET)) {
-			if ($_GET['type'] === 'guest') {
-				$this->session->set_flashdata('guest_data', $result[0]);
-				echo true;
-			}
-		} else {
-			echo json_encode($result[0]);
-		}
 		
+		$this->session->set_flashdata('guest_data', $result[0]);
+		echo true;
+	}
+
+	/**
+	 * Get member details to be used by the information page
+	 * @return {array}
+	 */
+	public function get_member_details($member_id) {
+		$result = $this->member_model->get_member_data_by_id($member_id);
+		return $result;
 	}
 
 	/**
@@ -303,12 +322,13 @@ class Members_Controller extends CI_Controller {
 	 * @return [type] [description]
 	 */
 	public function get_details() {
-		$user_id = $this->uri->segment(3);
+		$member_id = $this->uri->segment(3);
 
 		$data['type'] = ($this->type === NULL)? 'active': $this->type;
 		$data['user_mode'] = $this->session->userdata('mode');
+		$data['member'] = $this->get_member_details($member_id)[0];
 		
-		$this->breadcrumbs->set(['Member Information: Leon Tamala' => 'members/info/' . $user_id]);
+		$this->breadcrumbs->set(['Member Information: Leon Tamala' => 'members/info/' . $member_id]);
 		$this->render('information', $data);
 	}
 

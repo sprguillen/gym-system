@@ -149,10 +149,9 @@ $(function () {
         
         $.ajax({
             method: 'GET',
-            url: 'get_member_details',
+            url: 'get_details_via_ajax',
             data: {
-                id: memberId,
-                type: 'guest'
+                id: memberId
             }
         }).done(function (response) {
             window.location.replace('register');

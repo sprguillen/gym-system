@@ -30,6 +30,13 @@ class Member_model extends CI_Model {
     	return $this->db->query($sql, $status)->result();
     }
 
+    public function get_no_membership_member() {
+        $sql = "SELECT id, fname, mname, lname, date_created
+            FROM member WHERE id NOT IN (SELECT member_id FROM membership)";
+
+        return $this->db->query($sql)->result();
+    }
+
     public function get_member_data_by_id($id) {
     	$sql = "SELECT * FROM member WHERE id = ?";
 

@@ -109,11 +109,18 @@
 							<td><?php echo $value['classes']; ?></td>
 							<td><?php echo $value['isPaid']; ?></td>
 							<td>
-				  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">Enroll</button>
-				  				<?php if ($user_mode === 'admin'): ?>
-									<button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-sm btn-info edit">Edit</button>
-									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
-				  				<?php endif; ?>
+				  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">
+				  				<?php if ($type === 'active') {
+				  						echo 'Add Program';
+				  					} else if ($type === 'inactive') {
+				  						echo 'Enroll';
+				  					}
+				  				?>
+				  			</button>
+			  				<?php if ($user_mode === 'admin'): ?>
+								<button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-sm btn-info edit">Edit</button>
+								<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
+			  				<?php endif; ?>
 							</td>
 			  			</tr>
 			  		<?php endforeach; ?>
