@@ -46,7 +46,7 @@ class Members_Controller extends CI_Controller {
 				if (strpos($member->programs_status, ',') !== false) {
 					$status_arry = explode(",", $member->programs_status);
 					foreach ($status_arry as $sa) {
-						if ($sa === 'Active') {
+						if ($sa === 'Active' || $sa === 'Frozen') {
 							$paid = "Yes";
 						} else {
 							$paid = "No";
@@ -55,7 +55,8 @@ class Members_Controller extends CI_Controller {
 					}
 					$paid = implode(",", $paid_arry);
 				} else {
-					if ($member->programs_status === 'Active') {
+					if ($member->programs_status === 'Active' || 
+						$member->programs_status === 'Frozen') {
 						$paid = 'Yes';
 					} else {
 						$paid = 'No';
