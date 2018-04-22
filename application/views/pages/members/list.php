@@ -109,17 +109,24 @@
 							<td><?php echo $value['classes']; ?></td>
 							<td><?php echo $value['isPaid']; ?></td>
 							<td>
-				  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">
-				  				<?php if ($type === 'active') {
-				  						echo 'Add Program';
-				  					} else if ($type === 'inactive') {
-				  						echo 'Enroll';
-				  					}
-				  				?>
-				  			</button>
+							<?php if ($type !== 'frozen'): ?>
+					  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">
+					  				<?php if ($type === 'active') {
+					  						echo 'Add Program';
+					  					} else if ($type === 'inactive') {
+					  						echo 'Enroll';
+					  					}
+					  				?>
+					  			</button>
+					  		<?php endif; ?>
 			  				<?php if ($user_mode === 'admin'): ?>
 								<button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-sm btn-info edit">Edit</button>
-								<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
+								<?php if ($type === 'active'): ?>
+									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
+								<?php endif; ?>
+								<?php if ($type === 'frozen'): ?>
+									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#deactivateFreeze" class="btn btn-sm btn-outline-primary">Unfreeze</button>
+								<?php endif; ?>
 			  				<?php endif; ?>
 							</td>
 			  			</tr>

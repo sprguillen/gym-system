@@ -39,7 +39,7 @@ class Members_Controller extends CI_Controller {
 	public function get_members($status) {
 		$paid_arry = [];
 		$return_data = [];
-		if ($status === 'active') {
+		if ($status === 'active' || $status === 'frozen') {
 			$members_with_membership = $this->member_model->get_all_membership_by_status($status);
 
 			foreach ($members_with_membership as $member) {
