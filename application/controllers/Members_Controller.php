@@ -88,6 +88,37 @@ class Members_Controller extends CI_Controller {
 
 				array_push($return_data, $pushed_data);
 			}
+
+			$members_with_expired_membership = $this->member_model->get_all_membership_by_status($status);
+
+			foreach ($members_with_expired_membership as $member) {
+				if (strpos($member->programs_status, ',') !== false) {
+					$status_arry = explode(",", $member->programs_status);
+					foreach ($status_arry as $sa) {
+						if ($sa === 'Inactive') {
+							$paid = "No";
+						} else {
+							$paid = "Yes";
+						}
+						array_push($paid_arry, $paid);
+					}
+					$paid = implode(",", $paid_arry);
+				} else {
+					if ($member->programs_status === 'Inactive') {
+						$paid = 'No';
+					}
+				}
+
+				$pushed_data = [
+					'id' => $member->id,
+					'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+					'duration' => $member->duration,
+					'classes' => $member->programs_type,
+					'isPaid' => $paid
+				];
+
+				array_push($return_data, $pushed_data);
+			}
 		}
 
 		return $return_data;
