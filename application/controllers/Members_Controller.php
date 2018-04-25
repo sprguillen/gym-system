@@ -22,7 +22,7 @@ class Members_Controller extends CI_Controller {
 		$this->load->library('session');
 
 		// Load models
-		$this->load->model('member_model');
+		$this->load->model('Member_Model');
 
 		$this->breadcrumbs->set(['Dashboard' => '/', 'Members' => 'members']);
 		$this->type = $this->uri->segment(3);
@@ -40,7 +40,7 @@ class Members_Controller extends CI_Controller {
 		$paid_arry = [];
 		$return_data = [];
 		if ($status === 'active' || $status === 'frozen') {
-			$members_with_membership = $this->member_model->get_all_membership_by_status($status);
+			$members_with_membership = $this->Member_Model->get_all_membership_by_status($status);
 
 			foreach ($members_with_membership as $member) {
 				if (strpos($member->programs_status, ',') !== false) {
@@ -75,7 +75,7 @@ class Members_Controller extends CI_Controller {
 			}
 
 		} else if ($status === 'inactive') {
-			$members_without_membership = $this->member_model->get_no_membership_member();
+			$members_without_membership = $this->Member_Model->get_no_membership_member();
 
 			foreach ($members_without_membership as $member) {
 				$pushed_data = [
@@ -89,7 +89,7 @@ class Members_Controller extends CI_Controller {
 				array_push($return_data, $pushed_data);
 			}
 
-			$members_with_expired_membership = $this->member_model->get_all_membership_by_status($status);
+			$members_with_expired_membership = $this->Member_Model->get_all_membership_by_status($status);
 
 			foreach ($members_with_expired_membership as $member) {
 				if (strpos($member->programs_status, ',') !== false) {
@@ -131,7 +131,7 @@ class Members_Controller extends CI_Controller {
 	 */
 	public function get_guests() {
 		$return_data = [];
-		$members = $this->member_model->get_all_membership_by_status('Not Applicable');
+		$members = $this->Member_Model->get_all_membership_by_status('Not Applicable');
 
 		foreach ($members as $member) {
 			$pushed_data = [
@@ -153,7 +153,7 @@ class Members_Controller extends CI_Controller {
 	public function get_details_via_ajax() {
 		$member_id = $_GET['id'];
 
-		$result = $this->member_model->get_member_data_by_id($member_id);
+		$result = $this->Member_Model->get_member_data_by_id($member_id);
 		
 		$this->session->set_flashdata('guest_data', $result[0]);
 		echo true;
@@ -164,7 +164,7 @@ class Members_Controller extends CI_Controller {
 	 * @return {array}
 	 */
 	public function get_member_details($member_id) {
-		$result = $this->member_model->get_member_data_by_id($member_id);
+		$result = $this->Member_Model->get_member_data_by_id($member_id);
 		return $result;
 	}
 
@@ -366,7 +366,7 @@ class Members_Controller extends CI_Controller {
 	}
 
 	public function get_program_list() {
-		$program_list = $this->member_model->get_all_programs();
+		$program_list = $this->Member_Model->get_all_programs();
 
 		echo json_encode($program_list);
 	}
@@ -386,7 +386,7 @@ class Members_Controller extends CI_Controller {
 			'status' => 'Active'
 		];
 
-		$result = $this->member_model->insert_to_membership($data);
+		$result = $this->Member_Model->insert_to_membership($data);
 		if ($result == 1) {
 			$return_data = [
 				'status' => 'Success',

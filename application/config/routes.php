@@ -101,3 +101,8 @@ $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
  * Coaches
  */
 $route['coaches'] = 'Coaches_Controller/getList';
+
+/**
+ * Member Login
+ */
+$route['biometric-login'] = 'Home_Controller/biometric_login';

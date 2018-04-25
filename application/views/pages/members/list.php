@@ -105,16 +105,47 @@
 			  			<tr>
 							<th scope="row"><?php echo $key+1; ?></th>
 							<td><a class="text-info member-dialog-link" href="<?php echo base_url('members/info/' . $value['id']); ?>"><?php echo $value['name']; ?></a></td>
-							<td><?php echo $value['duration']; ?></td>
-							<td><?php echo $value['classes']; ?></td>
-							<td><?php echo $value['isPaid']; ?></td>
+							<td>
+								<?php
+									$duration = "";
+
+									if (isset($value['duration'])) {
+										$duration = str_replace(",", "<br>", $value['duration']);
+									}
+
+									echo $duration;
+								?>
+							</td>
+							<td>
+								<?php
+									$classes = "";
+
+									if (isset($value['classes'])) {
+										$classes = str_replace(",", "<br>", $value['classes']);
+									}
+
+									echo $classes;
+								
+								?>	
+							</td>
+							<td>
+								<?php
+									$isPaid = "";
+
+									if (isset($value['isPaid'])) {
+										$isPaid = str_replace(",", "<br>", $value['isPaid']);
+									}
+
+									echo $isPaid;
+								?>
+							</td>
 							<td>
 							<?php if ($type !== 'frozen'): ?>
 					  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
 					  				<?php if ($type === 'active') {
-					  						echo 'Add Program';
+					  						echo 'Add a program';
 					  					} else if ($type === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
-					  						echo 'Enroll';
+					  						echo 'Enroll a program';
 					  					} else if ($type === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 					  						echo 'Renew';
 					  					}

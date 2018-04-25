@@ -27,15 +27,16 @@ class Dashboard_Controller extends CI_Controller {
 
     public function index() {
         $data['page'] = 'Home: Quickstart';
+        $data['isDashboard'] = true;
 
         $this->render('pages/dashboard', $data);
     }
-
 
     /**
      * Displays the register page
      */
     public function register() {
+        $data['isDashboard'] = true;
         $data['page'] = 'Members: Register';
 
         $this->render('pages/dashboard/register', $data);
@@ -48,8 +49,6 @@ class Dashboard_Controller extends CI_Controller {
      * @param [array] $data
      */
     public function render($page, $data) {
-        $data['isDashboard'] = true;
-
 
         $this->load->view('components/header', $data);
         $this->load->view($page, $data);
