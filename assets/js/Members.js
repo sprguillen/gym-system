@@ -128,7 +128,6 @@ $(function () {
                 id: memberId
             }
         }).done(function (response) {
-            console.log(response);
             var memberData = JSON.parse(response);
 
             $('#member-detail-fname').val(memberData['fname']);
@@ -155,6 +154,40 @@ $(function () {
             }
         }).done(function (response) {
             window.location.replace('register');
+        });
+    });
+
+    $('#enroll-program').ready(function () {
+        $.ajax({
+            method: 'GET',
+            url: 'get_program_list',
+        }).done(function (response) {
+            var programData = JSON.parse(response);
+            programData.forEach(function (program) {
+                $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+            });
+        });
+    });
+
+    $('.enrollment-btn').click(function () {
+        $('#enrollment-modal').attr('data-id', $(this).data('id'));
+    });
+
+    $('#enroll-submit').click(function () {
+        var memberId = $('#enrollment-modal').attr('data-id');
+        $.ajax({
+            method: 'POST',
+            url: 'process_enrollment',
+            data: {
+                'member_id': memberId,
+                'program_id': $('#enroll-program').val(),
+                'payment_length': $('#payment-length').val()
+            }
+        }).done(function (response) {
+            var parsedResponse = JSON.parse(response);
+            alert(parsedResponse.message);
+            $('#enrollment-modal').modal('toggle');
+            location.reload();
         });
     });
 });

@@ -114,7 +114,8 @@ class Members_Controller extends CI_Controller {
 					'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
 					'duration' => $member->duration,
 					'classes' => $member->programs_type,
-					'isPaid' => $paid
+					'isPaid' => $paid,
+					'displayRenewButton' => true
 				];
 
 				array_push($return_data, $pushed_data);
@@ -364,6 +365,42 @@ class Members_Controller extends CI_Controller {
 		$this->render('information', $data);
 	}
 
+	public function get_program_list() {
+		$program_list = $this->member_model->get_all_programs();
+
+		echo json_encode($program_list);
+	}
+
+	public function process_enrollment() {
+		$member_id = $_POST['member_id'];
+		$program_id = $_POST['program_id'];
+
+		$date_started = date(MYSQL_DATE_TIME_FORMAT, strtotime("now"));
+		$date_expired = date(MYSQL_DATE_TIME_FORMAT, strtotime($_POST['payment_length']));
+
+		$data = [
+			'member_id' => $member_id,
+			'program_id' => $program_id,
+			'date_started' => $date_started,
+			'date_expired' => $date_expired,
+			'status' => 'Active'
+		];
+
+		$result = $this->member_model->insert_to_membership($data);
+		if ($result == 1) {
+			$return_data = [
+				'status' => 'Success',
+				'message' => 'Successfully enrolled user to a new program'
+			];
+		} else {
+			$return_data = [
+				'status' => 'Failure',
+				'message' => 'Failure to enroll user to a new program'
+			];
+		}
+
+		echo json_encode($return_data);
+	}
 
 	/**
 	 * Method to render template (header - body - footer)

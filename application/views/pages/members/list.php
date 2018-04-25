@@ -110,11 +110,13 @@
 							<td><?php echo $value['isPaid']; ?></td>
 							<td>
 							<?php if ($type !== 'frozen'): ?>
-					  			<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#enrollProgram">
+					  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
 					  				<?php if ($type === 'active') {
 					  						echo 'Add Program';
-					  					} else if ($type === 'inactive') {
+					  					} else if ($type === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
 					  						echo 'Enroll';
+					  					} else if ($type === 'inactive' && array_key_exists('displayRenewButton', $value)) {
+					  						echo 'Renew';
 					  					}
 					  				?>
 					  			</button>
@@ -172,60 +174,36 @@
   
 </div>
 
-<div class="modal fade" id="enrollProgram" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header">
-		<h5 class="modal-title text-danger" id="exampleModalLabel">Enroll a Program</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-	  </div>
-	  <div class="modal-body">
-		<div class="form-group">
-		  <label for="exampleFormControlSelect1">Select a program</label>
-		  <select class="form-control" id="exampleFormControlSelect1">
-			<option>Weight Training</option>
-			<option>Yoga</option>
-			<option>Zumba</option>
-			<option>Boxing</option>
-			<option>Functional Fitness</option>
-		  </select>
+<div class="modal fade" id="enrollment-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+	  		<div class="modal-header">
+				<h5 class="modal-title text-danger" id="exampleModalLabel">Enroll a Program</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  			<span aria-hidden="true">&times;</span>
+				</button>
+	  		</div>
+	  		<div class="modal-body">
+				<div class="form-group">
+		  			<label for="enroll-program">Select a program</label>
+		  			<select class="form-control" id="enroll-program"></select>
+				</div>
+				<div class="form-group">
+			  		<label for="payment-length">Payment Scheme</label>
+		  			<select class="form-control" id="payment-length">
+						<option value="+1 month">1 month</option>
+						<option value="+3 months">3 months</option>
+						<option value="+6 months">6 months</option>
+						<option value="+1 year">1 year</option>
+		  			</select>
+				</div>
+	  		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" id="enroll-submit">Submit</button>
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
 		</div>
-		<div class="form-group">
-		  <label for="exampleFormControlSelect1">Select a coach</label>
-		  <select class="form-control" id="exampleFormControlSelect1">
-			<option>Antoni</option>
-			<option>Tan</option>
-			<option>Karamo</option>
-			<option>Jonathan</option>
-			<option>Bobby</option>
-		  </select>
-		</div>
-		<div class="form-group">
-		  <label for="exampleFormControlSelect1">Payment Scheme</label>
-		  <select class="form-control" id="exampleFormControlSelect1">
-			<option>1 month</option>
-			<option>3 months</option>
-			<option>6 months</option>
-			<option>1 year</option>
-		  </select>
-		</div>
-		<div class="form-group">
-		  <label for="exampleFormControlSelect1">Payment Status</label>
-		  <select class="form-control" id="exampleFormControlSelect1">
-			<option>Paid in full</option>
-			<option>Partially paid</option>
-			<option>Not paid</option>
-		  </select>
-		</div>
-	  </div>
-	  <div class="modal-footer">
-		<button type="button" class="btn btn-danger">Submit</button>
-		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-	  </div>
-	</div>
-  </div>
+  	</div>
 </div>
 
 <div class="modal fade" id="freezeMember" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

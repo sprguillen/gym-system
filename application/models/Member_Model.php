@@ -42,4 +42,15 @@ class Member_model extends CI_Model {
 
     	return $this->db->query($sql, $id)->result();
     }
+
+    public function get_all_programs() {
+        $sql = "SELECT * FROM program";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function insert_to_membership($data) {
+        $this->db->insert('membership', $data);
+        return ($this->db->affected_rows() === 1) ? true : false;
+    }
 }

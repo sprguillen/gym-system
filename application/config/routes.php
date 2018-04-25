@@ -86,6 +86,8 @@ $route['members/process_member_register'] = 'Members_Controller/process_member_r
 $route['members/attendance'] = 'Members_Controller/get_attendance';
 $route['members/attendance/(:any)'] = 'Members_Controller/get_attendance';
 $route['members/info/(:any)'] = 'Members_Controller/get_details';
+$route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
+$route['members/list/process_enrollment'] = 'Members_Controller/process_enrollment';
 
 
 /**
