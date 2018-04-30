@@ -7,7 +7,6 @@
 
       foreach ($route as $name => $url) {
         echo '<a class="mt-0" href="' . base_url($url) . '">' . $name . '</a>';
-        
       }
       
       if ($index < (count($breadcrumbs) - 1)) {

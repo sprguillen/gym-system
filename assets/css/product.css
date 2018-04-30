@@ -2,6 +2,11 @@
  * CUSTOM CSS
  */
 
+.dotted-underline {
+  border-bottom: 1px dotted #000 !important;
+  text-decoration: none !important;
+}
+
 .card-width {
   max-width: 20rem;
 }

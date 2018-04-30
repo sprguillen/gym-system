@@ -18,6 +18,8 @@ class Admin_Controller extends CI_Controller {
 
         // Load session library
         $this->load->library('session');
+        $this->load->library('user_agent');
+
     }
 
     public function index() {
@@ -35,7 +37,9 @@ class Admin_Controller extends CI_Controller {
     public function unlock() {
         $this->session->set_userdata('mode', 'admin');
 
-        redirect($this->uri->segment(3));
+        $refer =  $this->agent->referrer();
+
+        redirect($refer);
     }
 
     /**
@@ -44,8 +48,10 @@ class Admin_Controller extends CI_Controller {
      */
     public function lock() {
         $this->session->set_userdata('mode', 'staff');
-        
-        redirect($this->uri->segment(3));
+  
+        $refer =  $this->agent->referrer();
+
+        redirect($refer);
     }
 
     /**

@@ -30,6 +30,7 @@ class Members_Controller extends CI_Controller {
 		if (!$this->session->userdata('logged_in')) {
 			redirect(base_url('/'));
 		}
+
 	}
 
 	/**
@@ -165,6 +166,7 @@ class Members_Controller extends CI_Controller {
 	 */
 	public function get_member_details($member_id) {
 		$result = $this->Member_Model->get_member_data_by_id($member_id);
+		
 		return $result;
 	}
 
@@ -356,10 +358,11 @@ class Members_Controller extends CI_Controller {
 	 */
 	public function get_details() {
 		$member_id = $this->uri->segment(3);
-
+		$member_details = $this->get_member_details($member_id);
+		
 		$data['type'] = ($this->type === NULL)? 'active': $this->type;
 		$data['user_mode'] = $this->session->userdata('mode');
-		$data['member'] = $this->get_member_details($member_id)[0];
+		$data['member'] = (isset($member_details[0]))? $member_details[0]: NULL;
 		
 		$this->breadcrumbs->set(['Member Information: Leon Tamala' => 'members/info/' . $member_id]);
 		$this->render('information', $data);
