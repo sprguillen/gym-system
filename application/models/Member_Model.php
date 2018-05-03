@@ -53,4 +53,13 @@ class Member_model extends CI_Model {
         $this->db->insert('membership', $data);
         return ($this->db->affected_rows() === 1) ? true : false;
     }
+
+    public function update_member($data) {
+        $member_id = $data['id'];
+        foreach($data as $key => $value) {
+            $this->db->set($key, $value);
+        }
+        $this->db->where('id', $member_id);
+        $this->db->update('member');
+    }
 }

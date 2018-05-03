@@ -153,7 +153,6 @@
 					  			</button>
 					  		<?php endif; ?>
 			  				<?php if ($user_mode === 'admin'): ?>
-								<button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-sm btn-info edit">Edit</button>
 								<?php if ($type === 'active'): ?>
 									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
 								<?php endif; ?>

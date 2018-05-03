@@ -374,6 +374,17 @@ class Members_Controller extends CI_Controller {
 		echo json_encode($program_list);
 	}
 
+	public function update_member_details() {
+		$id = $_POST['id'];
+		$fname = $_POST['fname'];
+		$mname = $_POST['mname'];
+		$lname = $_POST['lname'];
+
+		$data = $_POST; 
+
+		$this->Member_Model->update_member($data);
+	}
+
 	public function process_enrollment() {
 		$member_id = $_POST['member_id'];
 		$program_id = $_POST['program_id'];

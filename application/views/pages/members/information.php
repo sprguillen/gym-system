@@ -72,9 +72,11 @@
                             </a>
 
                             <div class="input-group w-50" id="form_name">
-                                <input class="form-control form-control-sm" type="text" id="input_name_field" name="fullname" value="<?php echo $member->fname . " " . $member->mname . " " . $member->lname; ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_fname" value="<?php echo $member->fname; ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_mname" value="<?php echo $member->mname; ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_lname" value="<?php echo $member->lname; ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" id="input_name_ok" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_name_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -89,9 +91,9 @@
 
                             <div class="input-group w-50" id="form_address">
 
-                                <textarea class="form-control" rows="4" name="address" id="input_address_field"><?php echo $member->address; ?> </textarea>
+                                <textarea class="form-control" rows="4" name="address" id="edit_address"><?php echo $member->address; ?> </textarea>
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_address_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_address_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -106,9 +108,9 @@
                             </a>
 
                             <div class="input-group w-50" id="form_birth">
-                                <input class="form-control form-control-sm" type="date" id="input_birth_field" name="birthdate" value="<?php echo date('Y-m-d', strtotime($member->date_of_birth)); ?>">
+                                <input class="form-control form-control-sm" type="date" id="edit_birth" value="<?php echo date('Y-m-d', strtotime($member->date_of_birth)); ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_birth_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_birth_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -122,12 +124,12 @@
                             </a>
 
                             <div class="input-group w-50" id="form_gender">
-                                <select class="form-control w-50" name="gender">
+                                <select class="form-control w-50" name="gender" id="edit_gender">
                                     <option selected="<?php echo ($member->gender === 'Female'); ?>" value="Female">Female</option>
                                     <option selected="<?php echo ($member->gender === 'Male'); ?>" value="Male">Male</option>
                                 </select>
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_gender_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_gender_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -141,9 +143,9 @@
                             </a>
 
                             <div class="input-group w-50" id="form_weight">
-                                <input class="form-control form-control-sm" type="text" id="input_weight_field" name="fullname" value="<?php echo $member->weight ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_weight" name="fullname" value="<?php echo $member->weight ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_weight_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_weight_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -157,9 +159,9 @@
                             </a>
 
                             <div class="input-group w-50" id="form_height">
-                                <input class="form-control form-control-sm" type="text" id="input_height_field" name="fullname" value="<?php echo $member->height  ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_height" name="fullname" value="<?php echo $member->height  ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_height_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_height_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -173,9 +175,9 @@
                             </a>
 
                             <div class="input-group w-50" id="form_contact">
-                                <input class="form-control form-control-sm" type="text" id="input_contact_field" name="fullname" value="<?php echo $member->contact; ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_contact" name="fullname" value="<?php echo $member->contact; ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_contact_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_contact_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -189,9 +191,9 @@
                             </a>
 
                             <div class="input-group w-50" id="form_email">
-                                <input class="form-control form-control-sm" type="text" id="input_email_field" name="fullname" value="<?php echo $member->email; ?>">
+                                <input class="form-control form-control-sm" type="text" id="edit_email" name="fullname" value="<?php echo $member->email; ?>">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fa fa-check"></i></button>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="input_email_ok"><i class="fa fa-check"></i></button>
                                     <button type="button" id="input_email_cancel" class="btn btn-outline-dark btn-sm"><i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
@@ -254,20 +256,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript" charset="utf-8" async defer>
-  $(document).ready(function() {
-    $(".edit").click(function(e) {
-      e.preventDefault();
-      let id = $(this).attr('data-id');
-      window.location.href = '/gym-system/members/edit/' + id;
-    });
-
-    $(".submitAdmin").click(function(e) {
-      e.preventDefault();
-      window.location.href = '/gym-system/admin/unlock/members';
-    });
-  });
-</script>
-
-<script src="<?php echo base_url('assets/js/InformationPage.js'); ?>" type="text/javascript" charset="utf-8" async defer></script>
