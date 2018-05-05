@@ -73,6 +73,7 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
  * Members
  */
 $route['members'] = 'Members_Controller/members_list';
+$route['members/get_member_count'] = 'Members_Controller/get_member_count';
 $route['members/list'] = 'Members_Controller/members_list';
 $route['members/list/active'] = 'Members_Controller/members_list';
 $route['members/list/inactive'] = 'Members_Controller/members_list';
@@ -81,6 +82,7 @@ $route['members/list/guest'] = 'Members_Controller/members_list';
 $route['members/list/get_details_via_ajax'] = 'Members_Controller/get_details_via_ajax';
 $route['members/list/register'] = 'Members_Controller/register';
 $route['members/register'] = 'Members_Controller/register';
+$route['members/register/register_fingerprint'] = 'Members_Controller/register_fingerprint';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
 $route['members/attendance'] = 'Members_Controller/get_attendance';

@@ -430,25 +430,20 @@ $(document).ready(function (e) {
             });
         });
 
-        $('#enroll-program').ready(function () {
-            $.ajax({
-                method: 'GET',
-                url: 'get_program_list',
-            }).done(function (response) {
-                
-                try {
-                    let programData = JSON.parse(response);
+        if ($('#enroll-program').length > 0) {
+            $('#enroll-program').ready(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: 'get_program_list',
+                }).done(function (response) {
+                    var programData = JSON.parse(response);
                     programData.forEach(function (program) {
                         $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
                     });
-                } catch (err) {
-                    /**
-                     * Unresolved error
-                     */
-                    // console.log(err);
-                }
+                });
             });
-        });
+        }
+        
 
         $('.enrollment-btn').click(function () {
             $('#enrollment-modal').attr('data-id', $(this).data('id'));
@@ -471,5 +466,21 @@ $(document).ready(function (e) {
                 location.reload();
             });
         });
+
+        if ($('#scan-btn').length > 0) {
+            $('#scan-btn').ready(function () {
+                 $.ajax({
+                    method: 'GET',
+                    url: 'get_member_count'
+                 }).done(function (response) {
+                    if (response) {
+                        var urlRegister = window.location.href + "/register_fingerprint?member_id=" + response;
+                        var encodedUrl = Base64.encode(urlRegister);
+                        var href = 'finspot:FingerspotReg;' + encodedUrl;
+                        $('#scan-btn').attr('href', href);
+                    }
+                 });
+            });
+        }
     });
 });

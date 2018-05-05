@@ -385,6 +385,18 @@ class Members_Controller extends CI_Controller {
 		$this->Member_Model->update_member($data);
 	}
 
+	public function get_member_count() {
+		$result = $this->Member_Model->count_all_members();
+
+		$user_id = $result + 1;
+
+		echo $user_id;
+	}
+
+	public function register_fingerprint() {
+		
+	}
+
 	public function process_enrollment() {
 		$member_id = $_POST['member_id'];
 		$program_id = $_POST['program_id'];

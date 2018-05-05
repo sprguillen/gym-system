@@ -87,3 +87,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('MYSQL_DATE_TIME_FORMAT', 'Y-m-d');
 define('APP_DATE_TIME_FORMAT', 'M d Y');
 define('NEWLY_ENROLLED_MESSAGE', 'Member has not enrolled yet');
+define('TIME_LIMIT_REG', '15');

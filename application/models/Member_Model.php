@@ -7,7 +7,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Member_model extends CI_Model {
+class Member_Model extends CI_Model {
     public function __construct() {
         $this->load->database();
     }
@@ -61,5 +61,9 @@ class Member_model extends CI_Model {
         }
         $this->db->where('id', $member_id);
         $this->db->update('member');
+    }
+
+    public function count_all_members() {
+        return $this->db->count_all_results('member', FALSE);
     }
 }
