@@ -191,7 +191,7 @@
 		                    	<div class="card-body">
 		                        	<h5 class="card-title text-dark">Biometrics</h5>
 		                        	<p class="card-text">Please place your fingerprint on the machine to scan.</p>
-		                        	<a href="#" class="btn btn-outline-danger btn-block" id="scan-btn" >Scan fingerprint</a>
+		                        	<a href="finspot:FingerspotReg;<?php echo $api_reg_url ?>" class="btn btn-outline-danger btn-block" id="scan-btn" >Scan fingerprint</a>
 		                    	</div>
 		                	</div>
 		            	</div>

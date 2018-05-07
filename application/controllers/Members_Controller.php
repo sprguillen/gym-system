@@ -16,6 +16,7 @@ class Members_Controller extends CI_Controller {
 		$this->membership_types = ['active', 'inactive', 'frozen', 'guest'];
 		// Load helpers
 		$this->load->helper('form');
+		$this->load->helper('url');
 
 		// Load libraries
 		$this->load->library('form_validation');
@@ -23,6 +24,7 @@ class Members_Controller extends CI_Controller {
 
 		// Load models
 		$this->load->model('Member_Model');
+		$this->load->model('Fingerprint_Model');
 
 		$this->breadcrumbs->set(['Dashboard' => '/', 'Members' => 'members']);
 		$this->type = $this->uri->segment(3);
@@ -209,9 +211,14 @@ class Members_Controller extends CI_Controller {
 	 * Displays the register page
 	 */
 	public function register() {
-		$this->breadcrumbs->set(['Register' => 'members/register']);
 
-		$this->render('register');
+		$result = $this->Member_Model->count_all_members();
+
+		$total_member_count = $result + 1;
+
+		$this->breadcrumbs->set(['Register' => 'members/register']);
+		$data['api_reg_url'] = base64_encode(FINGERPRINT_REG_API_URL . "?action=register&member_id=$total_member_count");
+		$this->render('register', $data);
 	}
 
 	public function process_member_register() {
@@ -375,11 +382,6 @@ class Members_Controller extends CI_Controller {
 	}
 
 	public function update_member_details() {
-		$id = $_POST['id'];
-		$fname = $_POST['fname'];
-		$mname = $_POST['mname'];
-		$lname = $_POST['lname'];
-
 		$data = $_POST; 
 
 		$this->Member_Model->update_member($data);
@@ -388,17 +390,26 @@ class Members_Controller extends CI_Controller {
 	public function get_member_count() {
 		$result = $this->Member_Model->count_all_members();
 
-		$user_id = $result + 1;
-
-		echo $user_id;
+		$total_member_count = $result + 1;
+		echo $total_member_count;
 	}
 
 	public function register_fingerprint() {
-		
+		$status = $_GET['status'];
+
+		if ($status === 'success') {
+			$finger_data = array(
+				'finger_id' => $_GET['finger_id'],
+				'finger_data' => $_GET['finger_data']
+			);
+			$this->session->set_userdata('current_finger_data', $finger_data);
+		}
+
+		print_r($_SESSION);
 	}
 
 	public function process_enrollment() {
-		$member_id = $_POST['member_id'];
+		$member_id 	= $_POST['member_id'];
 		$program_id = $_POST['program_id'];
 
 		$date_started = date(MYSQL_DATE_TIME_FORMAT, strtotime("now"));

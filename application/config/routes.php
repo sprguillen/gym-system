@@ -74,6 +74,7 @@ $route['dashboard/logout'] = 'Dashboard_Controller/logout';
  */
 $route['members'] = 'Members_Controller/members_list';
 $route['members/get_member_count'] = 'Members_Controller/get_member_count';
+$route['members/test_session'] = 'Members_Controller/test_session';
 $route['members/list'] = 'Members_Controller/members_list';
 $route['members/list/active'] = 'Members_Controller/members_list';
 $route['members/list/inactive'] = 'Members_Controller/members_list';
@@ -91,6 +92,8 @@ $route['members/info/(:num)'] = 'Members_Controller/get_details';
 $route['members/info/update_member_details'] = 'Members_Controller/update_member_details';
 $route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
 $route['members/list/process_enrollment'] = 'Members_Controller/process_enrollment';
+$route['members/process_fingerprint'] = 'Members_Controller/process_fingerprint';
+$route['members/get_device_account'] = 'Members_Controller/get_device_account';
 
 
 /**
