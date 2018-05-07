@@ -22,7 +22,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/webcamjs/webcam.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/js/Base64.js"); ?>"></script>
-    <script type="text/javascript" src="<?php echo base_url("assets/vendors/jquery-timer/jquery.timer.js"); ?>"></script>
     <!-- JS declarations end -->
 </head>
 <body>
