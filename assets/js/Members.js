@@ -466,43 +466,5 @@ $(document).ready(function (e) {
                 location.reload();
             });
         });
-
-        // $('#test-btn').hide();
-        // if ($('#scan-btn').length > 0) {
-        //     $('#scan-btn').ready(function () {
-        //         $.ajax({
-        //             method: 'GET',
-        //             url: 'get_member_count'
-        //         }).done(function (response) {
-        //             if (response) {
-        //                 var urlRegister = window.location.href + "/register_fingerprint?member_id=2";
-        //                 console.log(urlRegister);
-        //                 // var encodedUrl = Base64.encode(urlRegister);
-        //                 // var href = 'finspot:FingerspotReg;' + encodedUrl;
-        //                 // $('#scan-btn').attr('href', href);
-        //             }
-        //         });
-        //     });
-
-        //     $('#scan-btn').on('click', function () {
-        //         // var timeout = 5000;
-
-        //         // var timerRegister = $.timer(timeout, function () {
-        //         //     $.ajax({
-        //         //         method: 'GET',
-        //         //         url: ''
-        //         //     })
-        //         // })
-        //         $('#test-btn').show();
-        //         $('#test-btn').on('click', function () {
-        //             $.ajax({
-        //                 method: 'GET',
-        //                 url: 'test_session'
-        //             }).done(function (response) {
-
-        //             });
-        //         });
-        //     });
-        // }
     });
 });
