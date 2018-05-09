@@ -277,8 +277,8 @@ $(document).ready(function (e) {
 
         form.steps({
             headerTag: "h3",
-            bodyTag: "fieldset",
-            transitionEffect: "slideLeft",
+            bodyTag: "section",
+            transitionEffect: "fade",
             onStepChanging: function (event, currentIndex, newIndex) {
                 if (currentIndex > newIndex) {
                     return true;
