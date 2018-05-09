@@ -1,27 +1,4 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<div class="modal fade" id="registration-dialog" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Take a picture</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <center>
-                    <div id="registration-cam"></div>
-                    <div class="modal-button-container">
-                        <button class="btn btn-primary" id="take-snapshot">Capture</button>
-                        <button class="btn btn-primary" id="recapture">Re-capture</button>
-                    </div>
-                    <input type="hidden" name="img">
-                </center>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3">
   	<div class="col-md-12 mb-2"> 
     	<small>
@@ -36,7 +13,29 @@
 	    <h3 class="text-danger"> <?php echo $name; ?></h3>
 	    <hr/>
   	</div>
-
+	<div class="modal fade" id="registration-dialog" role="dialog">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Take a picture</h4>
+	                <button type="button" class="close" data-dismiss="modal">&times;</button>
+	            </div>
+	            <div class="modal-body">
+	                <center>
+	                    <div id="registration-cam"></div>
+	                    <div class="modal-button-container">
+	                        <button class="btn btn-primary" id="take-snapshot">Capture</button>
+	                        <button class="btn btn-primary" id="recapture">Re-capture</button>
+	                    </div>
+	                    <input type="hidden" name="img"  >
+	                </center>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
   	<div class="col-md-8 p-lg-8 mx-auto my-5">
     	<form id="registration_form" action="Members_Controller/process_registration" method="post">
     		<h3>Profile</h3>
@@ -61,9 +60,9 @@
 		                      		<label class="text-dark" for="fname-text">First</label>
 		                      		<?php $guest_data = $this->session->flashdata('guest_data') ?>
 		                  			<?php if ($guest_data) { ?>
-		                      			<input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname" value="<?php echo $guest_data->fname ?>">
+		                      			<input type="text" class="form-control" id="fname-text" name="fname" value="<?php echo $guest_data->fname ?>"  >
 		                      		<?php } else { ?>
-		                          		<input type="text" class="form-control" id="fname-text" placeholder="Juan" name="fname" value="">
+		                          		<input type="text" class="form-control" id="fname-text" name="fname" value=""  >
 		                      		<?php } ?>
 		                  		</div>
 		              		</div>
@@ -71,9 +70,9 @@
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="mname-text">Middle</label>
 		                      		<?php if ($guest_data) { ?>
-		                          		<input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname" value="<?php echo $guest_data->mname ?>">
+		                          		<input type="text" class="form-control" id="mname-text" name="mname" value="<?php echo $guest_data->mname ?>"  >
 		                      		<?php } else { ?>
-		                          		<input type="text" class="form-control" id="mname-text" placeholder="Antonio" name="mname">
+		                          		<input type="text" class="form-control" id="mname-text" name="mname"  >
 		                      		<?php } ?>
 		                  		</div>
 		              		</div>
@@ -81,9 +80,9 @@
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="lname-text">Last</label>
 		                      		<?php if ($guest_data) { ?>
-		                          		<input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname" value="<?php echo $guest_data->lname ?>">
+		                          		<input type="text" class="form-control" id="lname-text" name="lname" value="<?php echo $guest_data->lname ?>"  >
 		                      		<?php } else { ?>
-		                          		<input type="text" class="form-control" id="lname-text" placeholder="Saluminag" name="lname">
+		                          		<input type="text" class="form-control" id="lname-text" name="lname"  >
 		                      		<?php } ?>
 		                  		</div>
 		              		</div>
@@ -91,25 +90,25 @@
 		              		<div class="col-md-12">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="address-text">Address</label>
-		                      		<textarea class="form-control" id="address-text" placeholder="Door 4 Frontier St., Garden Heights, Sasa, Davao City" rows="3" name="address"></textarea>
+		                      		<textarea class="form-control" id="address-text" rows="3" name="address"  ></textarea>
 		                  		</div>
 		              		</div>
 
 		              		<div class="col-md-3">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="birth-date">Date of birth</label>
-		                      		<input type="date" class="form-control" id="birthdate" name="birthdate">
+		                      		<input type="date" class="form-control" id="birthdate" name="birthdate"  >
 		                  		</div>
 		              		</div>
 		              		<div class="col-md-3">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="gender-input">Gender</label>
 		                      		<?php if ($guest_data) { ?>
-			                          	<select class="form-control" id="gender-input" name="gender">
+			                          	<select class="form-control" id="gender-input" name="gender"  >
 			                              	<?php echo "<option selected value='" . $guest_data->gender . "'>" . $guest_data->gender . "</option>" ?>
 			                          	</select>
 		                      		<?php } else { ?>
-		                          		<select class="form-control" id="gender-input" name="gender">
+		                          		<select class="form-control" id="gender-input" name="gender"  >
 		                              		<option selected disabled>Select gender</option>
 		                              		<option value="female">Female</option>
 		                              		<option value="male">Male</option>
@@ -120,26 +119,26 @@
 		              		<div class="col-md-3">
 		                  		<div class="form-group">
 			                      	<label class="text-dark" for="weight-number">Weight (in kgs)</label>
-			                      	<input type="number" class="form-control" id="weight-number" placeholder="58" name="weight">
+			                      	<input type="number" class="form-control" id="weight-number" name="weight"  >
 		                  		</div>
 		              		</div>
 		              		<div class="col-md-3">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="height-number">Height (in cm)</label>
-		                      		<input type="number" class="form-control" id="height-number" placeholder="136" name="height">
+		                      		<input type="number" class="form-control" id="height-number" name="height"  >
 		                  		</div>
 		              		</div>
 
 		              		<div class="col-md-6">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="number-text">Phone number</label>
-		                      		<input type="text" class="form-control" id="number-text" placeholder="+639168912341" name="cellnumber">
+		                      		<input type="text" class="form-control" id="number-text" name="cellnumber"  >
 		                  		</div>
 		              		</div>
 		              		<div class="col-md-6">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="email-input">E-mail address</label>
-		                      		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp" placeholder="paz.saluminag@gmail.com">
+		                      		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp"  >
 		                  		</div>
 		              		</div>
 
@@ -152,20 +151,20 @@
 
 			              	<div class="col-md-4">
 			                  	<div class="form-group">
-			                      	<label class="text-dark" for="emergency-name">Contact Full Name</label>
-			                      	<input type="text" class="form-control" id="emergency-name" placeholder="Jenny Amorsolo" name="ename">
+			                      	<label class="text-dark" for="emergency-name">Full Name</label>
+			                      	<input type="text" class="form-control" id="emergency-name" name="ename"  >
 			                  	</div>
 			              	</div>
 		              		<div class="col-md-4">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="relationship-text">Relationship</label>
-		                      		<input type="text" class="form-control" id="relationship-text" placeholder="Wife" name="relationship">
+		                      		<input type="text" class="form-control" id="relationship-text" name="relationship"  >
 		                  		</div>
 		              		</div>
 		              		<div class="col-md-4">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="tel-input">Phone number</label>
-		                      		<input type="tel" class="form-control" id="tel-input" placeholder="+639123812352" name="econtact">
+		                      		<input type="tel" class="form-control" id="tel-input" name="econtact"  >
 		                  		</div>
 		              		</div>
 		            	</div>
@@ -186,7 +185,10 @@
 			                    	<div class="card-body">
 			                        	<h5 class="card-title text-dark">Take A Picture</h5>
 			                        	<p class="card-text">Please standby and let our camera take a picture of you.</p>
-			                        	<a data-toggle="modal" href="#registration-dialog" class="btn btn-outline-danger btn-block" id="upload-photo">Upload Photo</a>
+			                        	<a data-toggle="modal" href="#registration-dialog" class="btn btn-outline-danger btn-block" id="upload-photo">
+			                        		Upload Photo
+			                        	</a>
+			                        	<p class="error hidden-error">Please take a picture to go to the next step.</p>
 			                    	</div>
 			                	</div>
 			            	</div>
@@ -219,5 +221,3 @@
     	</form>
   	</div>
 </div>
-
-<script src="<?php echo base_url('assets/js/RegisterPage.js'); ?>" type="text/javascript" charset="utf-8" async defer></script>

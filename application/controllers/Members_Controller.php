@@ -211,37 +211,70 @@ class Members_Controller extends CI_Controller {
 	 * Displays the register page
 	 */
 	public function register() {
-
-		$result = $this->Member_Model->count_all_members();
-
-		$total_member_count = $result + 1;
+		$result = $this->Member_Model->get_max_id();
+		$current_next_id = $result + 1;
 
 		$this->breadcrumbs->set(['Register' => 'members/register']);
-		$data['api_reg_url'] = base64_encode(FINGERPRINT_REG_API_URL . "?action=register&member_id=$total_member_count");
+		$data['api_reg_url'] = base64_encode(FINGERPRINT_REG_API_URL . "?action=register&member_id=$current_next_id");
 		$this->render('register', $data);
 	}
 
 	public function process_member_register() {
+		$response = array();
 		$this->load->helper('url');
+		$member_id = (int)$this->Member_Model->get_max_id() + 1;
 
-		print_r($_POST);
-		$data = array(
-				'fname' => $_POST['fname'],
-				'mname' => $_POST['mname'],
-				'lname' => $_POST['lname'],
-				'address' => $_POST['address'],
-				'birthdate' => $_POST['birthdate'],
-				'gender' => $_POST['gender'],
-				'weight' => $_POST['weight'],
-				'height' => $_POST['height'],
-				'cellnumber' => $_POST['cellnumber'],
-				'email' => $_POST['email'],
-				'ename' => $_POST['ename'],
-				'relationship' => $_POST['relationship'],
-				'econtact' => $_POST['econtact']
+		$member_data = array(
+				'id'			=> $member_id,
+				'fname' 	 	=> $_POST['fname'],
+				'mname' 	 	=> $_POST['mname'],
+				'lname' 	 	=> $_POST['lname'],
+				'address'	 	=> $_POST['address'],
+				'date_of_birth' => $_POST['birthdate'],
+				'gender' 	 	=> $_POST['gender'],
+				'weight' 	 	=> $_POST['weight'],
+				'height' 	 	=> $_POST['height'],
+				'contact' 		=> $_POST['cellnumber'],
+				'email' 	 	=> $_POST['email'],
+				'img' 	 	 	=> $_POST['img']
 		);
 
-		echo json_encode($data);
+		$contact_data = array(
+			'full_name'    => $_POST['ename'],
+			'relationship' => $_POST['relationship'],
+			'contact'      => $_POST['econtact'],
+			'member_id'	   => $member_id
+		);
+
+		$finger_data = $this->session->userdata('current_finger_data');
+		$this->session->unset_userdata('current_finger_data');
+
+		$result1 = $this->Member_Model->insert($member_data, 'member');
+		$result2 = $this->Member_Model->insert($contact_data, 'emergency_contact');
+		$result3 = $this->Member_Model->insert($finger_data, 'member_finger');
+
+		if ($result1 && $result2 && $result3) {
+			$response['status'] = true;
+			$response['message'] = 'Member successfully registered!';
+			$response['redirect'] = base_url() . 'members/list/inactive';
+		} else {
+			$response['error'] = array();
+			$response['status'] = false;
+			$response['redirect'] = base_url() . 'members/register';
+			if (!$result1) {
+				array_push($response['error'], "Error inserting member data, please consult admin!");
+			}
+
+			if (!$result2) {
+				array_push($response['error'], "Error inserting emergency contact data, please consult admin!");
+			}
+
+			if (!$result3) {
+				array_push($response['error'], "Error inserting fingerprint data, please consult admin!");
+			}
+		}
+
+		echo json_encode($response);
 	}
 
 	/**
@@ -400,12 +433,13 @@ class Members_Controller extends CI_Controller {
 		if ($status === 'success') {
 			$finger_data = array(
 				'finger_id' => $_GET['finger_id'],
-				'finger_data' => $_GET['finger_data']
+				'finger_data' => $_GET['finger_data'],
+				'member_id' => (int)$_GET['member_id']
 			);
 			$this->session->set_userdata('current_finger_data', $finger_data);
 		}
 
-		print_r($_SESSION);
+		echo "<script>window.close();</script>";
 	}
 
 	public function process_enrollment() {

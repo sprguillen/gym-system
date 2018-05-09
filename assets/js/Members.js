@@ -271,10 +271,11 @@ $(document).ready(function (e) {
         });
     });
 
+    $('.hidden-error').hide();
+
     $(function () {
         var form = $("#registration_form").show();
         $("#recapture").hide();
-
         form.steps({
             headerTag: "h3",
             bodyTag: "section",
@@ -283,6 +284,14 @@ $(document).ready(function (e) {
                 if (currentIndex > newIndex) {
                     return true;
                 }
+
+                if (newIndex > 1) {
+                    if (!$('input[name="img"').val()) {
+                        $('.hidden-error').show();
+                        return false;
+                    }
+                }
+
                 form.validate().settings.ignore = ':disabled, :hidden';
                 return form.valid();
             },
@@ -305,12 +314,29 @@ $(document).ready(function (e) {
                         height: $('input[name="height"]').val(),
                         cellnumber: $('input[name="cellnumber"]').val(),
                         email: $('input[name="email"]').val(),
+                        img: $('input[name="img"]').val(),
                         ename: $('input[name="ename"]').val(),
                         relationship: $('input[name="relationship"]').val(),
                         econtact: $('input[name="econtact"]').val()
                     }
                 }).done(function (response) {
-
+                    response = JSON.parse(response);
+                    if (response['status'] === true) {
+                        vex.dialog.alert({
+                            message: response['message'],
+                            callback: function (value) {
+                                if (value) window.location.replace(response['redirect']);
+                            }
+                        });
+                    } else {
+                        var errorMsg = response['error'].join('<br/>');
+                        vex.dialog.alert({
+                            unsafeMessage: errorMsg,
+                            callback: function (value) {
+                                if (value) window.location.replace(response['redirect']);
+                            }
+                        });
+                    }
                 });
             }
         }).validate({
@@ -318,52 +344,52 @@ $(document).ready(function (e) {
                 element.before(error);
             },
             rules: {
-                // fname: {
-                //     required: true,
-                //     minlength: 2
-                // },
-                // mname: {
-                //     required: true,
-                //     minlength: 2
-                // },
-                // lname: {
-                //     required: true,
-                //     minlength: 2
-                // },
-                // weight: {
-                //     required: true,
-                //     number: true
-                // },
-                // height: {
-                //     required: true,
-                //     number: true
-                // },
-                // email: {
-                //     required: true,
-                //     email: true
-                // },
-                // birthdate: {
-                //     required: true,
-                //     date: true
-                // },
-                // gender: {
-                //     required: true
-                // },
-                // cellnumber: {
-                //     required: true,
-                //     digits: true
-                // },
-                // ename: {
-                //     required: true,
-                //     minlength: 8
-                // },
-                // econtact: {
-                //     required: true,
-                //     digits: true
-                // },
-                // relationship: {
-                //     required: true
-                // }
+                fname: {
+                    required: true,
+                    minlength: 2
+                },
+                mname: {
+                    required: true,
+                    minlength: 2
+                },
+                lname: {
+                    required: true,
+                    minlength: 2
+                },
+                weight: {
+                    required: true,
+                    number: true
+                },
+                height: {
+                    required: true,
+                    number: true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                birthdate: {
+                    required: true,
+                    date: true
+                },
+                gender: {
+                    required: true
+                },
+                cellnumber: {
+                    required: true,
+                    digits: true
+                },
+                ename: {
+                    required: true,
+                    minlength: 8
+                },
+                econtact: {
+                    required: true,
+                    digits: true
+                },
+                relationship: {
+                    required: true
+                }
             }
         });
 

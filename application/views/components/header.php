@@ -4,6 +4,8 @@
     <title>Elevation Fitness</title>
     <!-- Stylesheet declarations  -->
     <link rel="stylesheet" href="<?php echo base_url('assets/vendors/bootstrap-4.0.0/dist/css/bootstrap.min.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('assets/vendors/vex/dist/css/vex.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo base_url('assets/vendors/vex/dist/css/vex-theme-os.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/css/members.css'); ?>" />
     <link rel="stylesheet" href="<?php echo base_url('assets/css/product.css'); ?>" />
     <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
@@ -22,6 +24,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/vendors/webcamjs/webcam.js"); ?>"></script>
     <script type="text/javascript" src="<?php echo base_url("assets/js/Base64.js"); ?>"></script>
+    <script type="text/javascript" src="<?php echo base_url("assets/vendors/vex/dist/js/vex.combined.min.js"); ?>"></script>
+    <script>vex.defaultOptions.className = 'vex-theme-os'</script>
     <!-- JS declarations end -->
 </head>
 <body>
