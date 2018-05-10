@@ -188,7 +188,7 @@ class Members_Controller extends CI_Controller {
 		if ($this->type === 'guest') {
 			$data['guests'] = $this->get_guests();
 		}
-		
+
 		$this->render('list', $data);
 	}
 
@@ -416,12 +416,28 @@ class Members_Controller extends CI_Controller {
 		echo json_encode($return_data);
 	}
 
+	public function ajax_unfreeze_member() {
+		$member_id = $this->input->post('member_id');
+
+		// $isUnfrozen = $this->Member_Model->update_membership($data);
+
+		if ($isUnfrozen) {
+			$results = $this->Member_Model->get_memberships_by_id($member_id, 'Frozen');
+
+
+		}
+
+
+
+		echo json_encode($results);
+
+	}
 
 	public function ajax_freeze_member() {
 		$member_id = $this->input->post('member_id');
 		$freeze_data = $this->input->post('freeze_data');
 		
-		$results = $this->Member_Model->get_memberships_by_id($member_id);
+		$results = $this->Member_Model->get_memberships_by_id($member_id, 'Active');
 		$isValidDate = true;
 
 		foreach ($results as $row) {

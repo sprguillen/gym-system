@@ -66,7 +66,7 @@ class Member_model extends CI_Model {
 
     public function freeze_membership($member_id, $freeze_data) {
         $sql = "SELECT membership.id AS membership_id FROM membership JOIN member ON membership.member_id = member.id
-        WHERE member.id = '" . $member_id . "'"; 
+        WHERE member.id = '" . $member_id . "' AND membership.status = 'Active'"; 
 
         $memberships = $this->db->query($sql)->result();
         
@@ -88,8 +88,15 @@ class Member_model extends CI_Model {
         $this->db->trans_complete();
     }
 
-    public function get_memberships_by_id($member_id) {
-        $query = $this->db->get_where('membership', ['member_id' => $member_id]);
+    public function unfreeze_membership($member_id) {
+        $sql = "UPDATE membership_frozen AS mf SET mf.status = 'Done' WHERE status = 'Ongoing'
+                AND membership_id IN (SELECT id FROM membership WHERE status = 'Active' AND member_id = " . $member_id . ")"; 
+
+        $memberships = $this->db->query($sql)->result();
+    }
+
+    public function get_memberships_by_id($member_id, $status) {
+        $query = $this->db->get_where('membership', ['member_id' => $member_id, 'status' => $status]);
 
         return $query->result_array();
     }
@@ -107,22 +114,30 @@ class Member_model extends CI_Model {
     public function update_membership($data) {
         $this->db->trans_start();
 
-        $member_id = $data['id'];
-        foreach($data as $key => $value) {
+        $membership_id = $data['id'];
+        
+        foreach ($data as $key => $value) {
             $this->db->set($key, $value);
         }
-        $this->db->where('id', $member_id);
+
+        $this->db->where('id', $membership_id);
         $this->db->update('membership');
 
         $this->db->trans_complete();
     }
 
     public function update_member($data) {
+        $this->db->trans_start();
+        
         $member_id = $data['id'];
+        
         foreach($data as $key => $value) {
             $this->db->set($key, $value);
         }
+        
         $this->db->where('id', $member_id);
         $this->db->update('member');
+
+        $this->db->trans_complete();
     }
 }

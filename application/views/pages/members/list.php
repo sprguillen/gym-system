@@ -158,7 +158,7 @@
 									<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
 								<?php endif; ?>
 								<?php if (strtolower($type) === 'frozen'): ?>
-									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#deactivateFreeze" class="btn btn-sm btn-outline-primary">Unfreeze</button>
+									<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#unfreeze-member" class="btn btn-sm btn-outline-primary freeze-data">Unfreeze</button>
 								<?php endif; ?>
 			  				<?php endif; ?>
 							</td>
@@ -203,6 +203,26 @@
   
 </div>
 
+<div class="modal fade" id="unfreeze-member" tabindex="-1" role="dialog" aria-labelledby="deactivateFreeze" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+	  		<div class="modal-header">
+				<h5 class="modal-title text-danger" id="deactivateFreeze">Unfreeze a Member</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  			<span aria-hidden="true">&times;</span>
+				</button>
+	  		</div>
+	  		<div class="modal-body">
+				<p>By unfreezing <span id="member-name" class="text-danger"></span>, his/her active memberships will be restored.</p>
+	  		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger confirm-unfreeze" data-id="<?php echo $value['id']; ?>">Confirm</button>
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+  	</div>
+</div>
+
 <div class="modal fade" id="enrollment-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -236,66 +256,89 @@
 </div>
 
 <div class="modal fade" id="freezeMember" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header">
-		<h5 class="modal-title text-danger" id="exampleModalLabel">Freeze Member</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-	  </div>
-		<form class="freeze-form">		
-		  <div class="modal-body">
-			<p>Are you sure you want to freeze membership of <span id="member-name" class="text-danger"></span>? This action <strong>cannot</strong> be undone.</p>
-			<div class="alert alert-warning freeze-alert"></div>
-			<div class="form-group">
-				<label for="username">Freeze until:</label>
-				<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required>
-				<label for="username">Reason:</label>
-				<textarea class="form-control" rows="4" id="purpose" name="purpose" placeholder="Specify reason for freezing. Approval may be subjected to discussion by the gym manager." required></textarea>
-				<p class="text-info small">Freeze can only be done (1) week until membership expiration.</p>
-				<input type="hidden" id="member-id" name="memberId" value="">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-danger" id="exampleModalLabel">Freeze Member</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
-		  </div>
-		  <div class="modal-footer">
-			<input type="submit" class="btn btn-danger" value="Submit">
-			<button type="button" class="btn btn-outline-secondary freeze-close-modal" data-dismiss="modal">Close</button>
-		  </div>
-		</form>
+			<form class="freeze-form">		
+				<div class="modal-body">
+					<p>Are you sure you want to freeze membership of <span id="member-name" class="text-danger"></span>? This action <strong>cannot</strong> be undone.</p>
+					<div class="alert alert-warning freeze-alert"></div>
+					<div class="form-group">
+						<label for="username">Freeze until:</label>
+						<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required>
+						<label for="username">Reason:</label>
+						<textarea class="form-control" rows="4" id="purpose" name="purpose" placeholder="Specify reason for freezing. Approval may be subjected to discussion by the gym manager." required></textarea>
+						<p class="text-info small">Freeze can only be done (1) week until membership expiration.</p>
+						<input type="hidden" id="member-id" name="memberId" value="">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-danger" value="Submit">
+					<button type="button" class="btn btn-outline-secondary freeze-close-modal" data-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
 	</div>
-  </div>
 </div>
 
-<div class="modal fade" id="adminModeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header">
-		<h5 class="modal-title text-danger" id="exampleModalLabel">Enter Administrator Mode</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-	  </div>
-	  <div class="modal-body">
-		<div class="form-group">
-		  <label for="username">Email username</label>
-		  <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+<div class="modal fade" id="adminModeModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title text-danger">Enter Administrator Mode</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="username">Email username</label>
+					<input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+				</div>
+				<div class="form-group">
+					<label for="password">Enter password</label>
+					<input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Enter password">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger submit-admin">Submit</button>
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
 		</div>
-		<div class="form-group">
-		  <label for="password">Enter password</label>
-		  <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Enter password">
-		</div>
-	  </div>
-	  <div class="modal-footer">
-		<button type="button" class="btn btn-danger submit-admin">Submit</button>
-		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-	  </div>
 	</div>
-  </div>
 </div>
 
 <script type="text/javascript" charset="utf-8" async defer>
   $(document).ready(function() {
+
   	$(".freeze-alert").hide();
+
+  	$(".confirm-unfreeze").on('click', function (e) {
+  		e.preventDefault();
+  		let id = $(this).attr('data-id');
+
+  		$.ajax({
+			url: '/gym-system/Members_Controller/ajax_unfreeze_member',
+			type: 'POST',
+			data: { member_id: id },
+			success: function (data) {
+				data = JSON.parse(data);
+				console.log(data)
+				/*if (data['code'] === 400) {
+					$(".freeze-alert").html(data['message']);
+					$(".freeze-alert").show();
+				} else if (data['code'] === 200) {
+					window.location.reload();
+				}*/
+
+			}
+		});
+  	});
 
   	$(".freeze-close-modal").on('click', function (e) {
   		e.preventDefault();
