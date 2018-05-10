@@ -88,12 +88,66 @@ class Member_model extends CI_Model {
         $this->db->trans_complete();
     }
 
-    public function unfreeze_membership($member_id) {
+    public function unfreeze_membership_frozen($member_id) {
+        $this->db->trans_start();
+
         $sql = "UPDATE membership_frozen AS mf SET mf.status = 'Done' WHERE status = 'Ongoing'
                 AND membership_id IN (SELECT id FROM membership WHERE status = 'Active' AND member_id = " . $member_id . ")"; 
 
-        $memberships = $this->db->query($sql)->result();
+        $result = $this->db->query($sql);
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
+
+    public function get_new_date_expired($date_expired, $date_frozen) {
+
+        if (date("Y-m-d") === $date_frozen) {
+            return $date_expired;
+        }
+
+        $days_frozen = round((time() - strtotime($date_frozen)) / (60 * 60 * 24));
+        
+        $new_date = strtotime($date_expired . " + " . $days_frozen . " days");
+
+        return date("Y-m-d", $new_date);
+    }
+
+    public function unfreeze_membership_table($member_id) {
+        $this->db->trans_start();
+
+        $frozen_memberships = $this->get_membership_frozen_by_member_id($member_id);
+
+        foreach ($frozen_memberships as $row) {
+            $new_date_expired = $this->get_new_date_expired($row['date_expired'], $row['date_frozen']);
+            
+            $sql = "UPDATE membership AS m
+                    SET m.status = 'Active', m.date_expired = '" . $new_date_expired . "'
+                    WHERE id = " . $row['membership_id'];
+            
+            $this->db->query($sql);
+        }
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
+    }
+
+    public function get_membership_frozen_by_member_id($member_id) {
+        $sql = "SELECT * FROM membership_frozen AS mf
+                JOIN membership AS m
+                WHERE mf.status = 'Ongoing'
+                AND m.member_id = " . $member_id;
+
+        return $this->db->query($sql)->result_array();
+    }
+
+
+    public function unfreeze_membership($member_id) {
+        return ($this->unfreeze_membership_frozen($member_id) && $this->unfreeze_membership_table($member_id));
+    }
+        
 
     public function get_memberships_by_id($member_id, $status) {
         $query = $this->db->get_where('membership', ['member_id' => $member_id, 'status' => $status]);
@@ -109,6 +163,19 @@ class Member_model extends CI_Model {
         $this->db->trans_complete();
 
         return ($this->db->affected_rows() === 1) ? true: false;
+    }
+
+    public function update_membership_frozen_where_membership_id($data) {
+        $this->db->trans_start();
+        
+        foreach ($data as $key => $value) {
+            $this->db->set($key, $value);
+        }
+
+        $this->db->where('membership_id', $membership_id);
+        $this->db->update('membership_frozen');
+
+        $this->db->trans_complete();
     }
 
     public function update_membership($data) {

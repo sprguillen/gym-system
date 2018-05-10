@@ -213,7 +213,7 @@
 				</button>
 	  		</div>
 	  		<div class="modal-body">
-				<p>By unfreezing <span id="member-name" class="text-danger"></span>, his/her active memberships will be restored.</p>
+				<p>By unfreezing <span class="text-danger member-name"></span>, his/her active memberships will be restored.</p>
 	  		</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger confirm-unfreeze" data-id="<?php echo $value['id']; ?>">Confirm</button>
@@ -266,11 +266,11 @@
 			</div>
 			<form class="freeze-form">		
 				<div class="modal-body">
-					<p>Are you sure you want to freeze membership of <span id="member-name" class="text-danger"></span>? This action <strong>cannot</strong> be undone.</p>
+					<p>Are you sure you want to freeze membership of <span class="text-danger member-name"></span>? This action <strong>cannot</strong> be undone.</p>
 					<div class="alert alert-warning freeze-alert"></div>
 					<div class="form-group">
-						<label for="username">Freeze until:</label>
-						<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required>
+						<!-- <label for="username">Freeze until:</label>
+						<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required> -->
 						<label for="username">Reason:</label>
 						<textarea class="form-control" rows="4" id="purpose" name="purpose" placeholder="Specify reason for freezing. Approval may be subjected to discussion by the gym manager." required></textarea>
 						<p class="text-info small">Freeze can only be done (1) week until membership expiration.</p>
@@ -327,15 +327,18 @@
 			type: 'POST',
 			data: { member_id: id },
 			success: function (data) {
-				data = JSON.parse(data);
 				console.log(data)
-				/*if (data['code'] === 400) {
+				data = JSON.parse(data);
+				if (data['code'] === 400) {
 					$(".freeze-alert").html(data['message']);
 					$(".freeze-alert").show();
 				} else if (data['code'] === 200) {
 					window.location.reload();
-				}*/
+				}
 
+			},
+			error: function (err) {
+				console.log(err)
 			}
 		});
   	});
@@ -350,14 +353,13 @@
   		let form = $(e.target).serializeArray();
 
   		let data = {
-  			date_frozen: form[0].value,
-  			purpose: form[1].value
+  			purpose: form[0].value
   		}
 
   		$.ajax({
 			url: '/gym-system/Members_Controller/ajax_freeze_member',
 			type: 'POST',
-			data: { member_id: form[2].value, freeze_data: data },
+			data: { member_id: form[1].value, freeze_data: data },
 			success: function (data) {
 				data = JSON.parse(data);
 				
@@ -377,7 +379,7 @@
 	  let id = $(this).attr('data-id');
 	  let name = $(this).attr('data-name');
 
-	  $("#member-name").html(name);
+	  $(".member-name").html(name);
 	  $("#member-id").val(id);
   	})
 
