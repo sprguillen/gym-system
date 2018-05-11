@@ -271,11 +271,11 @@ $(document).ready(function (e) {
         });
     });
 
-    $('.hidden-error').hide();
-
     $(function () {
         var form = $("#registration_form").show();
         $("#recapture").hide();
+        $('#webcam-validation-error').hide();
+        $('#fingerprint-validation-error').hide();
         form.steps({
             headerTag: "h3",
             bodyTag: "section",
@@ -285,9 +285,9 @@ $(document).ready(function (e) {
                     return true;
                 }
 
-                if (newIndex > 1) {
+                if (newIndex === 2) {
                     if (!$('input[name="img"').val()) {
-                        $('.hidden-error').show();
+                        $('#webcam-validation-error').show();
                         return false;
                     }
                 }
@@ -297,6 +297,13 @@ $(document).ready(function (e) {
             },
             onFinishing: function (event, currentIndex) {
                 form.validate().settings.ignore = ':disabled';
+                
+                var hasFingerPrintData = $('#has-fingerprint-data').val();
+                if (hasFingerPrintData === "0") {
+                    $('#fingerprint-validation-error').show();
+                    return false;
+                }
+
                 return form.valid();
             },
             onFinished: function (event, currentIndex) {
@@ -470,6 +477,22 @@ $(document).ready(function (e) {
             });
         }
         
+        if ($('#has-fingerprint-data').length > 0) {
+            $('#has-fingerprint-data').ready(function () {
+                setInterval(function () {
+                    $.ajax({
+                        method: "GET",
+                        url: "get_fingerprint_data"
+                    }).done(function (response) {
+                        if (response) {
+                            $('#has-fingerprint-data').val(1);
+                        } else {
+                            $('#has-fingerprint-data').val(0);
+                        }
+                    })
+                }, 1000)
+            });
+        }
 
         $('.enrollment-btn').click(function () {
             $('#enrollment-modal').attr('data-id', $(this).data('id'));

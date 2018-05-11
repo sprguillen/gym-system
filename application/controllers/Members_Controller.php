@@ -216,6 +216,11 @@ class Members_Controller extends CI_Controller {
 
 		$this->breadcrumbs->set(['Register' => 'members/register']);
 		$data['api_reg_url'] = base64_encode(FINGERPRINT_REG_API_URL . "?action=register&member_id=$current_next_id");
+
+		if ($this->session->userdata('current_finger_data')) {
+			$this->session->unset_userdata('current_finger_data');
+		}
+
 		$this->render('register', $data);
 	}
 
@@ -247,7 +252,6 @@ class Members_Controller extends CI_Controller {
 		);
 
 		$finger_data = $this->session->userdata('current_finger_data');
-		$this->session->unset_userdata('current_finger_data');
 
 		$result1 = $this->Member_Model->insert($member_data, 'member');
 		$result2 = $this->Member_Model->insert($contact_data, 'emergency_contact');
@@ -440,6 +444,14 @@ class Members_Controller extends CI_Controller {
 		}
 
 		echo "<script>window.close();</script>";
+	}
+
+	public function get_fingerprint_data() {
+		if ($this->session->userdata('current_finger_data')) {
+			echo true;
+		} else {
+			echo false;
+		}
 	}
 
 	public function process_enrollment() {

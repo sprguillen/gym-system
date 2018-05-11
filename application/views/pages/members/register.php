@@ -188,7 +188,7 @@
 			                        	<a data-toggle="modal" href="#registration-dialog" class="btn btn-outline-danger btn-block" id="upload-photo">
 			                        		Upload Photo
 			                        	</a>
-			                        	<p class="error hidden-error">Please take a picture to go to the next step.</p>
+			                        	<p class="error" id="webcam-validation-error">Please take a picture to go to the next step.</p>
 			                    	</div>
 			                	</div>
 			            	</div>
@@ -211,6 +211,8 @@
 			                        	<h5 class="card-title text-dark">Biometrics</h5>
 			                        	<p class="card-text">Please place your fingerprint on the machine to scan.</p>
 			                        	<a href="finspot:FingerspotReg;<?php echo $api_reg_url ?>" class="btn btn-outline-danger btn-block" id="scan-btn" >Scan fingerprint</a>
+			                        	<input type="hidden" id="has-fingerprint-data" >
+			                        	<p class="error" id="fingerprint-validation-error">Please take a picture to go to the next step.</p>
 			                    	</div>
 			                	</div>
 			            	</div>
