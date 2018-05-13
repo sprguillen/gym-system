@@ -54,16 +54,6 @@ class Member_model extends CI_Model {
         return $this->db->query($sql)->result();
     }
 
-    public function insert_to_membership($data) {
-        $this->db->trans_start();
-
-        $this->db->insert('membership', $data);
-
-        $this->db->trans_complete();
-    
-        return ($this->db->affected_rows() === 1) ? true: false;
-    }
-
     public function freeze_membership($member_id, $freeze_data) {
         $sql = "SELECT membership.id AS membership_id FROM membership JOIN member ON membership.member_id = member.id
         WHERE member.id = '" . $member_id . "' AND membership.status = 'Active'"; 
@@ -75,7 +65,7 @@ class Member_model extends CI_Model {
         foreach ($memberships as $row) {
 
             $freeze_data['membership_id'] = $row->membership_id;
-            $this->insert_frozen_membership($freeze_data);
+            $this->insert('membership_frozen', $freeze_data);
             
             $membership_data = [
                 'id' => $row->membership_id,
@@ -153,16 +143,6 @@ class Member_model extends CI_Model {
         $query = $this->db->get_where('membership', ['member_id' => $member_id, 'status' => $status]);
 
         return $query->result_array();
-    }
-
-    public function insert_frozen_membership($data) {
-        $this->db->trans_start();
-        
-        $this->db->insert('membership_frozen', $data);
-
-        $this->db->trans_complete();
-
-        return ($this->db->affected_rows() === 1) ? true: false;
     }
 
     public function update_membership_frozen_where_membership_id($data) {

@@ -466,7 +466,11 @@ $(document).ready(function (e) {
                 }
             }).done(function (response) {
                 var parsedResponse = JSON.parse(response);
-                alert(parsedResponse.message);
+                if (parsedResponse.status) {
+                    alert(parsedResponse.message);
+                } else {
+                    alert('Error:' + parsedResponse.message);
+                }
                 $('#enrollment-modal').modal('toggle');
                 location.reload();
             });

@@ -402,21 +402,20 @@ class Members_Controller extends CI_Controller {
 			'status' => 'Active'
 		];
 
-		$result = $this->Member_Model->insert_to_membership($data);
+		$result = $this->Member_Model->insert($data, 'membership');
 		if ($result) {
 			$response = [
-				'code' => 400,
-				'message' => 'Date must be after enrollment date and a week before enrollment expiration.'
+				'status' => true,
+				'message' => 'Member successfully enrolled..'
 			];
 		} else {
-
 			$response = [
-				'code' => 200,
-				'message' => 'Membership successfully frozen.'
+				'status' => false,
+				'message' => 'Member insert error! Contact admin now!'
 			];
 		}
 
-		echo json_encode($return_data);
+		echo json_encode($response);
 	}
 
 	/**
