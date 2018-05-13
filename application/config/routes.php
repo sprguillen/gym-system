@@ -84,6 +84,7 @@ $route['members/list/get_details_via_ajax'] = 'Members_Controller/get_details_vi
 $route['members/list/register'] = 'Members_Controller/register';
 $route['members/register'] = 'Members_Controller/register';
 $route['members/register/register_fingerprint'] = 'Members_Controller/register_fingerprint';
+$route['members/verify_fingerprint'] = 'Members_Controller/verify_fingerprint';
 $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/get_fingerprint_data'] = 'Members_Controller/get_fingerprint_data';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
@@ -95,7 +96,7 @@ $route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
 $route['members/list/process_enrollment'] = 'Members_Controller/process_enrollment';
 $route['members/process_fingerprint'] = 'Members_Controller/process_fingerprint';
 $route['members/get_device_account'] = 'Members_Controller/get_device_account';
-
+$route['members/biometric-login'] = 'Members_Controller/biometric_login';
 
 /**
  * Admin Mode
@@ -108,8 +109,3 @@ $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
  * Coaches
  */
 $route['coaches'] = 'Coaches_Controller/getList';
-
-/**
- * Member Login
- */
-$route['biometric-login'] = 'Home_Controller/biometric_login';

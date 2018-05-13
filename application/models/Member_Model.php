@@ -139,10 +139,22 @@ class Member_Model extends CI_Model {
     }
         
 
-    public function get_memberships_by_id($member_id, $status) {
+    public function get_memberships_by_id_status($member_id, $status) {
         $query = $this->db->get_where('membership', ['member_id' => $member_id, 'status' => $status]);
 
         return $query->result_array();
+    }
+
+    public function get_memberships_by_id($member_id) {
+        $query = $this->db->get_where('membership', ['member_id' => $member_id]);
+
+        return $query->result_array();
+    }
+
+    public function get_program_by_id($program_id) {
+        $query = $this->db->get_where('program', ['id' => $program_id]);
+
+        return $query->row()->type;
     }
 
     public function update_membership_frozen_where_membership_id($data) {

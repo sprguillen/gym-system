@@ -39,13 +39,6 @@ class Home_Controller extends CI_Controller {
     }
 
     /**
-     * Display login page of members - biometrics 
-     */
-    public function biometric_login() {
-        $this->render('pages/members/login_biometric');
-    }
-
-    /**
      * Process page login
      */
     public function login_user_process() {

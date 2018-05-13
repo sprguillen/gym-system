@@ -152,6 +152,7 @@
 				  						}
 					  				?>
 					  			</button>
+					  			<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
 					  		<?php endif; ?>
 			  				<?php if ($user_mode === 'admin'): ?>
 								<?php if (strtolower($type) === 'active'): ?>

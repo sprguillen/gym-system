@@ -218,7 +218,7 @@ class Members_Controller extends CI_Controller {
 		$current_next_id = $result + 1;
 
 		$this->breadcrumbs->set(['Register' => 'members/register']);
-		$data['api_reg_url'] = base64_encode(FINGERPRINT_REG_API_URL . "?action=register&member_id=$current_next_id");
+		$data['api_reg_url'] = base64_encode(FINGERPRINT_API_URL . "?action=register&member_id=$current_next_id");
 
 		if ($this->session->userdata('current_finger_data')) {
 			$this->session->unset_userdata('current_finger_data');
@@ -540,7 +540,7 @@ class Members_Controller extends CI_Controller {
 		$member_id = $this->input->post('member_id');
 		$freeze_data = $this->input->post('freeze_data');
 		
-		$results = $this->Member_Model->get_memberships_by_id($member_id, 'Active');
+		$results = $this->Member_Model->get_memberships_by_id_status($member_id, 'Active');
 		$isValidDate = true;
 
 		foreach ($results as $row) {
@@ -601,4 +601,46 @@ class Members_Controller extends CI_Controller {
 
 		return $matched;
 	}
+
+	/**
+     * Display login page of members - biometrics 
+     */
+    public function biometric_login() {
+    	$member_id = $_GET['member_id'];
+
+    	$data['login_done'] = false;
+    	$data['api_ver_url'] = base64_encode(FINGERPRINT_API_URL . "?action=verification&member_id=$member_id");
+
+        $this->render('login_biometric', $data);
+    }
+
+    public function verify_fingerprint() {
+    	$status = $_GET['status'];
+    	$member_id = (int)$_GET['member_id'];
+    	$time = $_GET['time'];
+
+    	$data['login_done'] = true;
+    	$data['verification_status'] = $status;
+    	$data['login_time'] = date('Y-m-d H:i:s', strtotime($time));
+
+    	$memberships = $this->Member_Model->get_memberships_by_id($member_id);
+    	foreach($memberships as $membership) {
+    		if ($membership['status'] === 'Inactive' || $membership['status'] === 'Frozen') {
+    			$data['program'] = $this->Member_Model->get_program_by_id($membership->program_id);
+    			$data['membership_inactive'] = true;
+    			$data['membership_status'] = $membership['status'];
+    			$data['membership_expiration'] = $membership-['date_expired'];
+    		} else {
+    			$insert_data = array(
+    				'attendance' => $data['login_time'],
+    				'membership_id' => $membership['id']
+    			);
+    			$this->Member_Model->insert($insert_data, 'membership_attendance');
+    		}
+    	}
+
+    	echo "<pre>";
+    	var_dump($data);
+    	echo "</pre>";
+    }
 }
