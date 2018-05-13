@@ -110,12 +110,19 @@ class Member_Model extends CI_Model {
         $frozen_memberships = $this->get_membership_frozen_by_member_id($member_id);
 
         foreach ($frozen_memberships as $row) {
+
             $new_date_expired = $this->get_new_date_expired($row['date_expired'], $row['date_frozen']);
             
             $sql = "UPDATE membership AS m
                     SET m.status = 'Active', m.date_expired = '" . $new_date_expired . "'
                     WHERE id = " . $row['membership_id'];
             
+            $this->db->query($sql);
+
+            $sql = "UPDATE membership_frozen
+                    SET status = 'Done' 
+                    WHERE status = 'Ongoing' AND membership_id = " . $row['membership_id'];
+
             $this->db->query($sql);
         }
 
@@ -127,6 +134,7 @@ class Member_Model extends CI_Model {
     public function get_membership_frozen_by_member_id($member_id) {
         $sql = "SELECT * FROM membership_frozen AS mf
                 JOIN membership AS m
+                ON mf.membership_id = m.id
                 WHERE mf.status = 'Ongoing'
                 AND m.member_id = " . $member_id;
 

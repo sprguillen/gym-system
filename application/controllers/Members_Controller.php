@@ -546,16 +546,15 @@ class Members_Controller extends CI_Controller {
 		foreach ($results as $row) {
 			if ($isValidDate) {
 				$date_expired = strtotime($row['date_expired']);
-				$date_expired_week_before = strtotime('-1 week', time());
 
-				$isValidDate = ($date_expired >= $date_expired_week_before);
+				$isValidDate = ($date_expired >= time());
 			}
 		}
 
 		if (!$isValidDate) {
 			$response = [
 				'code' => 400,
-				'message' => 'Freeze can only be done a week before enrollment expiration.'
+				'message' => 'Invalid date.'
 			];
 		} else {
 
