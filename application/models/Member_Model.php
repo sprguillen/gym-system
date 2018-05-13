@@ -128,6 +128,12 @@ class Member_model extends CI_Model {
                     WHERE id = " . $row['membership_id'];
             
             $this->db->query($sql);
+
+            $sql = "UPDATE membership_frozen
+                    SET status = 'Done' 
+                    WHERE status = 'Ongoing' AND membership_id = " . $row['membership_id'];
+
+            $this->db->query($sql);
         }
 
         $this->db->trans_complete();
