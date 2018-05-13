@@ -273,7 +273,7 @@
 						<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required> -->
 						<label for="username">Reason:</label>
 						<textarea class="form-control" rows="4" id="purpose" name="purpose" placeholder="Specify reason for freezing. Approval may be subjected to discussion by the gym manager." required></textarea>
-						<p class="text-info small">Freeze can only be done (1) week until membership expiration.</p>
+						<!-- <p class="text-info small">Freeze can only be done (1) week until membership expiration.</p> -->
 						<input type="hidden" id="member-id" name="memberId" value="">
 					</div>
 				</div>
