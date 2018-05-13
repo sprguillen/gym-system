@@ -414,18 +414,29 @@ class Members_Controller extends CI_Controller {
 		$this->render('information', $data);
 	}
 
+	/**
+	 * Get list of all programs (called by AJAX)
+	 * @return JSON
+	 */
 	public function get_program_list() {
 		$program_list = $this->Member_Model->get_all_programs();
 
 		echo json_encode($program_list);
 	}
 
+	/**
+	 * Update member (called by AJAX)
+	 */
 	public function update_member_details() {
 		$data = $_POST; 
 
 		$this->Member_Model->update_member($data);
 	}
 
+	/**
+	 * Count all members
+	 * @return string (total member count)
+	 */
 	public function get_member_count() {
 		$result = $this->Member_Model->count_all_members();
 
@@ -433,6 +444,9 @@ class Members_Controller extends CI_Controller {
 		echo $total_member_count;
 	}
 
+	/**
+	 * Store fingerprint data to session
+	 */
 	public function register_fingerprint() {
 		$status = $_GET['status'];
 
@@ -448,6 +462,11 @@ class Members_Controller extends CI_Controller {
 		echo "<script>window.close();</script>";
 	}
 
+	/**
+	 * API Call to verify if fingerdata has been stored before
+	 * registration form submit
+	 * @return bool
+	 */
 	public function get_fingerprint_data() {
 		if ($this->session->userdata('current_finger_data')) {
 			echo true;
@@ -456,6 +475,10 @@ class Members_Controller extends CI_Controller {
 		}
 	}
 
+	/**
+	 * Process membership enrollment (called by AJAX)
+	 * @return JSON
+	 */
 	public function process_enrollment() {
 		$member_id 	= $_POST['member_id'];
 		$program_id = $_POST['program_id'];

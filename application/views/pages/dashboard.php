@@ -13,6 +13,7 @@
           <a href="<?php echo base_url('members/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Register a new member</a>
           <a href="<?php echo base_url('members/list') ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-users fa-xs"></i> View all members</a>
           <a href="<?php echo base_url('members/attendance') ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar fa-xs"></i> View member attendance</a>
+          <a href="<?php echo base_url('biometric-login') ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-fax"></i> Member Login</a>
         </div>
       </div>
     </div>
