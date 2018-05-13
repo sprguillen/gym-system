@@ -45,7 +45,7 @@
 		  		}
 			?>
 		</small>
-		<h3 class="text-danger"> <?php echo ucfirst($type); ?> Members</h3>
+		<h3 class="text-danger"> <?php echo ucfirst(strtolower($type)); ?> Members</h3>
 		<hr/>
   	</div>
   
@@ -63,16 +63,16 @@
 
 		<ul class="nav nav-tabs col-md-12 mb-2">
 		  	<li class="nav-item">
-				<a class="nav-link <?php echo ($type === 'active' || $type === NULL)? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/active'); ?>">Active</a>
+				<a class="nav-link <?php echo (strtolower($type) === 'active' || strtolower($type) === NULL)? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/active'); ?>">Active</a>
 		  	</li>
 		  	<li class="nav-item">
-				<a class="nav-link <?php echo ($type === 'inactive')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/inactive'); ?>">Inactive</a>
+				<a class="nav-link <?php echo (strtolower($type) === 'inactive')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/inactive'); ?>">Inactive</a>
 		  	</li>
 		  	<li class="nav-item">
-				<a class="nav-link <?php echo ($type === 'frozen')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/frozen'); ?>">Frozen</a>
+				<a class="nav-link <?php echo (strtolower($type) === 'frozen')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/frozen'); ?>">Frozen</a>
 		  	</li>
 		  	<li class="nav-item">
-				<a class="nav-link <?php echo ($type === 'guest')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/guest'); ?>">Guest</a>
+				<a class="nav-link <?php echo (strtolower($type) === 'guest')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/guest'); ?>">Guest</a>
 		  	</li>
 		</ul>
 	
@@ -88,7 +88,7 @@
 			</div>
 		</div>
 
-		<?php if ($type !== 'guest'): ?>
+		<?php if (strtolower($type) !== 'guest'): ?>
 		  	<table class="table table-sm table-hover">
 				<thead class="thead">
 			  	<tr>
@@ -140,23 +140,24 @@
 								?>
 							</td>
 							<td>
-							<?php if ($type !== 'frozen'): ?>
+							<?php if (strtolower($type) !== 'frozen'): ?>
 					  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
-					  				<?php if ($type === 'active') {
+					  				<?php
+						  				if (strtolower($type) === 'active') {
 					  						echo 'Add a program';
-					  					} else if ($type === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
+					  					} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
 					  						echo 'Enroll a program';
-					  					} else if ($type === 'inactive' && array_key_exists('displayRenewButton', $value)) {
+					  					} else if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 					  						echo 'Renew';
-					  					}
+				  						}
 					  				?>
 					  			</button>
 					  		<?php endif; ?>
 			  				<?php if ($user_mode === 'admin'): ?>
-								<?php if ($type === 'active'): ?>
-									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary">Freeze</button>
+								<?php if (strtolower($type) === 'active'): ?>
+									<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
 								<?php endif; ?>
-								<?php if ($type === 'frozen'): ?>
+								<?php if (strtolower($type) === 'frozen'): ?>
 									<button type="button" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#deactivateFreeze" class="btn btn-sm btn-outline-primary">Unfreeze</button>
 								<?php endif; ?>
 			  				<?php endif; ?>
@@ -167,7 +168,7 @@
 		 	 </table>
 		<?php endif; ?>
 
-		<?php if ($type === 'guest'): ?>
+		<?php if (strtolower($type) === 'guest'): ?>
 		  	<table class="table table-sm table-hover">
 				<thead class="thead">
 			  		<tr>
@@ -186,8 +187,6 @@
 							<td><?php echo $value['duration']; ?></td>
 							<td><?php echo $value['classes']; ?></td>
 							<td>
-					 		<!-- <button type="button" class="btn btn-primary">Freeze</button> -->
-					 		<!--  <button type="button" data-id="<?php echo $value['id']; ?>" class="btn btn-info edit">Edit</button> -->
 					  			<button type="button" class="btn btn-outline-danger btn-sm register-bttn" data-id="<?php echo $value['id'] ?>">Register as member</button>
 							</td>
 			  			</tr>
@@ -245,19 +244,24 @@
 		  <span aria-hidden="true">&times;</span>
 		</button>
 	  </div>
-	  <div class="modal-body">
-		<p>Are you sure you want to freeze membership of Simon Guillen? This action <strong>cannot</strong> be undone.</p>
-
-		<div class="form-group">
-		  <label for="username">Freeze until:</label>
-		  <input type="date" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
-		</div>
-		<p class="text-warning">You can only freeze membership until October 17, 2018.</p>
-	  </div>
-	  <div class="modal-footer">
-		<button type="button" class="btn btn-danger submitAdmin">Submit</button>
-		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-	  </div>
+		<form class="freeze-form">		
+		  <div class="modal-body">
+			<p>Are you sure you want to freeze membership of <span id="member-name" class="text-danger"></span>? This action <strong>cannot</strong> be undone.</p>
+			<div class="alert alert-warning freeze-alert"></div>
+			<div class="form-group">
+				<label for="username">Freeze until:</label>
+				<input type="date" name="freezeDate" class="form-control mb-3 freezeDate" id="freeze-date" value="<?php echo date('Y-m-d', time()); ?>" aria-describedby="emailHelp" placeholder="Enter username" required>
+				<label for="username">Reason:</label>
+				<textarea class="form-control" rows="4" id="purpose" name="purpose" placeholder="Specify reason for freezing. Approval may be subjected to discussion by the gym manager." required></textarea>
+				<p class="text-info small">Freeze can only be done (1) week until membership expiration.</p>
+				<input type="hidden" id="member-id" name="memberId" value="">
+			</div>
+		  </div>
+		  <div class="modal-footer">
+			<input type="submit" class="btn btn-danger" value="Submit">
+			<button type="button" class="btn btn-outline-secondary freeze-close-modal" data-dismiss="modal">Close</button>
+		  </div>
+		</form>
 	</div>
   </div>
 </div>
@@ -282,7 +286,7 @@
 		</div>
 	  </div>
 	  <div class="modal-footer">
-		<button type="button" class="btn btn-danger submitAdmin">Submit</button>
+		<button type="button" class="btn btn-danger submit-admin">Submit</button>
 		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
 	  </div>
 	</div>
@@ -291,13 +295,56 @@
 
 <script type="text/javascript" charset="utf-8" async defer>
   $(document).ready(function() {
+  	$(".freeze-alert").hide();
+
+  	$(".freeze-close-modal").on('click', function (e) {
+  		e.preventDefault();
+  		$("#purpose").val("");
+  	})
+
+  	$(".freeze-form").on('submit', function (e) {
+  		e.preventDefault();
+  		let form = $(e.target).serializeArray();
+
+  		let data = {
+  			date_frozen: form[0].value,
+  			purpose: form[1].value
+  		}
+
+  		$.ajax({
+			url: '/gym-system/Members_Controller/ajax_freeze_member',
+			type: 'POST',
+			data: { member_id: form[2].value, freeze_data: data },
+			success: function (data) {
+				data = JSON.parse(data);
+				
+				if (data['code'] === 400) {
+					$(".freeze-alert").html(data['message']);
+					$(".freeze-alert").show();
+				} else if (data['code'] === 200) {
+					window.location.reload();
+				}
+
+			}
+		});
+  	})
+
+  	$(".freeze-data").click(function (e) {
+	  e.preventDefault();
+	  let id = $(this).attr('data-id');
+	  let name = $(this).attr('data-name');
+
+	  $("#member-name").html(name);
+	  $("#member-id").val(id);
+  	})
+
 	$(".edit").click(function(e) {
 	  e.preventDefault();
 	  let id = $(this).attr('data-id');
 	  window.location.href = '/gym-system/members/edit/' + id;
 	});
 
-	$(".submitAdmin").click(function(e) {
+	$(".submit-admin").click(function(e) {
 	  e.preventDefault();
 	  window.location.href = '/gym-system/admin/unlock/members';
 	});

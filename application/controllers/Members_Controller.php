@@ -44,6 +44,7 @@ class Members_Controller extends CI_Controller {
 		$return_data = [];
 		if ($status === 'active' || $status === 'frozen') {
 			$members_with_membership = $this->Member_Model->get_all_membership_by_status($status);
+			// $this->log($this->Member_Model->freeze_membership(2, []));
 
 			foreach ($members_with_membership as $member) {
 				if (strpos($member->programs_status, ',') !== false) {
@@ -321,7 +322,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '6:47 AM',
 				'name' => 'Resa Embutin',
 				'type' => 'Guest',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -330,7 +331,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '8:27 AM',
 				'name' => 'Arnel Pablo',
 				'type' => 'Guest',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => 'New guest'
 			],
 			[
@@ -339,7 +340,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '9:03 AM',
 				'name' => 'Charles Malata',
 				'type' => 'Guest',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -348,7 +349,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '11:44 AM',
 				'name' => 'Jay Cruz',
 				'type' => 'Guest',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -357,7 +358,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '12:01 PM',
 				'name' => 'Bong George',
 				'type' => 'Member',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -366,7 +367,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '3:28 PM',
 				'name' => 'Sigrid Angkang',
 				'type' => 'Member',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -375,7 +376,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '4:59 PM',
 				'name' => 'Leon Prudencio',
 				'type' => 'Member',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 			[
@@ -384,7 +385,7 @@ class Members_Controller extends CI_Controller {
 				'logged_in' => '6:10 PM',
 				'name' => 'Richard Tamala',
 				'type' => 'Member',
-				'staff' => 'John Torralba',
+				'staff' => 'Nikki Dingding',
 				'notes' => ''
 			],
 
@@ -398,7 +399,6 @@ class Members_Controller extends CI_Controller {
 
 	/**
 	 * Get member details by id
-	 * @return [type] [description]
 	 */
 	public function get_details() {
 		$member_id = $this->uri->segment(3);
@@ -483,6 +483,42 @@ class Members_Controller extends CI_Controller {
 		}
 
 		echo json_encode($return_data);
+	}
+
+
+	public function ajax_freeze_member() {
+		$member_id = $this->input->post('member_id');
+		$freeze_data = $this->input->post('freeze_data');
+		
+		$results = $this->Member_Model->get_memberships_by_id($member_id);
+		$isValidDate = true;
+
+		foreach ($results as $row) {
+			if ($isValidDate) {
+				$date_frozen = strtotime($freeze_data['date_frozen']);
+				$date_started = strtotime($row['date_started']);
+				$date_expired_week_before = strtotime('-1 week', strtotime($row['date_expired']));
+
+				$isValidDate = ($date_frozen >= time() && $date_frozen >= $date_started && $date_frozen <= $date_expired_week_before);
+			}
+		}
+
+		if (!$isValidDate) {
+			$response = [
+				'code' => 400,
+				'message' => 'Date must be after enrollment date and a week before enrollment expiration.'
+			];
+		} else {
+
+			$this->Member_Model->freeze_membership($member_id, $freeze_data);
+
+			$response = [
+				'code' => 200,
+				'message' => 'Membership successfully frozen.'
+			];
+		}
+
+		echo json_encode($response);
 	}
 
 	/**
