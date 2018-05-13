@@ -44,9 +44,11 @@ class Members_Controller extends CI_Controller {
 		$return_data = [];
 		if ($status === 'active' || $status === 'frozen') {
 			$members_with_membership = $this->Member_Model->get_all_membership_by_status($status);
-			// $this->log($this->Member_Model->freeze_membership(2, []));
 
 			foreach ($members_with_membership as $member) {
+
+				$paid_arry = [];
+
 				if (strpos($member->programs_status, ',') !== false) {
 					$status_arry = explode(",", $member->programs_status);
 					foreach ($status_arry as $sa) {
@@ -190,7 +192,7 @@ class Members_Controller extends CI_Controller {
 		if ($this->type === 'guest') {
 			$data['guests'] = $this->get_guests();
 		}
-		
+
 		$this->render('list', $data);
 	}
 
@@ -469,47 +471,72 @@ class Members_Controller extends CI_Controller {
 			'status' => 'Active'
 		];
 
-		$result = $this->Member_Model->insert_to_membership($data);
-		if ($result == 1) {
+		$result = $this->Member_Model->insert($data, 'membership');
+		if ($result) {
+			$response = [
+				'status' => true,
+				'message' => 'Member successfully enrolled..'
+			];
+		} else {
+			$response = [
+				'status' => false,
+				'message' => 'Member insert error! Contact admin now!'
+			];
+		}
+
+		echo json_encode($response);
+	}
+
+	/**
+	 * Ajax call to unfreeze the member and update the status of membership
+	 */
+	public function ajax_unfreeze_member() {
+		$member_id = $this->input->post('member_id');
+
+		$result = $this->Member_Model->unfreeze_membership($member_id);
+
+		if ($result) {
 			$return_data = [
-				'status' => 'Success',
-				'message' => 'Successfully enrolled user to a new program'
+				'code' => 200,
+				'message' => 'Successfully unfrozen member'
 			];
 		} else {
 			$return_data = [
-				'status' => 'Failure',
-				'message' => 'Failure to enroll user to a new program'
+				'code' => 400,
+				'message' => 'Failure to unfreeze member'
 			];
 		}
 
 		echo json_encode($return_data);
 	}
 
-
+	/**
+	 * Ajax call to freeze the member and insert data to membership_frozen table
+	 */
 	public function ajax_freeze_member() {
 		$member_id = $this->input->post('member_id');
 		$freeze_data = $this->input->post('freeze_data');
 		
-		$results = $this->Member_Model->get_memberships_by_id($member_id);
+		$results = $this->Member_Model->get_memberships_by_id($member_id, 'Active');
 		$isValidDate = true;
 
 		foreach ($results as $row) {
 			if ($isValidDate) {
-				$date_frozen = strtotime($freeze_data['date_frozen']);
-				$date_started = strtotime($row['date_started']);
-				$date_expired_week_before = strtotime('-1 week', strtotime($row['date_expired']));
+				$date_expired = strtotime($row['date_expired']);
+				$date_expired_week_before = strtotime('-1 week', time());
 
-				$isValidDate = ($date_frozen >= time() && $date_frozen >= $date_started && $date_frozen <= $date_expired_week_before);
+				$isValidDate = ($date_expired >= $date_expired_week_before);
 			}
 		}
 
 		if (!$isValidDate) {
 			$response = [
 				'code' => 400,
-				'message' => 'Date must be after enrollment date and a week before enrollment expiration.'
+				'message' => 'Freeze can only be done a week before enrollment expiration.'
 			];
 		} else {
 
+			$freeze_data['date_frozen'] = date("Y-m-d");
 			$this->Member_Model->freeze_membership($member_id, $freeze_data);
 
 			$response = [
