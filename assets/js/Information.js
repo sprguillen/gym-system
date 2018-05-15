@@ -50,6 +50,8 @@ $(document).ready(function (e) {
     });
 
     $('#profile').addClass('text-info active');
+    $('.attendance-section').hide();    
+    $('.logs-section').hide();
 
     displayInputName();
     displayInputAddress();
@@ -59,6 +61,109 @@ $(document).ready(function (e) {
     displayInputHeight();
     displayInputContact();
     displayInputEmail();
+
+    $('#attendance').on('click', function (e) {
+        e.preventDefault();
+
+        $('#profile').removeClass('text-info active');
+        $('#logs').removeClass('text-info active');
+        
+        $('#profile').addClass('text-secondary');
+        $('#logs').addClass('text-secondary');
+       
+        $('#attendance').addClass('text-info active');
+        
+        $('.profile-section').hide();
+        $('.attendance-section').show();
+        $('.logs-section').hide();
+        
+        let memberId = returnMemberIDFromUrl();
+        $.ajax({
+            method: 'POST',
+            url: '/gym-system/Members_Controller/ajax_get_member_attendance',
+            data: {
+                member_id: memberId
+            },
+            success: function (data) {
+                let results = JSON.parse(data);
+
+                if (results.length > 0) {
+                    let sectionData = '';
+                    let count = 0;
+
+                    results.forEach(function (item) {
+                        sectionData += '<tr>';
+                        sectionData += `<td>${++count}</td>`;
+                        sectionData += `<td>${item.attendance}</td>`;
+                        sectionData += `<td>${item.type}</td>`;
+                        sectionData += '</tr>';
+                    });
+
+                    $('.attendance-table').html(sectionData);
+                }
+            }
+        })
+    });
+
+    $('#logs').on('click', function (e) {
+        e.preventDefault();
+
+        $('#attendance').removeClass('text-info active');
+        $('#profile').removeClass('text-info active');
+        
+        $('#attendance').addClass('text-secondary');
+        $('#profile').addClass('text-secondary');
+        
+        $('#logs').addClass('text-info active');
+        $('.attendance-section').hide();
+        $('.profile-section').hide();
+        $('.logs-section').show();
+
+        let memberId = returnMemberIDFromUrl();
+        $.ajax({
+            method: 'POST',
+            url: '/gym-system/Members_Controller/ajax_get_membership_logs',
+            data: {
+                member_id: memberId
+            },
+            success: function (data) {
+                let results = JSON.parse(data);
+
+                if (results.length > 0) {
+                    let sectionData = '';
+                    let count = 0;
+
+                    results.forEach(function (item) {
+                        sectionData += '<tr>';
+                        sectionData += `<td>${++count}</td>`;
+                        sectionData += `<td>${item.type}</td>`;
+                        sectionData += `<td>${item.date_started}</td>`;
+                        sectionData += `<td>${item.date_expired}</td>`;
+                        sectionData += `<td>${item.status}</td>`;
+                        sectionData += '</tr>';
+                    });
+
+                    $('.logs-table').html(sectionData);
+                }
+            }
+        })
+    })
+
+    $('#profile').on('click', function (e) {
+        e.preventDefault();
+
+        $('#attendance').removeClass('text-info active');
+        $('#logs').removeClass('text-info active');
+        
+        $('#attendance').addClass('text-secondary');
+        $('#logs').addClass('text-info active');
+
+        $('#profile').addClass('text-info active');
+        $('.profile-section').show();
+        $('.attendance-section').hide();
+        $('.logs-section').hide();
+        $('.attendance-section').hide();
+    });
 
     $('#input_name').on('click', function (e) {
         e.preventDefault(); 

@@ -37,7 +37,7 @@
                     <a id="profile" class="nav-link" href="#">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a id="attendance" class="nav-link text-secondary" href="#">Biometrics</a>
+                    <a id="biometrics" class="nav-link text-secondary" href="#">Biometrics</a>
                 </li>
                 <li class="nav-item">
                     <a id="attendance" class="nav-link text-secondary" href="#">Attendance</a>
@@ -49,8 +49,41 @@
         </div>
     </div>
 
+    <div class="row logs-section">
+        <div class="col-md-12">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Program</th>
+                        <th scope="col">Date Enrolled</th>
+                        <th scope="col">Date Expired</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="logs-table">
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <div class="row">
+    <div class="row attendance-section">
+        <div class="col-md-12">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Program Attended</th>
+                    </tr>
+                </thead>
+                <tbody class="attendance-table">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row profile-section">
         <div class="col-md-2">
             <div class="card card-body">
                 <img class="img-fluid" src="<?php echo base_url('assets/images/user.png'); ?>" alt=""/>

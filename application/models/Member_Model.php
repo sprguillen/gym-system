@@ -153,9 +153,11 @@ class Member_Model extends CI_Model {
     }
 
     public function get_memberships_by_id($member_id) {
-        $query = $this->db->get_where('membership', ['member_id' => $member_id]);
+        $sql = "SELECT * FROM membership 
+                JOIN program ON program.id = membership.program_id
+                WHERE membership.member_id = " . $member_id;
 
-        return $query->result_array();
+        return $this->db->query($sql)->result();
     }
 
     public function get_program_type_by_id($program_id) {
@@ -205,6 +207,16 @@ class Member_Model extends CI_Model {
         $this->db->update('member');
 
         $this->db->trans_complete();
+    }
+
+    public function get_attendance_by_member_id($member_id) {
+        $sql = "SELECT * FROM membership_attendance AS ma
+                JOIN membership AS ms ON ms.id = ma.membership_id
+                JOIN program ON program.id = ms.program_id
+                WHERE ms.member_id = " . $member_id . "
+                ORDER BY attendance DESC";
+
+        return $this->db->query($sql)->result();
     }
 
     public function count_all_members() {

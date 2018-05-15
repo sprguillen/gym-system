@@ -307,6 +307,26 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
+	 * Get attendance of individual member
+	 */
+	public function ajax_get_member_attendance() {
+		$member_id = $this->input->post('member_id');
+		$attendance = $this->Member_Model->get_attendance_by_member_id($member_id);
+
+		echo json_encode($attendance);
+	}
+
+	/**
+	 * Get list of memberships enrolled by user 
+	 */
+	public function ajax_get_membership_logs() {
+		$member_id = $this->input->post('member_id');
+		$logs = $this->Member_Model->get_memberships_by_id($member_id);
+
+		echo json_encode($logs);
+	}
+
+	/**
 	 * Get member attendance of a specific date 
 	 */
 	public function get_attendance() {
