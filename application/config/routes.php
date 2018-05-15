@@ -97,6 +97,7 @@ $route['members/list/process_enrollment'] = 'Members_Controller/process_enrollme
 $route['members/process_fingerprint'] = 'Members_Controller/process_fingerprint';
 $route['members/get_device_account'] = 'Members_Controller/get_device_account';
 $route['members/biometric-login'] = 'Members_Controller/biometric_login';
+$route['members/get_verification_data'] = 'Members_Controller/get_verification_data';
 
 /**
  * Admin Mode

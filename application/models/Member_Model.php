@@ -59,13 +59,12 @@ class Member_Model extends CI_Model {
         WHERE member.id = '" . $member_id . "' AND membership.status = 'Active'"; 
 
         $memberships = $this->db->query($sql)->result();
-        
         $this->db->trans_start();
 
         foreach ($memberships as $row) {
 
             $freeze_data['membership_id'] = $row->membership_id;
-            $this->insert('membership_frozen', $freeze_data);
+            $this->insert($freeze_data, 'membership_frozen');
             
             $membership_data = [
                 'id' => $row->membership_id,
@@ -159,7 +158,7 @@ class Member_Model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_program_by_id($program_id) {
+    public function get_program_type_by_id($program_id) {
         $query = $this->db->get_where('program', ['id' => $program_id]);
 
         return $query->row()->type;

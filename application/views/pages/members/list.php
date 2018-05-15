@@ -152,7 +152,9 @@
 				  						}
 					  				?>
 					  			</button>
-					  			<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
+					  			<?php if (strtolower($type) === 'active'): ?>
+									<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
+								<?php endif; ?>
 					  		<?php endif; ?>
 			  				<?php if ($user_mode === 'admin'): ?>
 								<?php if (strtolower($type) === 'active'): ?>
@@ -313,86 +315,4 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript" charset="utf-8" async defer>
-  $(document).ready(function() {
-
-  	$(".freeze-alert").hide();
-
-  	$(".confirm-unfreeze").on('click', function (e) {
-  		e.preventDefault();
-  		let id = $(this).attr('data-id');
-
-  		$.ajax({
-			url: '/gym-system/Members_Controller/ajax_unfreeze_member',
-			type: 'POST',
-			data: { member_id: id },
-			success: function (data) {
-				console.log(data)
-				data = JSON.parse(data);
-				if (data['code'] === 400) {
-					$(".freeze-alert").html(data['message']);
-					$(".freeze-alert").show();
-				} else if (data['code'] === 200) {
-					window.location.reload();
-				}
-
-			},
-			error: function (err) {
-				console.log(err)
-			}
-		});
-  	});
-
-  	$(".freeze-close-modal").on('click', function (e) {
-  		e.preventDefault();
-  		$("#purpose").val("");
-  	})
-
-  	$(".freeze-form").on('submit', function (e) {
-  		e.preventDefault();
-  		let form = $(e.target).serializeArray();
-
-  		let data = {
-  			purpose: form[0].value
-  		}
-
-  		$.ajax({
-			url: '/gym-system/Members_Controller/ajax_freeze_member',
-			type: 'POST',
-			data: { member_id: form[1].value, freeze_data: data },
-			success: function (data) {
-				data = JSON.parse(data);
-				
-				if (data['code'] === 400) {
-					$(".freeze-alert").html(data['message']);
-					$(".freeze-alert").show();
-				} else if (data['code'] === 200) {
-					window.location.reload();
-				}
-
-			}
-		});
-  	})
-
-  	$(".freeze-data").click(function (e) {
-	  e.preventDefault();
-	  let id = $(this).attr('data-id');
-	  let name = $(this).attr('data-name');
-
-	  $(".member-name").html(name);
-	  $("#member-id").val(id);
-  	})
-
-	$(".edit").click(function(e) {
-	  e.preventDefault();
-	  let id = $(this).attr('data-id');
-	  window.location.href = '/gym-system/members/edit/' + id;
-	});
-
-	$(".submit-admin").click(function(e) {
-	  e.preventDefault();
-	  window.location.href = '/gym-system/admin/unlock/members';
-	});
-  });
-</script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/List.js"); ?>"></script>
