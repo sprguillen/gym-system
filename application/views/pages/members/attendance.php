@@ -72,25 +72,18 @@
             <thead class="thead">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Date</th>
                     <th scope="col">Full Name</th>
-                    <th scope="col">Staff</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Program</th>
                     <th scope="col">Logged In</th>
-                    <th scope="col">Notes</th>
-                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($members as $row): ?>
                 <tr>
-                    <th><?php echo $row['id']; ?></th>
-                    <td><?php echo $row['date']; ?></td>
-                    <td><?php echo $row['name']; ?></td>
-                    <td><?php echo $row['staff']; ?></td>
-                    <td><?php echo $row['type']; ?></td>
-                    <td><?php echo $row['logged_in']; ?></td>
-                    <td><?php echo $row['notes'] ?></td>
+                    <th><?php echo $row->id; ?></th>
+                    <td><?php echo $row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name; ?></td>
+                    <td><?php echo $row->program_type; ?></td>
+                    <td><?php echo $row->logged_in; ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

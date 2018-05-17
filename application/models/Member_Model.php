@@ -153,9 +153,16 @@ class Member_Model extends CI_Model {
     }
 
     public function get_memberships_by_id($member_id) {
-        $sql = "SELECT * FROM membership 
-                JOIN program ON program.id = membership.program_id
-                WHERE membership.member_id = " . $member_id;
+        $sql = "SELECT 
+                ms.id as id,
+                ms.date_started as date_started,
+                ms.date_expired as date_expired,
+                ms.status as status,
+                ms.member_id as member_id,
+                p.type as type
+            FROM membership ms
+            JOIN program p ON p.id = ms.program_id
+            WHERE ms.member_id = " . $member_id;
 
         return $this->db->query($sql)->result();
     }
@@ -227,5 +234,28 @@ class Member_Model extends CI_Model {
         $sql = "SELECT MAX(id) as mid FROM member";
 
         return $this->db->query($sql)->result()[0]->mid;
+    }
+
+    public function get_daily_attendance() {
+        $current_date = date("Y-m-d");
+        
+        $start_of_the_day = $current_date . " 00:00:00";
+        $end_of_the_day = $current_date . " 23:59:59";
+
+        $sql = "SELECT 
+                ma.id AS attendance_id, 
+                ma.attendance as logged_in, 
+                p.type as program_type, 
+                m.id AS id, 
+                m.fname AS first_name, 
+                m.mname AS middle_name, 
+                m.lname AS last_name 
+            FROM membership_attendance ma 
+            JOIN membership ms ON ma.membership_id = ms.id
+            JOIN program p ON ms.program_id = p.id
+            JOIN member m ON ms.member_id = m.id
+            WHERE attendance >= ? AND attendance <= ?";
+
+        return $this->db->query($sql, array($start_of_the_day, $end_of_the_day))->result();
     }
 }

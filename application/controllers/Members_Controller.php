@@ -336,83 +336,10 @@ class Members_Controller extends CI_Controller {
 		$data['view_type'] = $view_type;
 		$data['type'] = ($this->type === NULL)? 'active': $this->type;
 
-		$data['members'] = [
-			[
-
-				'id' => '1',
-				'date' => 'April 23, 2018',
-				'logged_in' => '6:47 AM',
-				'name' => 'Resa Embutin',
-				'type' => 'Guest',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '2',
-				'date' => 'April 23, 2018',
-				'logged_in' => '8:27 AM',
-				'name' => 'Arnel Pablo',
-				'type' => 'Guest',
-				'staff' => 'Nikki Dingding',
-				'notes' => 'New guest'
-			],
-			[
-				'id' => '3',
-				'date' => 'April 24, 2018',
-				'logged_in' => '9:03 AM',
-				'name' => 'Charles Malata',
-				'type' => 'Guest',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '4',
-				'date' => 'April 25, 2018',
-				'logged_in' => '11:44 AM',
-				'name' => 'Jay Cruz',
-				'type' => 'Guest',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '5',
-				'date' => 'April 25, 2018',
-				'logged_in' => '12:01 PM',
-				'name' => 'Bong George',
-				'type' => 'Member',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '6',
-				'date' => 'April 26, 2018',
-				'logged_in' => '3:28 PM',
-				'name' => 'Sigrid Angkang',
-				'type' => 'Member',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '7',
-				'date' => 'April 26, 2018',
-				'logged_in' => '4:59 PM',
-				'name' => 'Leon Prudencio',
-				'type' => 'Member',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-			[
-				'id' => '8',
-				'date' => 'April 27, 2018',
-				'logged_in' => '6:10 PM',
-				'name' => 'Richard Tamala',
-				'type' => 'Member',
-				'staff' => 'Nikki Dingding',
-				'notes' => ''
-			],
-
-		];
-
+		if ($view_type === 'daily') {
+			$result = $this->Member_Model->get_daily_attendance();
+			$data['members'] = $result;
+		}
 
 		$this->breadcrumbs->set(['Members Attendance' => 'members/attendance']);
 
@@ -626,7 +553,6 @@ class Members_Controller extends CI_Controller {
      */
     public function biometric_login() {
     	$member_id = $_GET['member_id'];
-
     	$data['login_done'] = false;
     	$data['api_ver_url'] = base64_encode(FINGERPRINT_API_URL . "?action=verification&member_id=$member_id");
 
@@ -650,42 +576,43 @@ class Members_Controller extends CI_Controller {
     	$data['memberships'] = array();
 
     	foreach($memberships as $membership) {
-    		if ($membership['status'] === 'Inactive' || $membership['status'] === 'Frozen') {
+    		if ($membership->status === 'Inactive' || $membership->status === 'Frozen') {
     			$pushArray = array(
-    				'program' => $this->Member_Model->get_program_type_by_id($membership['program_id']),
+    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
     				'inactive' => true,
-    				'status' => $membership['status'],
-    				'expiration' => $membership['date_expired']
+    				'status' => $membership->status,
+    				'expiration' => $membership->date_expired
     			);
 
-    			if ($membership['status'] === 'Frozen') {
+    			if ($membership->status === 'Frozen') {
     				$pushArray['frozen'] = true;
     			}
 
     			array_push($data['memberships'], $pushArray);
     		} else {
-    			if ($membership['date_expired'] < date('Y-m-d', strtotime($time))) {
+    			if ($membership->date_expired < date('Y-m-d', strtotime($time))) {
     				$update_data = array(
-    					'id' => $membership['id'],
+    					'id' => $membership->id,
     					'status' => 'Inactive'
     				);
     				$this->Member_Model->update_membership($update_data);
     				array_push($data['memberships'], array(
-	    				'program' => $this->Member_Model->get_program_type_by_id($membership['program_id']),
+	    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
 	    				'inactive' => true,
 	    				'status' => 'Inactive',
-	    				'expiration' => $membership['date_expired']
+	    				'expiration' => $membership->date_expired
 	    			));
     			} else {
 	    			$insert_data = array(
 	    				'attendance' => $data['login_time'],
-	    				'membership_id' => $membership['id']
+	    				'membership_id' => $membership->id
 	    			);
+
 	    			$this->Member_Model->insert($insert_data, 'membership_attendance');
 	    			array_push($data['memberships'], array(
-	    				'program' => $this->Member_Model->get_program_type_by_id($membership['program_id']),
+	    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
 	    				'inactive' => false,
-	    				'status' => $membership['status']
+	    				'status' => $membership->status
 	    			));
     			}
     			
