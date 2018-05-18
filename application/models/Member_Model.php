@@ -48,6 +48,29 @@ class Member_Model extends CI_Model {
     	return $this->db->query($sql, $id)->result();
     }
 
+    public function get_member_data_with_emergency_contact_by_id($id) {
+        $sql = "SELECT 
+                m.id as id,
+                m.fname as fname,
+                m.mname as mname,
+                m.lname as lname,
+                m.address as address,
+                m.date_of_birth as date_of_birth,
+                m.gender as gender,
+                m.weight as weight,
+                m.height as height,
+                m.email as email,
+                m.contact as contact,
+                m.img as img,
+                m.date_created as date_created,
+                ec.full_name as ec_fullname,
+                ec.contact as ec_contact,
+                ec.relationship as ec_relationship
+            FROM member m JOIN emergency_contact ec ON m.id = ec.member_id WHERE m.id = ?";
+
+        return $this->db->query($sql, $id)->result();
+    }
+
     public function get_all_programs() {
         $sql = "SELECT * FROM program";
 

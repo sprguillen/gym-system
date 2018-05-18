@@ -374,5 +374,49 @@ $(document).ready(function (e) {
         }).done(function () {
             location.reload();
         });
-    }); 
+    });
+
+    var imgData;
+    $('#submit-img-edit').hide();
+    if ($('#registration-cam-edit').length) {
+        var registrationCamClone = $('#registration-cam').clone();
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+
+        Webcam.attach("#registration-cam-edit");
+
+        $('#take-snapshot-edit').on('click', function () {
+            Webcam.snap(function (data_uri) {
+                $('#registration-cam-edit').replaceWith('<img id="snapshot-img-edit" src="' + data_uri + '">');
+                $('#recapture-edit').show();
+                $('#submit-img-edit').show();
+                imgData = data_uri;
+            });
+        });
+
+        $('#recapture-edit').on('click', function () {
+            $('#snapshot-img-edit').replaceWith(registrationCamClone);
+            Webcam.attach("#registration-cam-edit");
+        });
+
+        $('#submit-img-edit').on('click', function () {
+            if (imgData) {
+                var memberId = returnMemberIDFromUrl();
+                $.ajax({
+                    method: 'POST',
+                    url: 'update_member_details',
+                    data: {
+                        id: memberId,
+                        img: imgData
+                    }
+                }).done(function () {
+                    location.reload();
+                });
+            }
+        });
+    }
 });

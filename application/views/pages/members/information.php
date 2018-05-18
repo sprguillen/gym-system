@@ -1,5 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
+<div class="modal fade" id="edit-img-dialog" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Take a picture</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <div id="registration-cam-edit"></div>
+                    <div class="modal-button-container">
+                        <button class="btn btn-primary" id="take-snapshot-edit">Capture</button>
+                        <button class="btn btn-primary" id="recapture-edit">Re-capture</button>
+                        <button class="btn btn-success" id="submit-img-edit">Done</button>
+                    </div>
+                    <input type="hidden" name="img"  >
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="position-relative overflow-hidden px-5">
     <div class="row">
         <div class="col-md-12"> 
@@ -86,10 +109,12 @@
     <div class="row profile-section">
         <div class="col-md-2">
             <div class="card card-body">
-                <img class="img-fluid" src="<?php echo base_url('assets/images/user.png'); ?>" alt=""/>
+                <img class="img-fluid" src="<?php echo $member->img ?>" alt=""/>
             </div>
             <?php if ($user_mode === 'admin'): ?>
-            <input class="form-control mt-4" type="file" name="">
+            <a data-toggle="modal" href="#edit-img-dialog" class="btn btn-outline-danger btn-block" id="upload-photo-edit">
+                Upload Photo
+            </a>
             <?php endif; ?>
         </div>
 
@@ -251,10 +276,9 @@
                                 </div>
                             </div> -->
 
-                            <strong>Carmelita Cantoneros</strong> <br/>
-                            Mother <br/>
-                            Banana Beach, Apokon, Tagum City 8100 <br/>
-                            0915 123 8712
+                            <strong><?php echo $member->ec_fullname ?></strong> <br/>
+                            <?php echo $member->ec_relationship ?> <br/>
+                            <?php echo $member->ec_contact ?>
                         </td>
                     </tr>
                 </tbody>

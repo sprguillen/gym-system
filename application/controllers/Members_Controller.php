@@ -170,7 +170,7 @@ class Members_Controller extends CI_Controller {
 	 * @return {array}
 	 */
 	public function get_member_details($member_id) {
-		$result = $this->Member_Model->get_member_data_by_id($member_id);
+		$result = $this->Member_Model->get_member_data_with_emergency_contact_by_id($member_id);
 		
 		return $result;
 	}
