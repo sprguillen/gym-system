@@ -283,7 +283,8 @@ class Member_Model extends CI_Model {
             JOIN membership ms ON ma.membership_id = ms.id
             JOIN program p ON ms.program_id = p.id
             JOIN member m ON ms.member_id = m.id
-            WHERE attendance >= ? AND attendance <= ?";
+            WHERE attendance >= ? AND attendance <= ?
+            ORDER BY attendance ASC";
 
         return $this->db->query($sql, array($start_of_the_day, $end_of_the_day))->result();
     }
@@ -304,7 +305,8 @@ class Member_Model extends CI_Model {
             JOIN membership ms ON ma.membership_id = ms.id
             JOIN program p ON ms.program_id = p.id
             JOIN member m ON ms.member_id = m.id
-            WHERE attendance >= ? AND attendance <= ?";
+            WHERE attendance >= ? AND attendance <= ?
+            ORDER BY attendance ASC";
 
         return $this->db->query($sql, array($current_date, $last_date))->result();
     }
@@ -326,7 +328,8 @@ class Member_Model extends CI_Model {
             JOIN membership ms ON ma.membership_id = ms.id
             JOIN program p ON ms.program_id = p.id
             JOIN member m ON ms.member_id = m.id
-            WHERE attendance >= ? AND attendance <= ?";
+            WHERE attendance >= ? AND attendance <= ?
+            ORDER BY attendance ASC";
 
         return $this->db->query($sql, array($week_start, $week_end))->result();    
     }
