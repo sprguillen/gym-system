@@ -71,7 +71,7 @@
         <table class="table table-sm table-hover">
             <thead class="thead">
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Member ID</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Program</th>
                     <th scope="col">Logged In</th>

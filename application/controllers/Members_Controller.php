@@ -336,10 +336,8 @@ class Members_Controller extends CI_Controller {
 		$data['view_type'] = $view_type;
 		$data['type'] = ($this->type === NULL)? 'active': $this->type;
 
-		if ($view_type === 'daily') {
-			$result = $this->Member_Model->get_daily_attendance();
-			$data['members'] = $result;
-		}
+		$result = $this->Member_Model->get_attendance($view_type);
+		$data['members'] = $result;
 
 		$this->breadcrumbs->set(['Members Attendance' => 'members/attendance']);
 
@@ -357,7 +355,11 @@ class Members_Controller extends CI_Controller {
 		$data['user_mode'] = $this->session->userdata('mode');
 		$data['member'] = (isset($member_details[0]))? $member_details[0]: NULL;
 		
-		$this->breadcrumbs->set(['Member Information: Leon Tamala' => 'members/info/' . $member_id]);
+		$full_name = $member_details[0]->fname . ' ' . 
+			$member_details[0]->mname . ' ' . 
+			$member_details[0]->lname;
+
+		$this->breadcrumbs->set(['Member Information: ' . $full_name => 'members/info/' . $member_id]);
 		$this->render('information', $data);
 	}
 

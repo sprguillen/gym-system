@@ -281,4 +281,57 @@ class Member_Model extends CI_Model {
 
         return $this->db->query($sql, array($start_of_the_day, $end_of_the_day))->result();
     }
+
+    public function get_monthly_attendance() {
+        $month = date("Y-m");
+        $last_date = date("Y-m-t");
+        $current_date = $month . '-01';
+        $sql = "SELECT 
+                ma.id AS attendance_id, 
+                ma.attendance as logged_in, 
+                p.type as program_type, 
+                m.id AS id, 
+                m.fname AS first_name, 
+                m.mname AS middle_name, 
+                m.lname AS last_name 
+            FROM membership_attendance ma 
+            JOIN membership ms ON ma.membership_id = ms.id
+            JOIN program p ON ms.program_id = p.id
+            JOIN member m ON ms.member_id = m.id
+            WHERE attendance >= ? AND attendance <= ?";
+
+        return $this->db->query($sql, array($current_date, $last_date))->result();
+    }
+
+    public function get_weekly_attendance() {
+        $current_dayname = date("l");
+            
+        $week_start = date("Y-m-d",strtotime('monday this week'));
+        $week_end = date("Y-m-d",strtotime("sunday this week"));
+        $sql = "SELECT 
+                ma.id AS attendance_id, 
+                ma.attendance as logged_in, 
+                p.type as program_type, 
+                m.id AS id, 
+                m.fname AS first_name, 
+                m.mname AS middle_name, 
+                m.lname AS last_name 
+            FROM membership_attendance ma 
+            JOIN membership ms ON ma.membership_id = ms.id
+            JOIN program p ON ms.program_id = p.id
+            JOIN member m ON ms.member_id = m.id
+            WHERE attendance >= ? AND attendance <= ?";
+
+        return $this->db->query($sql, array($week_start, $week_end))->result();    
+    }
+
+    public function get_attendance($type) {
+        if ($type === 'daily') {
+            return $this->get_daily_attendance();
+        } else if ($type === 'weekly') {
+            return $this->get_weekly_attendance();
+        } else if ($type === 'monthly') {
+            return $this->get_monthly_attendance();
+        }
+    }
 }

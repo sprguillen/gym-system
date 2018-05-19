@@ -10,6 +10,7 @@
             <div>
             <div id="verification-result">
             </div>
+            <a href="<?php echo base_url('members/list') ?>" class="btn-link">Go Back</a>
         </div>
     </div>
 </div>
