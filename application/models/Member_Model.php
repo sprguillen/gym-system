@@ -259,8 +259,14 @@ class Member_Model extends CI_Model {
         return $this->db->query($sql)->result()[0]->mid;
     }
 
-    public function get_daily_attendance() {
-        $current_date = date("Y-m-d");
+    public function get_daily_attendance($date = null) {
+
+        if ($date) {
+            $current_date = $date;
+        } else {
+            $current_date = date("Y-m-d");
+        }
+        
         
         $start_of_the_day = $current_date . " 00:00:00";
         $end_of_the_day = $current_date . " 23:59:59";

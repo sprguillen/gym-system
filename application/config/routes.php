@@ -89,6 +89,7 @@ $route['members/edit/(:any)'] = 'Members_Controller/edit';
 $route['members/get_fingerprint_data'] = 'Members_Controller/get_fingerprint_data';
 $route['members/process_member_register'] = 'Members_Controller/process_member_register';
 $route['members/attendance'] = 'Members_Controller/get_attendance';
+$route['members/attendance/get_specific_date_attendance_by_ajax'] = 'Members_Controller/get_specific_date_attendance_by_ajax';
 $route['members/attendance/(:any)'] = 'Members_Controller/get_attendance';
 $route['members/info/update_member_details'] = 'Members_Controller/update_member_details';
 $route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
@@ -98,8 +99,6 @@ $route['members/get_device_account'] = 'Members_Controller/get_device_account';
 $route['members/biometric-login'] = 'Members_Controller/biometric_login';
 $route['members/get_verification_data'] = 'Members_Controller/get_verification_data';
 $route['members/info/(:num)'] = 'Members_Controller/get_details';
-
-
 /**
  * Admin Mode
  */

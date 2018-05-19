@@ -632,4 +632,11 @@ class Members_Controller extends CI_Controller {
     		echo json_encode($verification_result);
     	}
     }
+
+    public function get_specific_date_attendance_by_ajax() {
+    	$date = $_GET['date'];
+    	$result = $this->Member_Model->get_daily_attendance($date);
+
+    	echo json_encode($result);
+    }
 }
