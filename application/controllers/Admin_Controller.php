@@ -14,7 +14,7 @@ class Admin_Controller extends CI_Controller {
         parent::__construct();
 
         $this->load->library('Breadcrumbs');
-        $this->breadcrumbs->set(['Coaches' => 'coaches']);
+        $this->breadcrumbs->set(['Admin' => 'admin']);
 
         // Load session library
         $this->load->library('session');
@@ -64,10 +64,25 @@ class Admin_Controller extends CI_Controller {
         
         $data['breadcrumbs'] = $this->breadcrumbs->get();
         $this->load->view('components/header', $data);
-        $page = 'pages/coaches/' . $page;
+
+        $page = 'pages/admin/' . $page;
+
         $this->load->view($page, $data);
         
         $this->load->view('components/footer');
+    }
+
+
+    public function add_admin() {
+        $data['isDashboard'] = TRUE;
+        $this->breadcrumbs->set(['Add New Staff' => 'admin/add']);
+
+        $this->render('add_admin', $data);
+    }
+
+    public function add_user() {
+        
+        
     }
 
 }

@@ -99,11 +99,14 @@ $route['members/get_device_account'] = 'Members_Controller/get_device_account';
 $route['members/biometric-login'] = 'Members_Controller/biometric_login';
 $route['members/get_verification_data'] = 'Members_Controller/get_verification_data';
 $route['members/info/(:num)'] = 'Members_Controller/get_details';
+$route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membership';
+
 /**
  * Admin Mode
  */
 $route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
 $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
+$route['admin/add'] = 'Admin_Controller/add_admin';
 
 
 /**

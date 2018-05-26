@@ -59,9 +59,9 @@
                 <li class="nav-item">
                     <a id="profile" class="nav-link" href="#">Profile</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a id="biometrics" class="nav-link text-secondary" href="#">Biometrics</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a id="attendance" class="nav-link text-secondary" href="#">Attendance</a>
                 </li>

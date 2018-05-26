@@ -118,15 +118,20 @@
 							</td>
 							<td>
 								<?php
-									$classes = "";
+									if ($user_mode === 'staff' || strtolower($type) === 'inactive') {
 
-									if (isset($value['classes'])) {
-										$classes = str_replace(",", "<br>", $value['classes']);
-									}
+										$classes = "";
 
-									echo $classes;
-								
-								?>	
+										if (isset($value['classes'])) {
+											$classes = str_replace(",", "<br>", $value['classes']);
+										}
+
+										echo $classes;
+									} else if ($user_mode === 'admin'): ?>
+									<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
+									<a href="#" class="text-info edit-program-modal" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
+									<?php endforeach; ?>
+								<?php endif; ?>
 							</td>
 							<td>
 								<?php
@@ -204,6 +209,29 @@
 		</div>
 	</div>
   
+</div>
+
+<div class="modal fade" id="program-modal" tabindex="-1" role="dialog" aria-labelledby="editProgram" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+	  		<div class="modal-header">
+				<h5 class="modal-title text-danger" id="deactivateFreeze">Edit <span class="program-name-to-edit"></span> Membership</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  			<span aria-hidden="true">&times;</span>
+				</button>
+	  		</div>
+	  		<div class="modal-body">
+	  			<label for="date_expired">Move date of membership to: </label>
+				<input type="date" name="date_expired" class="form form-control date_expired_input">
+				<input type="hidden" name="membership_id" class="membership_id_val">
+				<br>or  <a href="#" class="text-danger cancel_membership"> cancel this membership</a>.
+	  		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger move-membership">Confirm</button>
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+  	</div>
 </div>
 
 <div class="modal fade" id="unfreeze-member" tabindex="-1" role="dialog" aria-labelledby="deactivateFreeze" aria-hidden="true">

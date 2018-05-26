@@ -46,6 +46,7 @@ class Members_Controller extends CI_Controller {
 			$members_with_membership = $this->Member_Model->get_all_membership_by_status($status);
 
 			foreach ($members_with_membership as $member) {
+				$programs_enrolled = $this->Member_Model->get_memberships_by_id_status($member->id, 'active');
 
 				$paid_arry = [];
 
@@ -74,7 +75,8 @@ class Members_Controller extends CI_Controller {
 					'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
 					'duration' => $member->duration,
 					'classes' => $member->programs_type,
-					'isPaid' => $paid
+					'isPaid' => $paid,
+					'programs_enrolled' => $programs_enrolled
 				];
 
 				array_push($return_data, $pushed_data);
@@ -459,6 +461,20 @@ class Members_Controller extends CI_Controller {
 		echo json_encode($response);
 	}
 
+	public function ajax_update_membership_expiry() {
+		$membership_id = $this->input->post('membershipId');
+		$new_expiry = date('Y-m-d', strtotime($this->input->post('newExpiryDate')));
+
+		$data = [
+    		'id' => $membership_id,
+    		'date_expired' => $new_expiry
+    	];
+
+    	$this->Member_Model->update_membership($data);
+
+		echo json_encode(true);
+	}
+
 	/**
 	 * Ajax call to unfreeze the member and update the status of membership
 	 */
@@ -624,6 +640,23 @@ class Members_Controller extends CI_Controller {
     	$this->session->set_userdata('verification_result', $data, 300);
     	echo "<script>window.close();</script>";
     }
+
+    /**
+     * Cancels the membership of the user
+     */
+    public function cancel_membership() {
+    	$membership_id = $this->uri->segment(3);
+
+    	$data = [
+    		'id' => $membership_id,
+    		'status' => 'Cancelled'
+    	];
+
+    	$this->Member_Model->update_membership($data);
+
+    	redirect('members/list/active');
+    }
+
 
     public function get_verification_data() {
     	$verification_result = $this->session->userdata('verification_result');

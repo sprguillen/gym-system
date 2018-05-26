@@ -170,7 +170,11 @@ class Member_Model extends CI_Model {
         
 
     public function get_memberships_by_id_status($member_id, $status) {
-        $query = $this->db->get_where('membership', ['member_id' => $member_id, 'status' => $status]);
+        $sql = "SELECT *, m.id as membership_id FROM membership AS m
+                JOIN program ON program.id = m.program_id
+                WHERE m.member_id = " . $member_id . " AND m.status = '" . $status . "'";
+
+        $query = $this->db->query($sql);
 
         return $query->result_array();
     }
