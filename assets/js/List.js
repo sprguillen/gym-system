@@ -2,6 +2,39 @@ $(document).ready(function() {
 
 	$(".freeze-alert").hide();
 
+  $('.move-membership').on('click', function (e) {
+    e.preventDefault();
+    let newExpiryDate = $('.date_expired_input').val();
+    let membershipId = $('.membership_id_val').val();
+
+    console.log('hello', membershipId)
+    $.ajax({
+      url: '/gym-system/Members_Controller/ajax_update_membership_expiry',
+      type: 'POST',
+      data: { membershipId, newExpiryDate  },
+      success: function (data) {
+        data = JSON.parse(data);
+        
+        if (data) {
+          window.location.reload();
+        }
+      }
+    });
+
+  });
+
+  $('.edit-program-modal').on('click', function (e) {
+    let membershipId = $(this).attr('data-membership_id');
+    let dateExpired = $(this).attr('data-date_expired');
+    let programName = $(this).attr('data-program_name');
+
+    $('.date_expired_input').val(dateExpired);
+    $('.membership_id_val').val(membershipId);
+    $('.program-name-to-edit').html(programName);
+    $('.cancel_membership').attr('href', `/gym-system/members/cancel-membership/${membershipId}`);
+
+  })
+
 	$(".confirm-unfreeze").on('click', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('data-id');
