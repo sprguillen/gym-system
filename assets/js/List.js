@@ -109,12 +109,23 @@ $(document).ready(function() {
         }).done(function (response) {
             var parsedResponse = JSON.parse(response);
             if (parsedResponse.status) {
-                alert(parsedResponse.message);
+                vex.dialog.alert({
+                    unsafeMessage: parsedResponse.message,
+                    callback: function (value) {
+                        $('#enrollment-modal').modal('toggle');
+                        location.reload();
+                    }
+                });
             } else {
-                alert('Error:' + parsedResponse.message);
+            	var errMsg = 'Error: ' + parsedResponse.message;
+                vex.dialog.alert({
+                    unsafeMessage: errMsg,
+                    callback: function (value) {
+                        $('#enrollment-modal').modal('toggle');
+                        location.reload();
+                    }
+                });
             }
-            $('#enrollment-modal').modal('toggle');
-            location.reload();
         });
     });
 });
