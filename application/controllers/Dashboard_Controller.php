@@ -49,10 +49,11 @@ class Dashboard_Controller extends CI_Controller {
      * @param [array] $data
      */
     public function render($page, $data) {
+        $data['user_type'] = $this->session->userdata('mode');
 
         $this->load->view('components/header', $data);
         $this->load->view($page, $data);
-        $this->load->view('components/footer');
+        $this->load->view('components/footer', $data);
     }
 
     /**

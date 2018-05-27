@@ -543,13 +543,15 @@ class Members_Controller extends CI_Controller {
 
 		$data['isDashboard'] = TRUE;
 		$data['breadcrumbs'] = $this->breadcrumbs->get();
+		$data['user_type'] = $this->session->userdata('mode');
+		
 		$page = 'pages/members/' . $page;
 
 		$this->load->view('components/header', $data);
 
 		$this->load->view($page, $data);
 
-		$this->load->view('components/footer');
+		$this->load->view('components/footer', $data);
 	}
 
 	/**
@@ -672,4 +674,9 @@ class Members_Controller extends CI_Controller {
 
     	echo json_encode($result);
     }
+
+    public function register_as_guest () {
+    	$this->render('register_guest');
+    }
 }
+

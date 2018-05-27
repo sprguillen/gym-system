@@ -61,7 +61,7 @@ class Admin_Controller extends CI_Controller {
     public function render($page, $data = []) {
         
         $data['isDashboard'] = TRUE;
-        
+        $data['user_type'] = $this->session->userdata('mode');
         $data['breadcrumbs'] = $this->breadcrumbs->get();
         $this->load->view('components/header', $data);
 
@@ -69,7 +69,7 @@ class Admin_Controller extends CI_Controller {
 
         $this->load->view($page, $data);
         
-        $this->load->view('components/footer');
+        $this->load->view('components/footer', $data);
     }
 
 

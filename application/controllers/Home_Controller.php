@@ -105,9 +105,10 @@ class Home_Controller extends CI_Controller {
      */
     public function render($page, $isDashboard = false) {
         $data['isDashboard'] = $isDashboard;
+        $data['user_type'] = $this->session->userdata('mode');
 
         $this->load->view('components/header', $data);
         $this->load->view($page);
-        $this->load->view('components/footer');
+        $this->load->view('components/footer', $data);
     }
 }

@@ -102,6 +102,11 @@ $route['members/info/(:num)'] = 'Members_Controller/get_details';
 $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membership';
 
 /**
+ * Guests 
+ */
+$route['guests/register'] = 'Members_Controller/register_as_guest';
+
+/**
  * Admin Mode
  */
 $route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
