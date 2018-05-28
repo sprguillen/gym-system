@@ -6,7 +6,18 @@
 			<div class="card-body">
 				<h4 class="text-dark text-center">Log in to your account.</h4>
 				<hr/>
-
+				<?php if ($this->session->flashdata('success')): ?>
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					</button>
+					<?php
+						echo "<small>";
+						echo $this->session->flashdata('success')['message'];
+						echo "</small>";
+					?>
+				</div>
+				<?php endif; ?>
 				<?php if (validation_errors() || $this->session->flashdata('error')): ?>
 				<div class="alert alert-danger" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close">

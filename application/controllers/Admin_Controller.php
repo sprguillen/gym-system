@@ -16,10 +16,13 @@ class Admin_Controller extends CI_Controller {
         $this->load->library('Breadcrumbs');
         $this->breadcrumbs->set(['Admin' => 'admin']);
 
-        // Load session library
+        // Load libraries
         $this->load->library('session');
         $this->load->library('user_agent');
+        $this->load->library('form_validation');
 
+        // Load models
+        $this->load->model('User_Model');
     }
 
     public function index() {
@@ -81,8 +84,38 @@ class Admin_Controller extends CI_Controller {
     }
 
     public function add_user() {
-        
-        
+        $this->form_validation->set_rules('first_name', 'First Name', 'trim|required');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user_account.email]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[user_account.username]');
+        $this->form_validation->set_message('is_unique', '%s is already taken.');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+
+        if ($this->form_validation->run() === FALSE) {
+            $data['isDashboard'] = TRUE;
+            $this->breadcrumbs->set(['Add New Staff' => 'admin/add']);
+            $this->render('add_admin', $data);
+        } else {
+            $data = array(
+                'fname' => $this->input->post('first_name'),
+                'lname' => $this->input->post('last_name'),
+                'email' => $this->input->post('email'),
+                'username' => $this->input->post('username'),
+                'password' => sha1($this->input->post('password'))
+            );
+
+            $result = $this->User_Model->register_user($data);
+
+            if ($result['status']) {
+                $result_data = array('message' => $result['message']);
+                $this->session->set_flashdata('success', $result_data);
+                redirect(base_url(''));
+            } else {
+                $this->session->set_flashdata('error', $result['message']);
+                redirect(base_url('admin/add'));
+            }
+        }
     }
 
 }

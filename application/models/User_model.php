@@ -12,6 +12,16 @@ class User_model extends CI_Model {
         $this->load->database();
     }
 
+    public function insert($data, $table) {
+        $this->db->trans_start();
+        
+        $this->db->insert($table, $data);
+        $id = $this->db->insert_id();
+
+        $this->db->trans_complete();
+        return (string)$id;
+    }
+
     public function login($data) {
         $this->db->select('*');
 		$this->db->where('username',$data['username']);
@@ -38,5 +48,46 @@ class User_model extends CI_Model {
 		} else {
 			return false;
 		}
+    }
+
+    public function register_user($data) {
+        $user_profile_data = array(
+            'fname' => $data['fname'],
+            'lname' => $data['lname'],
+            'email' => $data['email']
+        );
+
+        $result = $this->insert($user_profile_data, 'user_profile');
+
+        if ($result) {
+            $user_account_data = array(
+                'username' => $data['username'],
+                'password' => $data['password'],
+                'email' => $data['email'],
+                'user_account_type_id' => 2,
+                'user_profile_id' => $result
+            );
+
+            $final_result = $this->insert($user_account_data, 'user_account');
+
+            if ($final_result) {
+                $data = array(
+                    'status' => true,
+                    'message' => 'Successfully created new user!'
+                );
+            } else {
+                $data = array(
+                    'status' => false,
+                    'message' => 'Error inserting account, please contact admin!'
+                );
+            }
+        } else {
+            $data = array(
+                'status' => false,
+                'message' => 'Error inserting to profile, please contact admin!'
+            );
+        }
+
+        return $data;
     }
 }

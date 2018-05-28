@@ -107,7 +107,7 @@ $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membersh
 $route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
 $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
 $route['admin/add'] = 'Admin_Controller/add_admin';
-
+$route['admin/add_user'] = 'Admin_Controller/add_user';
 
 /**
  * Coaches
