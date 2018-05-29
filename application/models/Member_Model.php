@@ -257,6 +257,12 @@ class Member_Model extends CI_Model {
         return $this->db->count_all_results('member', FALSE);
     }
 
+    public function count_all_programs() {
+        $sql = "SELECT COUNT(*) as pc FROM program";
+        
+        return $this->db->query($sql)->result()[0]->pc;
+    }
+
     public function get_max_id() {
         $sql = "SELECT MAX(id) as mid FROM member";
 

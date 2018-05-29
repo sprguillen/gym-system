@@ -23,11 +23,16 @@ class Dashboard_Controller extends CI_Controller {
         if (!$this->session->userdata('logged_in')) {
             redirect(base_url(''));
         }
+
+        // Load models
+        $this->load->model('Member_Model');
     }
 
     public function index() {
         $data['page'] = 'Home: Quickstart';
         $data['isDashboard'] = true;
+        $data['membersCount'] = $this->Member_Model->count_all_members();
+        $data['programsCount'] = $this->Member_Model->count_all_programs();
 
         $this->render('pages/dashboard', $data);
     }
