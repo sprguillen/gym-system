@@ -1,6 +1,5 @@
 $(document).ready(function () {
 	$(".submitAdmin").on('click', function() {
-        // window.location.href = '/gym-system/admin/unlock/members';
         var username = $('#admin-mode-user').val();
         var password = $('#admin-mode-pass').val();
 

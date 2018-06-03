@@ -330,11 +330,11 @@
 			<div class="modal-body">
 				<div class="form-group">
 					<label for="username">Email username</label>
-					<input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+					<input type="email" class="form-control" id="list-admin-mode-user" aria-describedby="emailHelp" placeholder="Enter username">
 				</div>
 				<div class="form-group">
 					<label for="password">Enter password</label>
-					<input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Enter password">
+					<input type="password" class="form-control" id="list-admin-mode-password" aria-describedby="emailHelp" placeholder="Enter password">
 				</div>
 			</div>
 			<div class="modal-footer">

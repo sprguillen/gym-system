@@ -107,8 +107,33 @@ $(document).ready(function() {
 	});
 
 	$(".submit-admin").click(function(e) {
-		e.preventDefault();
-		window.location.href = '/gym-system/admin/unlock/members';
+		var username = $('#list-admin-mode-user').val();
+        var password = $('#list-admin-mode-password').val();
+
+        if (username && password) {
+            $.ajax({
+                method: 'POST',
+                url: '/gym-system/admin/unlock/members',
+                data: {
+                    'username': username,
+                    'password': password
+                }
+            }).done(function (response) {
+                response = JSON.parse(response);
+                if (response.status) {
+                    vex.dialog.alert({
+                        message: 'Successfully entered admin mode!',
+                        callback: function (value) {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    vex.dialog.alert(response.message);
+                }
+            });
+        } else {
+            vex.dialog.alert('Please fill up username and/or password');
+        }
 	});
 
     $('.enrollment-btn').click(function () {
