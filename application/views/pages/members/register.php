@@ -138,7 +138,11 @@
 		              		<div class="col-md-6">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="email-input">E-mail address</label>
-		                      		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp"  >
+		                      		<?php if ($guest_data) { ?>
+		                          		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp" value="<?php echo $guest_data->email ?>" >
+		                      		<?php } else { ?>
+		                          		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp"  >
+		                      		<?php } ?>
 		                  		</div>
 		              		</div>
 

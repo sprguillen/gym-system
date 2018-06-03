@@ -17,14 +17,14 @@
 			</div>
 		</div>
 		<div class="col-sm-4">
-			<div class="card text-center">
-				<div class="card-body">
-					<h2 class="card-title font-weight-bold text-dark"><?php echo $programsCount ?> Programs</h2>
+      		<div class="card text-center">
+         		<div class="card-body">
+					<h2 class="card-title font-weight-bold text-dark">9 Guests</h2>
 					<hr/>
-					<a href="#" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Assign a member to a program</a>
-					<a href="#" class="btn btn-outline-danger btn-block"><i class="fa fa-basketball-ball fa-xs"></i> View all programs</a>
-				</div>
-			</div>
-		</div>
+					<a href="<?php echo base_url('guests/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Register a guest</a>
+					<a href="<?php echo base_url('members/list/guest'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar-alt fa-xs"></i> View all guests</a>
+        		</div>
+      		</div>
+    	</div>
 	</div>
 </div>

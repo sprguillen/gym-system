@@ -2,24 +2,24 @@ $(document).ready(function() {
 
 	$(".freeze-alert").hide();
 
-  $('.move-membership').on('click', function (e) {
-    e.preventDefault();
-    let newExpiryDate = $('.date_expired_input').val();
-    let membershipId = $('.membership_id_val').val();
+    $('.move-membership').on('click', function (e) {
+        e.preventDefault();
+        let newExpiryDate = $('.date_expired_input').val();
+        let membershipId = $('.membership_id_val').val();
 
-    console.log('hello', membershipId)
-    $.ajax({
-      url: '/gym-system/Members_Controller/ajax_update_membership_expiry',
-      type: 'POST',
-      data: { membershipId, newExpiryDate  },
-      success: function (data) {
-        data = JSON.parse(data);
+        console.log('hello', membershipId)
+        $.ajax({
+            url: '/gym-system/Members_Controller/ajax_update_membership_expiry',
+            type: 'POST',
+            data: { membershipId, newExpiryDate  },
+            success: function (data) {
+                data = JSON.parse(data);
         
-        if (data) {
-          window.location.reload();
-        }
-      }
-    });
+                if (data) {
+                    window.location.reload();
+                }
+            }
+        });
 
   });
 
@@ -111,22 +111,31 @@ $(document).ready(function() {
 		window.location.href = '/gym-system/admin/unlock/members';
 	});
 
-	if ($('#enroll-program').length > 0) {
-        $('#enroll-program').ready(function () {
-            $.ajax({
-                method: 'GET',
-                url: 'get_program_list',
-            }).done(function (response) {
-                var programData = JSON.parse(response);
-                programData.forEach(function (program) {
-                    $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+    $('.enrollment-btn').click(function () {
+        var memberId = $(this).data('id');
+        if ($('#enroll-program > option').length > 0) {
+            $('#enroll-program > option').remove();    
+        }
+        
+        $('#enrollment-modal').attr('data-id', $(this).data('id'));
+        console.log($('#enroll-program > option').length);
+        if ($('#enroll-program > option').length === 0) {
+            $('#enroll-program').ready(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: 'get_program_list_per_member',
+                    data: {
+                        'member_id': memberId
+                    }
+                }).done(function (response) {
+                    console.log(response);
+                    var programData = JSON.parse(response);
+                    programData.forEach(function (program) {
+                        $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+                    });
                 });
             });
-        });
-    }
-
-    $('.enrollment-btn').click(function () {
-        $('#enrollment-modal').attr('data-id', $(this).data('id'));
+        }
     });
 
     $('#enroll-submit').click(function () {
@@ -159,6 +168,20 @@ $(document).ready(function() {
                     }
                 });
             }
+        });
+    });
+
+    $('.register-bttn').on('click', function () {
+        var memberId = $(this).data('id');
+        
+        $.ajax({
+            method: 'GET',
+            url: 'get_details_via_ajax',
+            data: {
+                id: memberId
+            }
+        }).done(function (response) {
+            window.location.replace('register');
         });
     });
 });

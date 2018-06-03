@@ -75,8 +75,8 @@
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="password">Confirm password</label>
-                <input type="password" class="form-control" id="password" placeholder="Retype password" name="confirm_password" required>
+                <label for="exampleInputConfPassword1">Confirm password</label>
+                <input type="password" class="form-control" id="exampleInputConfPassword1" placeholder="Retype password" name="confirm_password" required>
             </div>
             <a href="<?php echo base_url('dashboard'); ?>" class="btn btn-outline-danger w-25 float-right">Cancel</a>
             <button type="submit" class="btn btn-danger w-25 float-right mr-3">Submit</button>

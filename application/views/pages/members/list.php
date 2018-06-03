@@ -75,134 +75,135 @@
 				<a class="nav-link <?php echo (strtolower($type) === 'guest')? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/guest'); ?>">Guest</a>
 		  	</li>
 		</ul>
-	
-		<div class="float-right mb-2">
-		  	
-			<div class="input-group">	  	
-				<?php if ($user_mode === 'staff'): ?>
-					<a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
-			  	<?php endif; ?>
-			  	<?php if ($user_mode === 'admin'): ?>
-					<a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
-			  	<?php endif; ?>
+		
+		<?php if ($this->session->userdata('logged_in')['account_type'] === 'Admin'): ?>
+			<div class="float-right mb-2">
+				<div class="input-group">	  	
+					<?php if ($user_mode === 'staff'): ?>
+						<a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
+				  	<?php endif; ?>
+				  	<?php if ($user_mode === 'admin'): ?>
+						<a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
+				  	<?php endif; ?>
+				</div>
 			</div>
-		</div>
-
-		<?php if (strtolower($type) !== 'guest'): ?>
-		  	<table class="table table-sm table-hover">
-				<thead class="thead">
-			  	<tr>
-					<th scope="col">#</th>
-					<th scope="col">Full Name</th>
-					<th scope="col">Enrollment Duration</th>
-					<th scope="col">Programs Enrolled</th>
-					<th scope="col">Paid?</th>
-					<th scope="col"></th>
-			  	</tr>
-				</thead>
-				<tbody>
-			  		<?php foreach ($members as $key => $value): ?>
-			  			<tr>
-							<th scope="row"><?php echo $key+1; ?></th>
-							<td><a class="text-info member-dialog-link" href="<?php echo base_url('members/info/' . $value['id']); ?>"><?php echo $value['name']; ?></a></td>
-							<td>
-								<?php
-									$duration = "";
-
-									if (isset($value['duration'])) {
-										$duration = str_replace(",", "<br>", $value['duration']);
-									}
-
-									echo $duration;
-								?>
-							</td>
-							<td>
-								<?php
-									if ($user_mode === 'staff' || strtolower($type) === 'inactive') {
-
-										$classes = "";
-
-										if (isset($value['classes'])) {
-											$classes = str_replace(",", "<br>", $value['classes']);
-										}
-
-										echo $classes;
-									} else if ($user_mode === 'admin'): ?>
-									<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
-									<a href="#" class="text-info edit-program-modal" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
-									<?php endforeach; ?>
-								<?php endif; ?>
-							</td>
-							<td>
-								<?php
-									$isPaid = "";
-
-									if (isset($value['isPaid'])) {
-										$isPaid = str_replace(",", "<br>", $value['isPaid']);
-									}
-
-									echo $isPaid;
-								?>
-							</td>
-							<td>
-							<?php if (strtolower($type) !== 'frozen'): ?>
-					  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
-					  				<?php
-						  				if (strtolower($type) === 'active') {
-					  						echo 'Add a program';
-					  					} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
-					  						echo 'Enroll a program';
-					  					} else if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
-					  						echo 'Renew';
-				  						}
-					  				?>
-					  			</button>
-					  			<?php if (strtolower($type) === 'active'): ?>
-									<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
-								<?php endif; ?>
-					  		<?php endif; ?>
-			  				<?php if ($user_mode === 'admin'): ?>
-								<?php if (strtolower($type) === 'active'): ?>
-									<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
-								<?php endif; ?>
-								<?php if (strtolower($type) === 'frozen'): ?>
-									<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#unfreeze-member" class="btn btn-sm btn-outline-primary freeze-data">Unfreeze</button>
-								<?php endif; ?>
-			  				<?php endif; ?>
-							</td>
-			  			</tr>
-			  		<?php endforeach; ?>
-				</tbody>
-		 	 </table>
 		<?php endif; ?>
-
-		<?php if (strtolower($type) === 'guest'): ?>
-		  	<table class="table table-sm table-hover">
-				<thead class="thead">
-			  		<tr>
+		<div id="list-table">
+			<?php if (strtolower($type) !== 'guest'): ?>
+			  	<table class="table table-sm table-hover">
+					<thead class="thead">
+				  	<tr>
 						<th scope="col">#</th>
 						<th scope="col">Full Name</th>
-						<th scope="col">Date Enrolled</th>
-						<th scope="col">Program Enrolled</th>
+						<th scope="col">Enrollment Duration</th>
+						<th scope="col">Programs Enrolled</th>
+						<th scope="col">Paid?</th>
 						<th scope="col"></th>
-			  		</tr>
-				</thead>
-				<tbody>
-			  		<?php foreach ($guests as $key => $value): ?>
-			  			<tr>
-							<th scope="row"><?php echo $key+1; ?></th>
-							<td><?php echo $value['name']; ?></td>
-							<td><?php echo $value['duration']; ?></td>
-							<td><?php echo $value['classes']; ?></td>
-							<td>
-					  			<button type="button" class="btn btn-outline-danger btn-sm register-bttn" data-id="<?php echo $value['id'] ?>">Register as member</button>
-							</td>
-			  			</tr>
-			  		<?php endforeach; ?>
-				</tbody>
-		  	</table>
-		<?php endif; ?>
+				  	</tr>
+					</thead>
+					<tbody>
+				  		<?php foreach ($members as $key => $value): ?>
+				  			<tr>
+								<th scope="row"><?php echo $key+1; ?></th>
+								<td><a class="text-info member-dialog-link" href="<?php echo base_url('members/info/' . $value['id']); ?>"><?php echo $value['name']; ?></a></td>
+								<td>
+									<?php
+										$duration = "";
 
+										if (isset($value['duration'])) {
+											$duration = str_replace(",", "<br>", $value['duration']);
+										}
+
+										echo $duration;
+									?>
+								</td>
+								<td>
+									<?php
+										if ($user_mode === 'staff' || strtolower($type) === 'inactive') {
+
+											$classes = "";
+
+											if (isset($value['classes'])) {
+												$classes = str_replace(",", "<br>", $value['classes']);
+											}
+
+											echo $classes;
+										} else if ($user_mode === 'admin'): ?>
+										<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
+										<a href="#" class="text-info edit-program-modal" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								</td>
+								<td>
+									<?php
+										$isPaid = "";
+
+										if (isset($value['isPaid'])) {
+											$isPaid = str_replace(",", "<br>", $value['isPaid']);
+										}
+
+										echo $isPaid;
+									?>
+								</td>
+								<td>
+								<?php if (strtolower($type) !== 'frozen'): ?>
+						  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
+						  				<?php
+							  				if (strtolower($type) === 'active') {
+						  						echo 'Add a program';
+						  					} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
+						  						echo 'Enroll a program';
+						  					} else if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
+						  						echo 'Renew';
+					  						}
+						  				?>
+						  			</button>
+						  			<?php if (strtolower($type) === 'active'): ?>
+										<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
+									<?php endif; ?>
+						  		<?php endif; ?>
+				  				<?php if ($user_mode === 'admin'): ?>
+									<?php if (strtolower($type) === 'active'): ?>
+										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
+									<?php endif; ?>
+									<?php if (strtolower($type) === 'frozen'): ?>
+										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#unfreeze-member" class="btn btn-sm btn-outline-primary freeze-data">Unfreeze</button>
+									<?php endif; ?>
+				  				<?php endif; ?>
+								</td>
+				  			</tr>
+				  		<?php endforeach; ?>
+					</tbody>
+			 	 </table>
+			<?php endif; ?>
+
+			<?php if (strtolower($type) === 'guest'): ?>
+			  	<table class="table table-sm table-hover">
+					<thead class="thead">
+				  		<tr>
+							<th scope="col">#</th>
+							<th scope="col">Full Name</th>
+							<th scope="col">Date Enrolled</th>
+							<th scope="col">Program Enrolled</th>
+							<th scope="col"></th>
+				  		</tr>
+					</thead>
+					<tbody>
+				  		<?php foreach ($guests as $key => $value): ?>
+				  			<tr>
+								<th scope="row"><?php echo $key+1; ?></th>
+								<td><?php echo $value['name']; ?></td>
+								<td><?php echo $value['duration']; ?></td>
+								<td><?php echo $value['classes']; ?></td>
+								<td>
+						  			<button type="button" class="btn btn-outline-danger btn-sm register-bttn" data-id="<?php echo $value['id'] ?>">Register as member</button>
+								</td>
+				  			</tr>
+				  		<?php endforeach; ?>
+					</tbody>
+			  	</table>
+			<?php endif; ?>
+		</div>
 		<div class="btn-group float-right" role="group" aria-label="Basic example">
 			  <button type="button" class="btn btn-sm btn-outline-danger">Prev</button>
 			  <button type="button" class="btn btn-sm btn-danger">Next</button>

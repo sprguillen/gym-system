@@ -5,11 +5,6 @@ $(document).ready(function (e) {
 		window.location.href = '/gym-system/members/edit/' + id;
 	});
 
-	$(".submitAdmin").click(function(e) {
-	  	e.preventDefault();
-	  	window.location.href = '/gym-system/admin/unlock/members';
-	});
-
 	$('#date-filter-btn').on('click', function () {
 
 		var htmlTop = "<table class='table table-sm table-hover' id='attendance-default-table'>" +

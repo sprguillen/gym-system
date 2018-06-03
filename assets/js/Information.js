@@ -44,11 +44,6 @@ function returnMemberIDFromUrl() {
 
 $(document).ready(function (e) {
 
-    $(".submitAdmin").click(function(e) {
-        e.preventDefault();
-        window.location.href = '/gym-system/admin/unlock/members';
-    });
-
     $('#profile').addClass('text-info active');
     $('.attendance-section').hide();    
     $('.logs-section').hide();

@@ -23,12 +23,18 @@ class User_model extends CI_Model {
     }
 
     public function login($data) {
-        $this->db->select('*');
-		$this->db->where('username',$data['username']);
-        $this->db->where('password',$data['password']);
-        $this->db->limit(1);
-        $query = $this->db->get("user_account");
+        $sql = "SELECT
+                ua.id as id,
+                ua.username as username,
+                ua.email as email,
+                ua.password as password,
+                ua.user_profile_id as user_profile_id,
+                uat.account_type as account_type
+            FROM user_account ua JOIN user_account_type uat
+            ON ua.user_account_type_id = uat.id
+            WHERE ua.username = ? AND ua.password = ?";
 
+        $query = $this->db->query($sql, array($data['username'], $data['password']));
         if ($query->num_rows() === 1) {
 			return $query->result();
 		} else {

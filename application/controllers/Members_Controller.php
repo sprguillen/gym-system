@@ -376,6 +376,17 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
+	 * Get list of all programs (called by AJAX)
+	 * @return JSON
+	 */
+	public function get_program_list_per_member() {
+		$member_id = $_GET['member_id'];
+		$program_list = $this->Member_Model->get_all_programs_member($member_id);
+
+		echo json_encode($program_list);
+	}
+
+	/**
 	 * Update member (called by AJAX)
 	 */
 	public function update_member_details() {
@@ -543,13 +554,15 @@ class Members_Controller extends CI_Controller {
 
 		$data['isDashboard'] = TRUE;
 		$data['breadcrumbs'] = $this->breadcrumbs->get();
+		$data['user_type'] = $this->session->userdata('mode');
+		
 		$page = 'pages/members/' . $page;
 
 		$this->load->view('components/header', $data);
 
 		$this->load->view($page, $data);
 
-		$this->load->view('components/footer');
+		$this->load->view('components/footer', $data);
 	}
 
 	/**
@@ -672,4 +685,63 @@ class Members_Controller extends CI_Controller {
 
     	echo json_encode($result);
     }
+
+    public function register_as_guest () {
+    	$this->render('register_guest');
+    }
+
+    public function guest_registration() {
+    	$this->form_validation->set_rules('fname', 'First Name', 'trim|required');
+    	$this->form_validation->set_rules('mname', 'Middle Name', 'trim|required');
+        $this->form_validation->set_rules('lname', 'Last Name', 'trim|required');
+        $this->form_validation->set_rules('gender', 'Gender', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('program_id', 'Program', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+        	$data['status'] = false;
+        	$data['message'] = validation_errors(); 
+        } else {
+        	$member_data = array(
+                'fname' => $this->input->post('fname'),
+                'mname' => $this->input->post('mname'),
+                'lname' => $this->input->post('lname'),
+                'email' => $this->input->post('email'),
+                'gender' => $this->input->post('gender')
+            );
+
+            $result = $this->Member_Model->insert($member_data, 'member');
+
+            if ($result) {
+            	$current_date = date('Y-m-d');
+            	$status = GUEST_STATUS;
+            	$program_id = $this->input->post('program_id');
+            	$member_id = $result;
+
+            	$membership_data = array(
+            		'date_started' => $current_date,
+            		'date_expired' => $current_date,
+            		'status' => $status,
+            		'member_id' => $member_id,
+            		'program_id' => $program_id
+            	);
+
+            	$result2 = $this->Member_Model->insert($membership_data, 'membership');
+
+            	if ($result2) {
+            		$data['status'] = true;
+            		$data['message'] = 'Successfully registered guest member.';
+            	} else {
+            		$data['status'] = false;
+            		$data['message'] = 'Error creating guest member. Please contact admin!';
+
+            	}
+            } else {
+            	$data['status'] = false;
+        		$data['message'] = 'Error creating guest member. Please contact admin!';
+            }
+        }
+        echo json_encode($data);
+    }
 }
+

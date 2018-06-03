@@ -22,7 +22,7 @@ class Admin_Controller extends CI_Controller {
         $this->load->library('form_validation');
 
         // Load models
-        $this->load->model('User_Model');
+        $this->load->model('user_model');
     }
 
     public function index() {
@@ -38,11 +38,22 @@ class Admin_Controller extends CI_Controller {
      * Modify this to fetch the necessary data from the database
      */
     public function unlock() {
-        $this->session->set_userdata('mode', 'admin');
+        $data = array(
+            'username' => $this->input->post('username'),
+            'password' => sha1($this->input->post('password'))
+        );
 
-        $refer =  $this->agent->referrer();
+        $userAccountData = $this->user_model->login($data);
 
-        redirect($refer);
+        if ($userAccountData) {
+            $this->session->set_userdata('mode', 'admin');
+            $data['status'] = true;
+        } else {
+            $data['status'] = false;
+            $data['message'] = 'Invalid username and/or password!';
+        }
+
+        echo json_encode($data);
     }
 
     /**
@@ -64,7 +75,7 @@ class Admin_Controller extends CI_Controller {
     public function render($page, $data = []) {
         
         $data['isDashboard'] = TRUE;
-        
+        $data['user_type'] = $this->session->userdata('mode');
         $data['breadcrumbs'] = $this->breadcrumbs->get();
         $this->load->view('components/header', $data);
 
@@ -72,7 +83,7 @@ class Admin_Controller extends CI_Controller {
 
         $this->load->view($page, $data);
         
-        $this->load->view('components/footer');
+        $this->load->view('components/footer', $data);
     }
 
 

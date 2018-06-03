@@ -93,6 +93,7 @@ $route['members/attendance/get_specific_date_attendance_by_ajax'] = 'Members_Con
 $route['members/attendance/(:any)'] = 'Members_Controller/get_attendance';
 $route['members/info/update_member_details'] = 'Members_Controller/update_member_details';
 $route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
+$route['members/list/get_program_list_per_member'] = 'Members_Controller/get_program_list_per_member';
 $route['members/list/process_enrollment'] = 'Members_Controller/process_enrollment';
 $route['members/process_fingerprint'] = 'Members_Controller/process_fingerprint';
 $route['members/get_device_account'] = 'Members_Controller/get_device_account';
@@ -101,6 +102,12 @@ $route['members/get_verification_data'] = 'Members_Controller/get_verification_d
 $route['members/info/(:num)'] = 'Members_Controller/get_details';
 $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membership';
 
+/**
+ * Guests 
+ */
+$route['guests/register'] = 'Members_Controller/register_as_guest';
+$route['guests/registration'] = 'Members_Controller/guest_registration';
+$route['guests/get_program_list'] = 'Members_Controller/get_program_list';
 /**
  * Admin Mode
  */

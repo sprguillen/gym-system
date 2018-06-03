@@ -38,19 +38,20 @@
             <h3 class="text-danger"> <?php echo ucfirst($name); ?></h3>
             <hr/>
         </div>
-        
-        <div class="col-md-12">
-            <div class="float-right">
-                <div class="input-group">
-                    <?php if ($user_mode === 'staff'): ?>
-                        <a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
-                    <?php endif; ?>
-                    <?php if ($user_mode === 'admin'): ?>
-                        <a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
-                    <?php endif; ?>
+        <?php if ($this->session->userdata('logged_in')['account_type'] === 'Admin'): ?>
+            <div class="col-md-12">
+                <div class="float-right">
+                    <div class="input-group">
+                        <?php if ($user_mode === 'staff'): ?>
+                            <a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Staff Mode</a>
+                        <?php endif; ?>
+                        <?php if ($user_mode === 'admin'): ?>
+                            <a class="text-danger btn-sm mr-2" href="<?php echo base_url('admin/lock/members'); ?>"><i class="fa fa-lock-open"></i> Admin Mode</a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 
     <div class="row">
@@ -288,29 +289,29 @@
 </div>
 
 <div class="modal fade" id="adminModeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-danger" id="exampleModalLabel">Enter Administrator Mode</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="username">Email username</label>
-          <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="exampleModalLabel">Enter Administrator Mode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="username">Email username</label>
+                    <input type="email" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Enter password</label>
+                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Enter password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger submitAdmin">Submit</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="password">Enter password</label>
-          <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Enter password">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger submitAdmin">Submit</button>
-        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
-  </div>
 </div>
 <script type="text/javascript" src="<?php echo base_url("assets/js/Information.js"); ?>"></script>

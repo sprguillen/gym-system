@@ -89,3 +89,4 @@ define('APP_DATE_TIME_FORMAT', 'M d Y');
 define('NEWLY_ENROLLED_MESSAGE', 'Member has not enrolled yet');
 define('TIME_LIMIT_REG', '15');
 define('FINGERPRINT_API_URL', 'http://localhost/fingerprint-scanner-api/index.php');
+define('GUEST_STATUS', 'Not Applicable');

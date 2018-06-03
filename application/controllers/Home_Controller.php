@@ -59,6 +59,7 @@ class Home_Controller extends CI_Controller {
 			);
 
             $userAccountData = $this->user_model->login($data);
+
             if($userAccountData !== false) {
                 $userProfileData = $this->user_model->get_user_profile(
                     $userAccountData['0']->user_profile_id);
@@ -66,12 +67,14 @@ class Home_Controller extends CI_Controller {
                 if($userProfileData !== false) {
                     $sessionData = array(
                         'username' => $userAccountData[0]->username,
-                        'password' => $userAccountData[0]->password,
                         'email' => $userProfileData[0]->email,
                         'firstname' => $userProfileData[0]->fname,
                         'lastname' => $userProfileData[0]->lname,
-                        'img' => $userProfileData[0]->img
+                        'img' => $userProfileData[0]->img,
+                        'account_type' => $userAccountData[0]->account_type 
                     );
+
+
                     // Initializes access mode as `staff`
                     $this->session->set_userdata('mode', 'staff');
                     
@@ -105,9 +108,10 @@ class Home_Controller extends CI_Controller {
      */
     public function render($page, $isDashboard = false) {
         $data['isDashboard'] = $isDashboard;
+        $data['user_type'] = $this->session->userdata('mode');
 
         $this->load->view('components/header', $data);
         $this->load->view($page);
-        $this->load->view('components/footer');
+        $this->load->view('components/footer', $data);
     }
 }

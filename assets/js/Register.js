@@ -177,20 +177,6 @@ $(document).ready(function (e) {
             $('#member-detail-email').val(memberData['email']);
         });
     });
-
-    $('.register-bttn').on('click', function () {
-        var memberId = $(this).data('id');
-        
-        $.ajax({
-            method: 'GET',
-            url: 'get_details_via_ajax',
-            data: {
-                id: memberId
-            }
-        }).done(function (response) {
-            window.location.replace('register');
-        });
-    });
         
     if ($('#has-fingerprint-data').length > 0) {
         $('#has-fingerprint-data').ready(function () {
