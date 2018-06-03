@@ -63,7 +63,7 @@ class Home_Controller extends CI_Controller {
             if($userAccountData !== false) {
                 $userProfileData = $this->user_model->get_user_profile(
                     $userAccountData['0']->user_profile_id);
-
+                
                 if($userProfileData !== false) {
                     $sessionData = array(
                         'username' => $userAccountData[0]->username,
@@ -71,12 +71,12 @@ class Home_Controller extends CI_Controller {
                         'firstname' => $userProfileData[0]->fname,
                         'lastname' => $userProfileData[0]->lname,
                         'img' => $userProfileData[0]->img,
-                        'account_type' => $userAccountData[0]->account_type 
+                        'account_type' => $userAccountData[0]->user_account_type_id 
                     );
 
 
-                    // Initializes access mode as `staff`
-                    $this->session->set_userdata('mode', 'staff');
+                    $mode = ($userProfileData[0]->user_account_type_id === '1')? 'admin': 'staff';
+                    $this->session->set_userdata('mode', $mode);
                     
                     $this->session->set_userdata('logged_in', $sessionData);
                     redirect(base_url('dashboard'));

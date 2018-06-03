@@ -31,8 +31,8 @@ class Dashboard_Controller extends CI_Controller {
     public function index() {
         $data['page'] = 'Home: Quickstart';
         $data['isDashboard'] = true;
-        $data['membersCount'] = $this->Member_Model->count_all_members();
-        $data['programsCount'] = $this->Member_Model->count_all_programs();
+        // $data['membersCount'] = $this->Member_Model->count_all_members();
+        // $data['programsCount'] = $this->Member_Model->count_all_programs();
 
         $this->render('pages/dashboard', $data);
     }
@@ -55,7 +55,6 @@ class Dashboard_Controller extends CI_Controller {
      */
     public function render($page, $data) {
         $data['user_type'] = $this->session->userdata('mode');
-
         $this->load->view('components/header', $data);
         $this->load->view($page, $data);
         $this->load->view('components/footer', $data);
