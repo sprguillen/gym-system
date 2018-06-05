@@ -19,7 +19,7 @@
         <div class="float-right mb-4">
             <div class="input-group">
                 <a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('programs/add'); ?>"><i class="fa fa-plus"></i> New</a>
-                <input type="text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
+                <input type="text" class="form-control form-control-sm" placeholder="Search for programs..." aria-label="Search for programs..." aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-search"></i> Search</button>
                 </div>

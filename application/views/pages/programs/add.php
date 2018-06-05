@@ -15,6 +15,14 @@
     </div>
 
     <div class="col-md-6 p-lg-8 mx-auto my-5">
+        <div class="alert alert-danger alert-dismissible fade show d-none" id="alert-msg" role="alert">
+            Program with that name already exists.
+            
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="form-group">
             <label for="program-name">Program name</label>
             <input type="text" class="form-control" id="program-name" placeholder="Enter program name" name="program_name">
@@ -42,21 +50,18 @@
             </div>
         </div>
 
-        <h6 id="title-pricing">Pricing rates</h6>
+        <h6 id="title-pricing" class="d-none">Pricing rates</h6>
         <div class="form-group pricing-input"></div>
 
-        <div class="form-group" id="form-btn">
+        <div class="form-group d-none" id="form-btn">
             <a href="<?php echo base_url('programs'); ?>" class="btn btn-outline-danger w-25 float-right">Cancel</a>
-            <button id="guest-submit" class="btn btn-danger w-25 float-right mr-3">Submit</button>
+            <button id="program-add-submit" class="btn btn-danger w-25 float-right mr-3">Submit</button>
         </div>
     </div>
 </div>
 
 <script type="text/javascript" charset="utf-8" async defer>
     $(document).ready(function () {
-
-        $('#title-pricing').hide()
-        $('#form-btn').hide()
 
         let ratesArr = []
 
@@ -90,20 +95,73 @@
 
         $('#add-pricing').on('click', function (e) {
             e.preventDefault()
+            $('#alert-msg').addClass('d-none')  
 
-            $('#title-pricing').show()
-            $('#form-btn').show()
+            $.ajax({
+                method: 'POST',
+                url: '/gym-system/Programs_Controller/ajax_check_if_program_exists',
+                data: { 
+                    program_name: $('#program-name').val()
+                }
+            }).done(function (response) {
+                response = JSON.parse(response)
+                
+                if (response) {
+                    $('#alert-msg').removeClass('d-none')   
+                } else {
+                    console.log('here')
+                    $('#title-pricing').removeClass('d-none')
+                    $('#form-btn').removeClass('d-none')
+
+                    $('.pricing-input').html('')
+                    $('#program-name').attr('disabled', true)
+                    $('#add-pricing').attr('disabled', true)
+
+                    ratesArr.forEach(function (item, index) {
+                        let itemName = item.replace(/ /g, '_').toLowerCase()
+
+                        let inputHtml = `<label for="rate-type" class="rate-type mt-3">${item}</label>
+                                        <input type="number" class="form-control" placeholder="Enter price" name="price_month[${index}]" required>`
+
+                                        $('.pricing-input').append(inputHtml)
+                    })
+                }
+                
+            })
+
             
-            $('.pricing-input').html('')
-            $('#program-name').attr('disabled', true);
+        })
 
-            ratesArr.forEach(function (item) {
-                let itemName = item.replace(/ /g, '_').toLowerCase()
+        $('#program-add-submit').on('click', function (e) {
+            e.preventDefault()
 
-                let inputHtml = `<label for="rate-type" class="rate-type mt-3">${item}</label>
-                                     <input type="number" class="form-control" placeholder="Enter price" name="${itemName}">`
+            let programName = $('#program-name').val()
+            let rates = {}
 
-                $('.pricing-input').append(inputHtml)
+            ratesArr.forEach(function (item, index) {
+                let name = `input[name="price_month[${index}]"]`
+                
+                let tempRate = {
+                    [item]: $(name).val()
+                }
+
+                rates = {...rates, ...tempRate}
+            })
+
+            $.ajax({
+                method: 'POST',
+                url: '/gym-system/Programs_Controller/ajax_add_program',
+                data: { 
+                    program_name: programName,
+                    rates: JSON.stringify(rates)
+                }
+            }).done(function (response) {
+                response = JSON.parse(response)
+                
+                if (response) {
+                    window.location.href = '/gym-system/programs'
+                }
+                
             })
         })
 

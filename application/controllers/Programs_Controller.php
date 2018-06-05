@@ -45,6 +45,9 @@ class Programs_Controller extends CI_Controller {
         $this->render('list', $data);
     }
 
+    /**
+     * Displays the add program page
+     */
     public function add_program() {
         $data['programs'] = $this->Program_Model->get_all_programs();
         $data['duration'] = ['1 Month', '3 Months', '6 Months', '1 Year'];
@@ -52,6 +55,34 @@ class Programs_Controller extends CI_Controller {
         $this->breadcrumbs->set(['New' => 'programs/add']);
         
         $this->render('add', $data);
+    }
+
+    /**
+     * Ajax call to check if the name already exists in `program` table
+     * @return [Boolean] $result
+     */
+    public function ajax_check_if_program_exists() {
+        $name = $this->input->post('program_name');
+        $result = $this->Program_Model->program_exists($name);
+
+        echo json_encode($result);
+    }
+
+    /**
+     * AJAX call to insert program and prices into their respective tables
+     */
+    public function ajax_add_program() {
+        $rates = json_decode($this->input->post('rates'));
+        $program_name = $this->input->post('program_name');
+
+        $data = [
+            'rates' => $rates,
+            'program_name' => $program_name
+        ];
+
+        $result = $this->Program_Model->add_program($data);
+
+        echo json_encode($result);
     }
 
     /**

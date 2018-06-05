@@ -32,9 +32,9 @@
 		<div class="<?php echo $width_class; ?>">
     		<div class="card text-center">
        		<div class="card-body">
-				<h2 class="card-title font-weight-bold text-dark">Programs</h2>
+				<h2 class="card-title font-weight-bold text-dark">Administrator</h2>
 				<hr/>
-				<a href="<?php echo base_url('guests/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Add a program</a>
+				<a href="<?php echo base_url('Programs/add'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Add a program</a>
 				<a href="<?php echo base_url('programs'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar-alt fa-xs"></i> View all programs</a>
       		</div>
     		</div>
