@@ -92,11 +92,13 @@ $(document).ready(function() {
 		});
 	})
 
-	$(".freeze-data").click(function (e) {
+	$(document).on('click', '.freeze-data', function (e) {
 		e.preventDefault();
 		let id = $(this).attr('data-id');
 		let name = $(this).attr('data-name');
 
+        console.log(id);
+        console.log(name);
 		$(".member-name").html(name);
 		$("#member-id").val(id);
 	})
@@ -226,7 +228,9 @@ $(document).ready(function() {
         var pathArry = pathName.split("/");
         var status = pathArry[4];
 
-        var htmlTop = "<table class='table table-sm table-hover>" +
+        console.log(searchText);
+        console.log(status);
+        var htmlTop = "<table class='table table-sm table-hover' id='list-table-contents'>" +
             "<thead class='thead'>" +
             "<tr>" +
             "<th scope='col'>#</th>" +
@@ -306,16 +310,16 @@ $(document).ready(function() {
                             "data-toggle='modal' data-target='#enrollment-modal' data-id='" + member['id'] + "'>" + 
                             enrollmentBtnText + "</button>"; 
                     }
-                    console.log(memberLoginEle);
+
                     htmlMid += "<tr><th scope='row'>" + member['id'] + "</th>" +
                         "<td><a class='text-info member-dialog-link' href='" + urlFull + "'>" + member['name'] + "</a></td>" +
                         "<td>" + duration + "</td>" +
                         "<td>" + classEle + "</td>" +
                         "<td>" + isPaid + "</td>" +
-                        "<td>" + enrollmentEle + memberLoginEle + freezeEle + "</td></tr>";
+                        "<td>" + enrollmentEle + " " + memberLoginEle + " " + freezeEle + "</td></tr>";
 
                 });
-
+                console.log($('#list-table-contents'));
                 $('#list-table-contents').remove();
                 $('#list-table').append(htmlTop + htmlMid + htmlBot);
             } else {
