@@ -101,6 +101,7 @@ $route['members/biometric-login'] = 'Members_Controller/biometric_login';
 $route['members/get_verification_data'] = 'Members_Controller/get_verification_data';
 $route['members/info/(:num)'] = 'Members_Controller/get_details';
 $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membership';
+$route['members/list/get_member_by_name'] = 'Members_Controller/get_member_by_name';
 
 /**
  * Guests 

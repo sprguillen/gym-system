@@ -743,5 +743,110 @@ class Members_Controller extends CI_Controller {
         }
         echo json_encode($data);
     }
+
+    public function get_member_by_name() {
+    	$paid_arry = [];
+		$return_data = [];
+    	$name = $_GET['name'];
+    	$status = $_GET['status'];
+
+    	$results = $this->Member_Model->get_member_by_name($name, $status);
+    	if ($results) {
+    		$data['status'] = true;
+
+    		if ($status === 'active' || $status === 'frozen') {
+	    		foreach ($results as $member) {
+	    			$programs_enrolled = $this->Member_Model->get_memberships_by_id_status($member->id, 'active');
+
+					$paid_arry = [];
+
+					if (strpos($member->programs_status, ',') !== false) {
+						$status_arry = explode(",", $member->programs_status);
+						foreach ($status_arry as $sa) {
+							if ($sa === 'Active' || $sa === 'Frozen') {
+								$paid = "Yes";
+							} else {
+								$paid = "No";
+							}
+							array_push($paid_arry, $paid);
+						}
+						$paid = implode(",", $paid_arry);
+					} else {
+						if ($member->programs_status === 'Active' || 
+							$member->programs_status === 'Frozen') {
+							$paid = 'Yes';
+						} else {
+							$paid = 'No';
+						}
+					}
+
+					$pushed_data = [
+						'id' => $member->id,
+						'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+						'duration' => $member->duration,
+						'classes' => $member->programs_type,
+						'isPaid' => $paid,
+						'programs_enrolled' => $programs_enrolled
+					];
+
+					array_push($return_data, $pushed_data);
+	    		}
+	    	} else if ($status === 'inactive') {
+				$members_without_membership = $this->Member_Model->get_no_membership_member();
+
+				foreach ($members_without_membership as $member) {
+					$pushed_data = [
+						'id' => $member->id,
+						'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+						'duration' => "-",
+						'classes' => "Member has not enrolled yet",
+						'isPaid' => "Not yet"
+					];
+
+					array_push($return_data, $pushed_data);
+				}
+
+				$members_with_expired_membership = $this->Member_Model->get_all_membership_by_status($status);
+
+				foreach ($members_with_expired_membership as $member) {
+					if (strpos($member->programs_status, ',') !== false) {
+						$status_arry = explode(",", $member->programs_status);
+						foreach ($status_arry as $sa) {
+							if ($sa === 'Inactive') {
+								$paid = "No";
+							} else {
+								$paid = "Yes";
+							}
+							array_push($paid_arry, $paid);
+						}
+						$paid = implode(",", $paid_arry);
+					} else {
+						if ($member->programs_status === 'Inactive') {
+							$paid = 'No';
+						}
+					}
+
+					$pushed_data = [
+						'id' => $member->id,
+						'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
+						'duration' => $member->duration,
+						'classes' => $member->programs_type,
+						'isPaid' => $paid,
+						'displayRenewButton' => true
+					];
+
+					array_push($return_data, $pushed_data);
+				}
+			}
+
+    		$data['members'] = $return_data;
+    		$data['mode'] = $this->session->userdata('mode');
+    	} else {
+    		$data['status'] = false;
+    		$data['message'] = 'No members found with that name.';
+    	}
+
+    	echo json_encode($data);
+    }
 }
 

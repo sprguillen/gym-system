@@ -53,9 +53,9 @@
 		<div class="float-right">
 	  		<div class="input-group">
 				<a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('members/register'); ?>"><i class="fa fa-plus"></i> New</a>
-				<input type="text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
+				<input type="text" id="search-text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
 				<div class="input-group-append">
-		  			<button class="btn btn-outline-primary btn-sm" type="button"><i class="fa fa-search"></i> Search</button>
+		  			<button class="btn btn-outline-primary btn-sm" type="button" id="search-bttn"><i class="fa fa-search"></i> Search</button>
 				</div>
 		  	</div>
 		</div>
@@ -90,7 +90,7 @@
 		<?php endif; ?>
 		<div id="list-table">
 			<?php if (strtolower($type) !== 'guest'): ?>
-			  	<table class="table table-sm table-hover">
+			  	<table class="table table-sm table-hover" id="list-table-contents">
 					<thead class="thead">
 				  	<tr>
 						<th scope="col">#</th>
@@ -178,7 +178,7 @@
 			<?php endif; ?>
 
 			<?php if (strtolower($type) === 'guest'): ?>
-			  	<table class="table table-sm table-hover">
+			  	<table class="table table-sm table-hover" id="list-table-contents-guest">
 					<thead class="thead">
 				  		<tr>
 							<th scope="col">#</th>

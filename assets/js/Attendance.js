@@ -29,12 +29,12 @@ $(document).ready(function (e) {
 		}).done(function (response) {
 			var htmlMid = '';
 			var membersList = JSON.parse(response);
-			membersList.forEach(function (members) {
+			membersList.forEach(function (member) {
 				htmlMid += "<tr>" +
-						"<th>" + members['id'] + "</th>" +
-						"<td>" + members['first_name'] + ' ' + members['middle_name'] + ' ' + members['last_name'] + "</td>" +
-						"<td>" + members['program_type'] + "</td>" +
-						"<td>" + members['logged_in'] + "</td>" +
+						"<th>" + member['id'] + "</th>" +
+						"<td>" + member['first_name'] + ' ' + member['middle_name'] + ' ' + member['last_name'] + "</td>" +
+						"<td>" + member['program_type'] + "</td>" +
+						"<td>" + member['logged_in'] + "</td>" +
 					"</tr>";
 			});
 

@@ -362,4 +362,18 @@ class Member_Model extends CI_Model {
             return $this->get_monthly_attendance();
         }
     }
+
+    public function get_member_by_name($name, $status) {
+        $name = $name . '%';
+        $sql = "SELECT m.id, m.fname, m.mname, m.lname, m.date_created,
+            GROUP_CONCAT(CONCAT(DATE_FORMAT(ms.date_started, '%M %d %Y'), 
+            ' - ', DATE_FORMAT(ms.date_expired, '%M %d %Y')) SEPARATOR ', ') as duration, 
+            GROUP_CONCAT(status) as programs_status, GROUP_CONCAT(p.type) as programs_type
+            FROM member m JOIN membership ms on m.id = ms.member_id JOIN program p
+            on ms.program_id = p.id WHERE ms.status = ? AND
+            CONCAT(m.fname, ' ', m.mname, ' ', m.lname) LIKE ? GROUP BY m.id
+            ORDER BY m.date_created DESC"; 
+
+        return $this->db->query($sql, array($status, $name))->result();
+    }
 }
