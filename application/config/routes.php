@@ -109,6 +109,8 @@ $route['members/list/get_member_by_name'] = 'Members_Controller/get_member_by_na
 $route['guests/register'] = 'Members_Controller/register_as_guest';
 $route['guests/registration'] = 'Members_Controller/guest_registration';
 $route['guests/get_program_list'] = 'Members_Controller/get_program_list';
+
+
 /**
  * Admin Mode
  */
@@ -121,3 +123,10 @@ $route['admin/add_user'] = 'Admin_Controller/add_user';
  * Coaches
  */
 $route['coaches'] = 'Coaches_Controller/getList';
+
+/**
+ * Programs
+ */
+$route['programs'] = 'Programs_Controller/programs_list';
+$route['programs/add'] = 'Programs_Controller/add_program';
+
