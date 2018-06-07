@@ -376,4 +376,12 @@ class Member_Model extends CI_Model {
 
         return $this->db->query($sql, array($status, $name))->result();
     }
+
+    public function get_no_membership_member_by_name($name) {
+        $sql = "SELECT id, fname, mname, lname, date_created
+            FROM member WHERE id NOT IN (SELECT member_id FROM membership)
+            AND CONCAT(m.fname, ' ', m.mname, ' ', m.lname) LIKE ?";
+
+        return $this->db->query($sql, $name)->result();
+    }
 }

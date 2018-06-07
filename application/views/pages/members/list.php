@@ -56,6 +56,7 @@
 				<input type="text" id="search-text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
 				<div class="input-group-append">
 		  			<button class="btn btn-outline-primary btn-sm" type="button" id="search-bttn"><i class="fa fa-search"></i> Search</button>
+		  			<button class="btn btn-outline-secondary btn-sm" type="button" id="clear-bttn"><i class="fa fa-undo"></i> Clear</button>
 				</div>
 		  	</div>
 		</div>

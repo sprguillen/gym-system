@@ -1,7 +1,10 @@
 $(document).ready(function() {
+    var listTableOrig = $('#list-table-contents');
 
 	$('.freeze-alert').hide();
+    $('#clear-bttn').hide();
     $('#search-bttn').prop('disabled', true);
+    $('#search-text').val(null);
 
     $('.move-membership').on('click', function (e) {
         e.preventDefault();
@@ -216,9 +219,24 @@ $(document).ready(function() {
     $('#search-text').on('keyup', function () {
         if ($('#search-text').val().length > 0) {
              $('#search-bttn').prop('disabled', false);
+
+             $('#clear-bttn').show();
         } else {
             $('#search-bttn').prop('disabled', true);
         }
+    });
+
+    $('#clear-bttn').on('click', function () {
+        if ($('#search-text').val().length > 0) {
+            $('#search-text').val(null);
+            $('#search-bttn').prop('disabled', true);
+            $(this).hide();
+
+            if ($('#list-table-contents').hasClass('append-table')) {
+                $('#list-table-contents').remove();
+                $('#list-table').append(listTableOrig);
+            }
+        } 
     });
 
     $('#search-bttn').on('click', function () {
@@ -228,9 +246,7 @@ $(document).ready(function() {
         var pathArry = pathName.split("/");
         var status = pathArry[4];
 
-        console.log(searchText);
-        console.log(status);
-        var htmlTop = "<table class='table table-sm table-hover' id='list-table-contents'>" +
+        var htmlTop = "<table class='table table-sm table-hover append-table' id='list-table-contents'>" +
             "<thead class='thead'>" +
             "<tr>" +
             "<th scope='col'>#</th>" +
