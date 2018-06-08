@@ -22,7 +22,7 @@ class Admin_Controller extends CI_Controller {
         $this->load->library('form_validation');
 
         // Load models
-        $this->load->model('user_model');
+        $this->load->model('User_Model');
     }
 
     public function index() {

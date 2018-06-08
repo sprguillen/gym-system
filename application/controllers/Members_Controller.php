@@ -750,13 +750,14 @@ class Members_Controller extends CI_Controller {
     	$name = $_GET['name'];
     	$status = $_GET['status'];
 
-    	$results = $this->Member_Model->get_member_by_name($name, $status);
-    	if ($results) {
-    		$data['status'] = true;
+   		if ($status === 'active' || $status === 'frozen') {
+   			$members = $this->Member_Model->get_member_by_name($name, $status);
 
-    		if ($status === 'active' || $status === 'frozen') {
-	    		foreach ($results as $member) {
-	    			$programs_enrolled = $this->Member_Model->get_memberships_by_id_status($member->id, 'active');
+   			if ($members) {
+   				$data['status'] = true;
+
+				foreach ($members as $member) {
+					$programs_enrolled = $this->Member_Model->get_memberships_by_id_status($member->id, 'active');
 
 					$paid_arry = [];
 
@@ -790,10 +791,18 @@ class Members_Controller extends CI_Controller {
 					];
 
 					array_push($return_data, $pushed_data);
-	    		}
-	    	} else if ($status === 'inactive') {
-				$members_without_membership = $this->Member_Model->get_no_membership_member();
+				}
 
+				$data['members'] = $return_data;
+				$data['mode'] = $this->session->userdata('mode');
+   			} else {
+   				$data['status'] = false;
+   				$data['message'] = 'No members found with that name.';
+   			}
+   		} else if ($status === 'inactive') {
+   			$members_without_membership = $this->Member_Model->get_no_membership_member_by_name($name);
+
+			if ($members_without_membership) {
 				foreach ($members_without_membership as $member) {
 					$pushed_data = [
 						'id' => $member->id,
@@ -805,9 +814,11 @@ class Members_Controller extends CI_Controller {
 
 					array_push($return_data, $pushed_data);
 				}
+			}
 
-				$members_with_expired_membership = $this->Member_Model->get_all_membership_by_status($status);
+			$members_with_expired_membership = $this->Member_Model->get_member_by_name($name, $status);
 
+			if ($members_with_expired_membership) {
 				foreach ($members_with_expired_membership as $member) {
 					if (strpos($member->programs_status, ',') !== false) {
 						$status_arry = explode(",", $member->programs_status);
@@ -839,12 +850,15 @@ class Members_Controller extends CI_Controller {
 				}
 			}
 
-    		$data['members'] = $return_data;
-    		$data['mode'] = $this->session->userdata('mode');
-    	} else {
-    		$data['status'] = false;
-    		$data['message'] = 'No members found with that name.';
-    	}
+			if ($members_without_membership || $members_with_expired_membership) {
+				$data['status'] = true;
+				$data['members'] = $return_data;
+				$data['mode'] = $this->session->userdata('mode');
+			} else {
+				$data['status'] = false;
+   				$data['message'] = 'No members found with that name.';
+			}
+   		}
 
     	echo json_encode($data);
     }

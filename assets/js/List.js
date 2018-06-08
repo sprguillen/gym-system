@@ -100,8 +100,6 @@ $(document).ready(function() {
 		let id = $(this).attr('data-id');
 		let name = $(this).attr('data-name');
 
-        console.log(id);
-        console.log(name);
 		$(".member-name").html(name);
 		$("#member-id").val(id);
 	})
@@ -142,14 +140,13 @@ $(document).ready(function() {
         }
 	});
 
-    $('.enrollment-btn').click(function () {
+    $(document).on('click', '.enrollment-btn', function () {
         var memberId = $(this).data('id');
         if ($('#enroll-program > option').length > 0) {
             $('#enroll-program > option').remove();    
         }
         
         $('#enrollment-modal').attr('data-id', $(this).data('id'));
-        console.log($('#enroll-program > option').length);
         if ($('#enroll-program > option').length === 0) {
             $('#enroll-program').ready(function () {
                 $.ajax({
@@ -305,7 +302,7 @@ $(document).ready(function() {
                             freezeEle = "<button type='button' data-id='" + member['id'] + "' data-name='" + member['name'] +
                                 "' data-toggle='modal' data-target='#freezeMember' class='btn btn-sm btn-outline-primary " +
                                 "freeze-data'>Freeze</button>";
-                        } else {
+                        } else if (status === 'frozen') {
                             freezeEle = "<button type='button' data-id='" + member['id'] + "' data-name='" + member['name'] +
                                 "' data-toggle='modal' data-target='#unfreeze-member' class='btn btn-sm btn-outline-primary " +
                                 "freeze-data'>Unfreeze</button>";
