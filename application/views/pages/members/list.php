@@ -267,16 +267,12 @@
 	  		</div>
 	  		<div class="modal-body">
 				<div class="form-group">
-		  			<label for="enroll-program">Select a program</label>
+		  			<label for="enroll-program">Programs</label>
 		  			<select class="form-control" id="enroll-program"></select>
 				</div>
 				<div class="form-group">
-			  		<label for="payment-length">Payment Scheme</label>
-		  			<select class="form-control" id="payment-length">
-						<option value="+1 month">1 month</option>
-						<option value="+3 months">3 months</option>
-						<option value="+6 months">6 months</option>
-						<option value="+1 year">1 year</option>
+			  		<label for="payment-length" class="hidden-by-default">Duration and Price</label>
+		  			<select class="form-control hidden-by-default" id="payment-length">
 		  			</select>
 				</div>
 	  		</div>

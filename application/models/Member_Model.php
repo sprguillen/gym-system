@@ -71,21 +71,6 @@ class Member_Model extends CI_Model {
         return $this->db->query($sql, $id)->result();
     }
 
-    public function get_all_programs() {
-        $sql = "SELECT * FROM program";
-
-        return $this->db->query($sql)->result();
-    }
-
-    public function get_all_programs_member($member_id) {
-        $sql = "SELECT 
-                p.id,
-                p.type
-            FROM program p WHERE p.id NOT IN (SELECT m.program_id FROM membership m WHERE m.member_id = ?)";
-
-        return $this->db->query($sql, $member_id)->result();
-    }
-
     public function freeze_membership($member_id, $freeze_data) {
         $sql = "SELECT membership.id AS membership_id FROM membership JOIN member ON membership.member_id = member.id
         WHERE member.id = '" . $member_id . "' AND membership.status = 'Active'"; 

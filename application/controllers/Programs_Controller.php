@@ -40,6 +40,7 @@ class Programs_Controller extends CI_Controller {
      */
     public function programs_list() {
         $data['programs'] = $this->Program_Model->get_all_programs();
+        
         $this->breadcrumbs->set(['List' => 'programs']);
      
         $this->render('list', $data);
@@ -101,4 +102,35 @@ class Programs_Controller extends CI_Controller {
         $this->load->view('components/footer');
     }
 
+    /**
+     * Get list of all programs (called by AJAX)
+     * @return JSON
+     */
+    public function get_program_list() {
+        $program_list = $this->Program_Model->get_all_programs_type();
+
+        echo json_encode($program_list);
+    }
+
+    /**
+     * Get list of all programs per member (called by AJAX)
+     * @return JSON
+     */
+    public function get_program_list_per_member() {
+        $member_id = $_GET['member_id'];
+        $program_list = $this->Program_Model->get_all_programs_member($member_id);
+
+        echo json_encode($program_list);
+    }
+
+    /**
+     * Get program payment scheme (called by AJAX)
+     * @return JSON
+     */
+    public function get_program_payment_by_program_id() {
+        $program_id = $_GET['program_id'];
+        $program_scheme = $this->Program_Model->get_program_price_by_program_id($program_id);
+
+        echo json_encode($program_scheme);
+    }
 }

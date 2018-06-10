@@ -94,8 +94,6 @@ $route['members/attendance'] = 'Members_Controller/get_attendance';
 $route['members/attendance/get_specific_date_attendance_by_ajax'] = 'Members_Controller/get_specific_date_attendance_by_ajax';
 $route['members/attendance/(:any)'] = 'Members_Controller/get_attendance';
 $route['members/info/update_member_details'] = 'Members_Controller/update_member_details';
-$route['members/list/get_program_list'] = 'Members_Controller/get_program_list';
-$route['members/list/get_program_list_per_member'] = 'Members_Controller/get_program_list_per_member';
 $route['members/list/process_enrollment'] = 'Members_Controller/process_enrollment';
 $route['members/process_fingerprint'] = 'Members_Controller/process_fingerprint';
 $route['members/get_device_account'] = 'Members_Controller/get_device_account';
@@ -131,4 +129,6 @@ $route['coaches'] = 'Coaches_Controller/getList';
  */
 $route['programs'] = 'Programs_Controller/programs_list';
 $route['programs/add'] = 'Programs_Controller/add_program';
-
+$route['members/list/get_program_list'] = 'Programs_Controller/get_program_list';
+$route['members/list/get_program_list_per_member'] = 'Programs_Controller/get_program_list_per_member';
+$route['members/list/get_program_payment_by_program_id'] = 'Programs_Controller/get_program_payment_by_program_id';

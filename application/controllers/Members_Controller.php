@@ -25,6 +25,7 @@ class Members_Controller extends CI_Controller {
 		// Load models
 		$this->load->model('Member_Model');
 		$this->load->model('Fingerprint_Model');
+		$this->load->model('Program_Model');
 
 		$this->breadcrumbs->set(['Dashboard' => '/', 'Members' => 'members']);
 		$this->type = $this->uri->segment(3);
@@ -366,27 +367,6 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
-	 * Get list of all programs (called by AJAX)
-	 * @return JSON
-	 */
-	public function get_program_list() {
-		$program_list = $this->Member_Model->get_all_programs();
-
-		echo json_encode($program_list);
-	}
-
-	/**
-	 * Get list of all programs (called by AJAX)
-	 * @return JSON
-	 */
-	public function get_program_list_per_member() {
-		$member_id = $_GET['member_id'];
-		$program_list = $this->Member_Model->get_all_programs_member($member_id);
-
-		echo json_encode($program_list);
-	}
-
-	/**
 	 * Update member (called by AJAX)
 	 */
 	public function update_member_details() {
@@ -444,31 +424,58 @@ class Members_Controller extends CI_Controller {
 	public function process_enrollment() {
 		$member_id 	= $_POST['member_id'];
 		$program_id = $_POST['program_id'];
+		$program_price_id = $_POST['program_price_id'];
 
-		$date_started = date(MYSQL_DATE_TIME_FORMAT, strtotime("now"));
-		$date_expired = date(MYSQL_DATE_TIME_FORMAT, strtotime($_POST['payment_length']));
+		$program_price = $this->Program_Model->get_program_price_by_id($program_price_id);
 
-		$data = [
-			'member_id' => $member_id,
-			'program_id' => $program_id,
-			'date_started' => $date_started,
-			'date_expired' => $date_expired,
-			'status' => 'Active'
-		];
+		if ($program_price) {
+			$duration = '+' . $program_price[0]->duration;
 
-		$result = $this->Member_Model->insert($data, 'membership');
-		if ($result) {
-			$response = [
-				'status' => true,
-				'message' => 'Member successfully enrolled..'
+			$date_started = date(MYSQL_DATE_FORMAT, strtotime("now"));
+			$date_expired = date(MYSQL_DATE_FORMAT, strtotime($duration));
+
+			$data = [
+				'member_id' => $member_id,
+				'program_id' => $program_id,
+				'date_started' => $date_started,
+				'date_expired' => $date_expired,
+				'status' => 'Active'
 			];
+
+			$result = $this->Member_Model->insert($data, 'membership');
+			if ($result) {
+				$current_date_time = date(MYSQL_DATE_TIME_FORMAT, strtotime("now"));
+				$data = array(
+					'payment_date_time' => $current_date_time,
+					'membership_id' => $result,
+					'program_price_id' => $program_price_id
+				);
+
+				$result = $this->Member_Model->insert($data, 'membership_payment');
+
+				if ($result) {
+					$response = [
+						'status' => true,
+						'message' => 'Member successfully enrolled..'
+					];
+				} else {
+					$response = [
+						'status' => false,
+						'message' => 'Member enrollment error! Contact admin now!'
+					];
+				}
+			} else {
+				$response = [
+					'status' => false,
+					'message' => 'Member enrollment error! Contact admin now!'
+				];
+			}
 		} else {
 			$response = [
 				'status' => false,
-				'message' => 'Member insert error! Contact admin now!'
+				'message' => 'Error getting price list from server! Contact admin now!'
 			];
 		}
-
 		echo json_encode($response);
 	}
 

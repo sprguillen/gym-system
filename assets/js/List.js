@@ -5,6 +5,8 @@ $(document).ready(function() {
     $('#clear-bttn').hide();
     $('#search-bttn').prop('disabled', true);
     $('#search-text').val(null);
+    $('.hidden-by-default').hide();
+    $('#enroll-submit').prop('disabled', true);
 
     $('.move-membership').on('click', function (e) {
         e.preventDefault();
@@ -156,17 +158,40 @@ $(document).ready(function() {
                         'member_id': memberId
                     }
                 }).done(function (response) {
-                    console.log(response);
                     var programData = JSON.parse(response);
+                    $('#enroll-program').append('<option disabled selected value>Select a program </option>');
                     programData.forEach(function (program) {
                         $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
                     });
                 });
             });
         }
+
+        $('#enroll-program').on('change', function () {
+            if ($(this).val()) {
+                $.ajax({
+                    method: 'GET',
+                    url: 'get_program_payment_by_program_id',
+                    data: {
+                        'program_id': $(this).val()
+                    }
+                }).done(function (response) {
+                    var schemeData = JSON.parse(response);
+
+                    if (schemeData) {
+                        $('#payment-length > option').remove();
+                        $('.hidden-by-default').show();
+                        schemeData.forEach(function (data) {
+                             $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                        });
+                        $('#enroll-submit').prop('disabled', false);
+                    }
+                });
+            }
+        });
     });
 
-    $('#enroll-submit').click(function () {
+    $('#enroll-submit').on('click', function () {
         var memberId = $('#enrollment-modal').attr('data-id');
         $.ajax({
             method: 'POST',
@@ -174,13 +199,13 @@ $(document).ready(function() {
             data: {
                 'member_id': memberId,
                 'program_id': $('#enroll-program').val(),
-                'payment_length': $('#payment-length').val()
+                'program_price_id': $('#payment-length').val()
             }
         }).done(function (response) {
             var parsedResponse = JSON.parse(response);
             if (parsedResponse.status) {
                 vex.dialog.alert({
-                    unsafeMessage: parsedResponse.message,
+                    message: parsedResponse.message,
                     callback: function (value) {
                         $('#enrollment-modal').modal('toggle');
                         location.reload();
@@ -189,7 +214,7 @@ $(document).ready(function() {
             } else {
             	var errMsg = 'Error: ' + parsedResponse.message;
                 vex.dialog.alert({
-                    unsafeMessage: errMsg,
+                    message: errMsg,
                     callback: function (value) {
                         $('#enrollment-modal').modal('toggle');
                         location.reload();

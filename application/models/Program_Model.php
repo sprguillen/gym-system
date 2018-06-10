@@ -14,12 +14,9 @@ class Program_Model extends CI_Model {
     }
 
     public function get_all_programs() {
-        $this->db->select('*');
-        $this->db->from('program');
-        $this->db->join('program_price', 'program_price.program_id = program.id');
-        $query = $this->db->get();
+        $sql = "SELECT p.id, p.type, pp.duration, pp.price FROM program p JOIN program_price pp ON p.id = pp.program_id";
 
-        return $query->result();
+        return $this->db->query($sql)->result();
     }
 
     public function program_exists($type) {
@@ -57,5 +54,31 @@ class Program_Model extends CI_Model {
         }
 
         return $status;
+    }
+
+    public function get_all_programs_type() {
+        $sql = "SELECT * FROM program";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function get_all_programs_member($member_id) {
+        $sql = "SELECT 
+                p.id,
+                p.type
+            FROM program p WHERE p.id NOT IN (SELECT m.program_id FROM membership m WHERE m.member_id = ?)";
+
+        return $this->db->query($sql, $member_id)->result();
+    }
+
+    public function get_program_price_by_program_id($program_id) {
+        $sql = "SELECT * FROM program_price WHERE program_id = ?";
+
+        return $this->db->query($sql, $program_id)->result();
+    }
+
+    public function get_program_price_by_id($id) {
+        $sql = "SELECT * FROM program_price WHERE id = ?";
+        return $this->db->query($sql, $id)->result();
     }
 }

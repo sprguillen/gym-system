@@ -31,6 +31,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Program</th>
+                <th scope="col">Duration</th>
                 <th scope="col">Rates</th>
                 <th scope="col">Action</th>
             </tr>
@@ -40,7 +41,8 @@
                 <tr>
                     <th scope="col"><?php echo ($key+1); ?></th>
                     <td><?php echo $value->type; ?></td>
-                    <td></td>
+                    <td><?php echo $value->duration; ?></td>
+                    <td>PHP <?php echo $value->price; ?></td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary freeze-data">Edit</button>
 
