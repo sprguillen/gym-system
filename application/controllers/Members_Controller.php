@@ -858,6 +858,27 @@ class Members_Controller extends CI_Controller {
 				$data['status'] = false;
    				$data['message'] = 'No members found with that name.';
 			}
+   		} else if ($status === 'guest') {
+   			$guests = $this->Member_Model->get_member_by_name($name, 'Not Applicable');
+
+			if ($guests) {
+				$data['status'] = true;
+				foreach ($guests as $guest) {
+					$pushed_data = [
+						'id' => $guest->id,
+						'name' => $guest->fname . ' ' . $guest->mname . ' ' . $guest->lname,
+						'duration' => $guest->duration,
+						'classes' => $guest->programs_type
+					];
+					array_push($return_data, $pushed_data);
+				}
+
+				$data['members'] = $return_data;
+				$data['mode'] = $this->session->userdata('mode');
+			} else {
+				$data['status'] = false;
+   				$data['message'] = 'No guests found with that name.';
+			}
    		}
 
     	echo json_encode($data);
