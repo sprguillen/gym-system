@@ -153,7 +153,7 @@
 									?>
 								</td>
 								<td>
-								<?php if (strtolower($type) !== 'frozen'): ?>
+								<!-- <?php if (strtolower($type) !== 'frozen'): ?>
 									<?php
 										if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 											$target = '#renewal-modal';
@@ -175,7 +175,29 @@
 						  			<?php if (strtolower($type) === 'active'): ?>
 										<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
 									<?php endif; ?>
-						  		<?php endif; ?>
+						  		<?php endif; ?> -->
+						  		<?php
+						  			if (strtolower($type) !== 'frozen') {
+						  				if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
+						  					echo '<button type="button" class="btn btn-danger btn-sm renew-btn" data-toggle="modal" data-target="#renewal-modal" data-id="' . $value['id'] . '">Renew</button> ';
+						  					$enroll_link = false;
+						  				}
+
+						  				if (strtolower($type) === 'active') {
+						  					$bttn_text = 'Add a program';
+						  					$enroll_link = true;
+						  				} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
+						  					$bttn_text = 'Enroll a program';
+						  					$enroll_link = false;
+						  				}
+
+						  				echo '<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="' . $value['id'] . '">' . $bttn_text . '</button> ';
+
+						  				if ($enroll_link) {
+						  					echo '<a href="' . base_url() . 'members/biometric-login?member_id=' . $value['id'] . '" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>';
+						  				}
+						  			}
+						  		?>
 				  				<?php if ($user_mode === 'admin'): ?>
 									<?php if (strtolower($type) === 'active'): ?>
 										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
