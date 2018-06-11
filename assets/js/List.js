@@ -5,27 +5,36 @@ $(document).ready(function() {
     $('#clear-bttn').hide();
     $('#search-bttn').prop('disabled', true);
     $('#search-text').val(null);
-    $('.hidden-by-default').hide();
-    $('#enroll-submit').prop('disabled', true);
 
     $('.move-membership').on('click', function (e) {
         e.preventDefault();
-        let newExpiryDate = $('.date_expired_input').val();
+        let programPriceId = $('#extension-field').val();
         let membershipId = $('.membership_id_val').val();
 
-        console.log('hello', membershipId)
-        $.ajax({
-            url: '/gym-system/Members_Controller/ajax_update_membership_expiry',
-            type: 'POST',
-            data: { membershipId, newExpiryDate  },
-            success: function (data) {
-                data = JSON.parse(data);
-        
-                if (data) {
-                    window.location.reload();
+        vex.dialog.confirm({
+            message: 'Are you sure?',
+            callback: function (value) {
+                if (value) {
+                    $.ajax({
+                        url: '/gym-system/Members_Controller/ajax_update_membership_expiry',
+                        type: 'POST',
+                        data: { membershipId, programPriceId },
+                        success: function (data) {
+                            data = JSON.parse(data);
+                            vex.dialog.alert({
+                                message: data.message,
+                                callback: function (value) {
+                                    if (data.status) {
+                                        location.reload();
+                                    }
+                                }
+                            });  
+                        }
+                    });
                 }
             }
         });
+        
 
     });
 
@@ -33,11 +42,28 @@ $(document).ready(function() {
         let membershipId = $(this).attr('data-membership_id');
         let dateExpired = $(this).attr('data-date_expired');
         let programName = $(this).attr('data-program_name');
+        let programId = $(this).attr('data-program_id');
 
-        $('.date_expired_input').val(dateExpired);
+        $.ajax({
+            method: 'GET',
+            url: 'get_program_payment_by_program_id',
+            data: {
+                'program_id': programId
+            }
+        }).done(function (response) {
+            var schemeData = JSON.parse(response);
+
+            if (schemeData) {
+                $('#extension-field > option').remove();
+                schemeData.forEach(function (data) {
+                     $('#extension-field').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                });
+            }
+        });
+        // $('.date_expired_input').val(dateExpired);
         $('.membership_id_val').val(membershipId);
         $('.program-name-to-edit').html(programName);
-        $('.cancel_membership').attr('href', `/gym-system/members/cancel-membership/${membershipId}`);
+        // $('.cancel_membership').attr('href', `/gym-system/members/cancel-membership/${membershipId}`);
 
     })
 
@@ -143,52 +169,107 @@ $(document).ready(function() {
 	});
 
     $(document).on('click', '.enrollment-btn', function () {
+        $('#payment-form').hide();
+        $('#payment-renew-form').hide();
+        $('#enroll-submit').prop('disabled', true);
+        $('#renew-submit').prop('disabled', true);
         var memberId = $(this).data('id');
-        if ($('#enroll-program > option').length > 0) {
-            $('#enroll-program > option').remove();    
-        }
-        
-        $('#enrollment-modal').attr('data-id', $(this).data('id'));
-        if ($('#enroll-program > option').length === 0) {
-            $('#enroll-program').ready(function () {
-                $.ajax({
-                    method: 'GET',
-                    url: 'get_program_list_per_member',
-                    data: {
-                        'member_id': memberId
-                    }
-                }).done(function (response) {
-                    var programData = JSON.parse(response);
-                    $('#enroll-program').append('<option disabled selected value>Select a program </option>');
-                    programData.forEach(function (program) {
-                        $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+        var isRenew = $(this).data('renew');
+
+        if (isRenew) {
+            if ($('#enroll-program-renew > option').length > 0) {
+                $('#enroll-program-renew > option').remove();    
+            }
+
+            $('#renewal-modal').attr('data-id', $(this).data('id'));
+            if ($('#enroll-program-renew > option').length === 0) {
+                $('#enroll-program-renew').ready(function () {
+                    $.ajax({
+                        method: 'GET',
+                        url: 'get_expired_program_list_per_member',
+                        data: {
+                            'member_id': memberId
+                        }
+                    }).done(function (response) {
+                        var programData = JSON.parse(response);
+                        $('#enroll-program-renew').append('<option disabled selected value>Select an existing program </option>');
+                        programData.forEach(function (program) {
+                            $('#enroll-program-renew').append('<option value="' + program['membership_id'] + '-' + program['program_id'] + '">' + program['type'] + '</option>'); 
+                        });
                     });
                 });
+            }
+
+            $('#enroll-program-renew').on('change', function () {
+                if ($(this).val()) {
+                    var programId = $(this).val().split('-')[1];
+                    $.ajax({
+                        method: 'GET',
+                        url: 'get_program_payment_by_program_id',
+                        data: {
+                            'program_id': programId
+                        }
+                    }).done(function (response) {
+                        var schemeData = JSON.parse(response);
+
+                        if (schemeData) {
+                            $('#payment-length-renew > option').remove();
+                            $('#payment-renew-form').show();
+                            schemeData.forEach(function (data) {
+                                 $('#payment-length-renew').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            });
+                            $('#renew-submit').prop('disabled', false);
+                        }
+                    });
+                }
             });
-        }
-
-        $('#enroll-program').on('change', function () {
-            if ($(this).val()) {
-                $.ajax({
-                    method: 'GET',
-                    url: 'get_program_payment_by_program_id',
-                    data: {
-                        'program_id': $(this).val()
-                    }
-                }).done(function (response) {
-                    var schemeData = JSON.parse(response);
-
-                    if (schemeData) {
-                        $('#payment-length > option').remove();
-                        $('.hidden-by-default').show();
-                        schemeData.forEach(function (data) {
-                             $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+        } else {
+            if ($('#enroll-program > option').length > 0) {
+                $('#enroll-program > option').remove();    
+            }
+            
+            $('#enrollment-modal').attr('data-id', $(this).data('id'));
+            if ($('#enroll-program > option').length === 0) {
+                $('#enroll-program').ready(function () {
+                    $.ajax({
+                        method: 'GET',
+                        url: 'get_program_list_per_member',
+                        data: {
+                            'member_id': memberId
+                        }
+                    }).done(function (response) {
+                        var programData = JSON.parse(response);
+                        $('#enroll-program').append('<option disabled selected value>Select a program </option>');
+                        programData.forEach(function (program) {
+                            $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
                         });
-                        $('#enroll-submit').prop('disabled', false);
-                    }
+                    });
                 });
             }
-        });
+
+            $('#enroll-program').on('change', function () {
+                if ($(this).val()) {
+                    $.ajax({
+                        method: 'GET',
+                        url: 'get_program_payment_by_program_id',
+                        data: {
+                            'program_id': $(this).val()
+                        }
+                    }).done(function (response) {
+                        var schemeData = JSON.parse(response);
+
+                        if (schemeData) {
+                            $('#payment-length > option').remove();
+                            $('#payment-form').show();
+                            schemeData.forEach(function (data) {
+                                 $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            });
+                            $('#enroll-submit').prop('disabled', false);
+                        }
+                    });
+                }
+            });
+        }
     });
 
     $('#enroll-submit').on('click', function () {
@@ -213,6 +294,40 @@ $(document).ready(function() {
                 });
             } else {
             	var errMsg = 'Error: ' + parsedResponse.message;
+                vex.dialog.alert({
+                    message: errMsg,
+                    callback: function (value) {
+                        $('#enrollment-modal').modal('toggle');
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+
+    $('#renew-submit').on('click', function () {
+        var memberId = $('#renewal-modal').attr('data-id');
+        var membershipId = $('#enroll-program-renew').val().split('-')[0];
+        $.ajax({
+            method: 'POST',
+            url: 'process_renewal',
+            data: {
+                'member_id': memberId,
+                'membership_id': membershipId,
+                'program_price_id': $('#payment-length-renew').val()
+            }
+        }).done(function (response) {
+            var parsedResponse = JSON.parse(response);
+            if (parsedResponse.status) {
+                vex.dialog.alert({
+                    message: parsedResponse.message,
+                    callback: function (value) {
+                        $('#enrollment-modal').modal('toggle');
+                        location.reload();
+                    }
+                });
+            } else {
+                var errMsg = 'Error: ' + parsedResponse.message;
                 vex.dialog.alert({
                     message: errMsg,
                     callback: function (value) {

@@ -133,4 +133,11 @@ class Programs_Controller extends CI_Controller {
 
         echo json_encode($program_scheme);
     }
+
+    public function get_expired_program_list_per_member() {
+        $member_id = $_GET['member_id'];
+        $program_list = $this->Program_Model->get_all_inactive_programs_member($member_id);
+
+        echo json_encode($program_list);
+    }
 }

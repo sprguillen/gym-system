@@ -71,6 +71,16 @@ class Program_Model extends CI_Model {
         return $this->db->query($sql, $member_id)->result();
     }
 
+    public function get_all_inactive_programs_member($member_id) {
+        $sql = "SELECT
+                ms.id as membership_id,
+                p.id as program_id,
+                p.type as type
+            FROM membership ms JOIN program p ON ms.program_id = p.id WHERE ms.member_id = ? AND ms.status = 'Inactive'";
+
+        return $this->db->query($sql, $member_id)->result();
+    }
+
     public function get_program_price_by_program_id($program_id) {
         $sql = "SELECT * FROM program_price WHERE program_id = ?";
 

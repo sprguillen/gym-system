@@ -109,18 +109,24 @@
 								<td><a class="text-info member-dialog-link" href="<?php echo base_url('members/info/' . $value['id']); ?>"><?php echo $value['name']; ?></a></td>
 								<td>
 									<?php
-										$duration = "";
+										if (strtolower($type) === 'active') {
+											foreach ($value['programs_enrolled'] as $enrolled) {
+												echo $enrolled['date_started'] . ' - ' . $enrolled['date_expired'] . '<br/>';
 
-										if (isset($value['duration'])) {
-											$duration = str_replace(",", "<br>", $value['duration']);
+											}
+										} else {
+											if (isset($value['duration'])) {
+												$duration = str_replace(",", "<br>", $value['duration']);
+											}
+
+											echo $duration;
 										}
 
-										echo $duration;
 									?>
 								</td>
 								<td>
 									<?php
-										if ($user_mode === 'staff' || strtolower($type) === 'inactive') {
+										if ($user_mode === 'staff' || strtolower($type) === 'inactive' || strtolower($type) === 'frozen') {
 
 											$classes = "";
 
@@ -130,9 +136,9 @@
 
 											echo $classes;
 										} else if ($user_mode === 'admin'): ?>
-										<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
-										<a href="#" class="text-info edit-program-modal" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
-										<?php endforeach; ?>
+											<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
+												<a href="#" class="text-info edit-program-modal" data-program_id="<?php echo $enrolled['id']?>" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
+											<?php endforeach; ?>
 									<?php endif; ?>
 								</td>
 								<td>
@@ -148,7 +154,14 @@
 								</td>
 								<td>
 								<?php if (strtolower($type) !== 'frozen'): ?>
-						  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="<?php echo $value['id'] ?>">
+									<?php
+										if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
+											$target = '#renewal-modal';
+										} else {
+											$target = '#enrollment-modal';
+										}
+									?>
+						  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="<?php echo $target ?>" data-id="<?php echo $value['id'] ?>" data-renew="<?php echo array_key_exists('displayRenewButton', $value); ?>">
 						  				<?php
 							  				if (strtolower($type) === 'active') {
 						  						echo 'Add a program';
@@ -156,7 +169,7 @@
 						  						echo 'Enroll a program';
 						  					} else if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 						  						echo 'Renew';
-					  						}
+						  					}
 						  				?>
 						  			</button>
 						  			<?php if (strtolower($type) === 'active'): ?>
@@ -217,14 +230,14 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 	  		<div class="modal-header">
-				<h5 class="modal-title text-danger" id="deactivateFreeze">Edit <span class="program-name-to-edit"></span> Membership</h5>
+				<h5 class="modal-title text-danger" id="deactivateFreeze"><span class="program-name-to-edit"></span> Advance Payment</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		  			<span aria-hidden="true">&times;</span>
 				</button>
 	  		</div>
 	  		<div class="modal-body">
-	  			<label for="date_expired">Move date of membership to: </label>
-				<input type="date" name="date_expired" class="form form-control date_expired_input">
+	  			<label for="extension-field">Duration and Price: </label>
+				<select class="form-control" id="extension-field"></select>
 				<input type="hidden" name="membership_id" class="membership_id_val">
 				<br>or  <a href="#" class="text-danger cancel_membership"> cancel this membership</a>.
 	  		</div>
@@ -270,14 +283,42 @@
 		  			<label for="enroll-program">Programs</label>
 		  			<select class="form-control" id="enroll-program"></select>
 				</div>
-				<div class="form-group">
+				<div class="form-group" id="payment-form">
 			  		<label for="payment-length" class="hidden-by-default">Duration and Price</label>
-		  			<select class="form-control hidden-by-default" id="payment-length">
+		  			<select class="form-control" id="payment-length">
 		  			</select>
 				</div>
 	  		</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-danger" id="enroll-submit">Submit</button>
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+  	</div>
+</div>
+
+<div class="modal fade" id="renewal-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+	  		<div class="modal-header">
+				<h5 class="modal-title text-danger" id="exampleModalLabel">Renew a Program</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  			<span aria-hidden="true">&times;</span>
+				</button>
+	  		</div>
+	  		<div class="modal-body">
+				<div class="form-group">
+		  			<label for="enroll-program-renew">Programs</label>
+		  			<select class="form-control" id="enroll-program-renew"></select>
+				</div>
+				<div class="form-group" id="payment-renew-form">
+			  		<label for="payment-length" class="hidden-by-default">Duration and Price</label>
+		  			<select class="form-control" id="payment-length-renew">
+		  			</select>
+				</div>
+	  		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" id="renew-submit">Submit</button>
 				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>

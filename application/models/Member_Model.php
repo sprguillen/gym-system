@@ -173,7 +173,7 @@ class Member_Model extends CI_Model {
         return $query->result_array();
     }
 
-    public function get_memberships_by_id($member_id) {
+    public function get_memberships_by_member_id($member_id) {
         $sql = "SELECT 
                 ms.id as id,
                 ms.date_started as date_started,
@@ -184,6 +184,21 @@ class Member_Model extends CI_Model {
             FROM membership ms
             JOIN program p ON p.id = ms.program_id
             WHERE ms.member_id = " . $member_id;
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function get_memberships_by_id($membership_id) {
+        $sql = "SELECT 
+                ms.id as id,
+                ms.date_started as date_started,
+                ms.date_expired as date_expired,
+                ms.status as status,
+                ms.member_id as member_id,
+                p.type as type
+            FROM membership ms
+            JOIN program p ON p.id = ms.program_id
+            WHERE ms.id = " . $membership_id;
 
         return $this->db->query($sql)->result();
     }

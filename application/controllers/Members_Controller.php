@@ -324,7 +324,7 @@ class Members_Controller extends CI_Controller {
 	 */
 	public function ajax_get_membership_logs() {
 		$member_id = $this->input->post('member_id');
-		$logs = $this->Member_Model->get_memberships_by_id($member_id);
+		$logs = $this->Member_Model->get_memberships_by_member_id($member_id);
 
 		echo json_encode($logs);
 	}
@@ -479,18 +479,88 @@ class Members_Controller extends CI_Controller {
 		echo json_encode($response);
 	}
 
+	public function process_renewal() {
+		$member_id 	= $_POST['member_id'];
+		$membership_id = $_POST['membership_id'];
+		$program_price_id = $_POST['program_price_id'];
+
+		$program_price = $this->Program_Model->get_program_price_by_id($program_price_id);
+
+		if ($program_price) {
+			$duration = '+' . $program_price[0]->duration;
+
+			$date_started = date(MYSQL_DATE_FORMAT, strtotime("now"));
+			$date_expired = date(MYSQL_DATE_FORMAT, strtotime($duration));
+
+			$data = array(
+				'id' => $membership_id,
+				'date_started' => $date_started,
+				'date_expired' => $date_expired,
+				'status' => 'Active'
+			);
+
+			$this->Member_Model->update_membership($data);
+
+			$data = array(
+				'payment_date_time' => $date_started,
+				'membership_id' => $membership_id,
+				'program_price_id' => $program_price_id
+			);
+
+			$status = $this->Member_Model->insert($data, 'membership_payment');
+
+			if ($status) {
+				$result['status'] = true;
+				$result['message'] = 'Successfully renewed membership!';
+			} else {
+				$result['status'] = true;
+	    		$result['message'] = 'Member renewed but error on recording payment! Please contact admin now!';
+			}
+		} else {
+			$result['status'] = false;
+			$result['message'] = 'Error on renewing membership! Please contact admin now!';
+		}
+
+		echo json_encode($result);
+	}
+
 	public function ajax_update_membership_expiry() {
 		$membership_id = $this->input->post('membershipId');
-		$new_expiry = date('Y-m-d', strtotime($this->input->post('newExpiryDate')));
+		$program_price_id = $this->input->post('programPriceId');
+		$program_price = $this->Program_Model->get_program_price_by_id($program_price_id);
+		$membership = $this->Member_Model->get_memberships_by_id($membership_id);
 
-		$data = [
-    		'id' => $membership_id,
-    		'date_expired' => $new_expiry
-    	];
+		if ($program_price && $membership) {
+			$duration = '+' . $program_price[0]->duration;
+			$new_date_expired = date(MYSQL_DATE_FORMAT, strtotime($membership[0]->date_expired . $duration));
+			$data = [
+	    		'id' => $membership_id,
+	    		'date_expired' => $new_date_expired
+	    	];
 
-    	$this->Member_Model->update_membership($data);
+	    	$this->Member_Model->update_membership($data);
+	    	$current_date_time = date(MYSQL_DATE_TIME_FORMAT, strtotime("now"));
+			$data = array(
+				'payment_date_time' => $current_date_time,
+				'membership_id' => $membership_id,
+				'program_price_id' => $program_price_id
+			);
 
-		echo json_encode(true);
+			$status = $this->Member_Model->insert($data, 'membership_payment');
+
+			if ($status) {
+				$result['status'] = true;
+	    		$result['message'] = 'Successfully updated membership!';
+			} else {
+				$result['status'] = true;
+	    		$result['message'] = 'Member updated but error on recording payment! Please contact admin now!';
+			}
+		} else {
+			$result['status'] = false;
+			$result['message'] = 'Error on updating membership! Please contact admin now!';
+		}
+
+		echo json_encode($result);
 	}
 
 	/**
@@ -602,7 +672,7 @@ class Members_Controller extends CI_Controller {
     	$member_id = (int)$_GET['member_id'];
     	$time = $_GET['time'];
 
-    	$memberships = $this->Member_Model->get_memberships_by_id($member_id);
+    	$memberships = $this->Member_Model->get_memberships_by_member_id($member_id);
     	$member = $this->Member_Model->get_member_data_by_id($member_id);
 
     	$data['login_done'] = true;
