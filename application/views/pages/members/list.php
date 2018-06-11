@@ -153,29 +153,6 @@
 									?>
 								</td>
 								<td>
-								<!-- <?php if (strtolower($type) !== 'frozen'): ?>
-									<?php
-										if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
-											$target = '#renewal-modal';
-										} else {
-											$target = '#enrollment-modal';
-										}
-									?>
-						  			<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="<?php echo $target ?>" data-id="<?php echo $value['id'] ?>" data-renew="<?php echo array_key_exists('displayRenewButton', $value); ?>">
-						  				<?php
-							  				if (strtolower($type) === 'active') {
-						  						echo 'Add a program';
-						  					} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
-						  						echo 'Enroll a program';
-						  					} else if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
-						  						echo 'Renew';
-						  					}
-						  				?>
-						  			</button>
-						  			<?php if (strtolower($type) === 'active'): ?>
-										<a href="<?php echo base_url() . 'members/biometric-login?member_id=' . $value['id'] ?>" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>
-									<?php endif; ?>
-						  		<?php endif; ?> -->
 						  		<?php
 						  			if (strtolower($type) !== 'frozen') {
 						  				if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
