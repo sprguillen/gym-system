@@ -392,12 +392,14 @@ $(document).ready(function() {
                 status: status
             }
         }).done(function (response) {
-            var urlFull, duration, classes, isPaid, enrollmentBtnText;
+            var urlFull, isPaid, enrollmentBtnText = 'Add a program';
             var enrollmentEle = '';
-            var classEle = '';
+            var classes = '';
             var htmlMid = '';
             var freezeEle = '';
             var memberLoginEle = '';
+            var duration = '';
+            var renewEle = '';
             var baseUrl = window.location.origin + '/gym-system/members/info/';
             response = JSON.parse(response);
 
@@ -424,19 +426,15 @@ $(document).ready(function() {
                     membersList.forEach(function (member) {
                         var loginUrl = window.location.origin + '/gym-system/members/biometric-login?member_id=' + member['id'];
                         urlFull = baseUrl + member['id'];
-                        duration = member['duration'].replace(',', '<br>');
-                        isPaid = member['isPaid'].replace(',', '<br>');
 
-                        if (userMode === 'staff') {
-                            if (status === 'inactive') {
-                                classes = member['classes'].replace(',', '<br>');
-                                classEle = "<td>" + classes + "</td>";
-                            }
-                        } else {
+                        isPaid = member['isPaid'].replace(/,/g, '<br>');
+
+                        if (userMode === 'admin') {
                             if (status === 'active') {
                                 var programsEnrolled = member['programs_enrolled'];
                                 programsEnrolled.forEach(function (program) {
-                                    classEle += "<a href='#' class='text-info edit-program-modal' data-date_expired='" +
+
+                                    classes += "<a href='#' class='text-info edit-program-modal' data-date_expired='" +
                                         program['date_expired'] + "' data-toggle='modal' data-target='#program-modal' " +
                                         "data-program_name='" + program['type'] + "' data-membership_id='" + program['membership_id'] +
                                         "' title='Edit this program'>" + program['type'] + "</a><br/>";
@@ -452,27 +450,35 @@ $(document).ready(function() {
                             }
                         }
 
-                        if (status !== 'frozen') {
-                            if (status === 'active') {
-                                enrollmentBtnText = 'Add a program';
-                                memberLoginEle = "<a href='" + loginUrl + 
-                                    "' class='btn btn-danger btn-sm enrollment-btn'>Member Login</a>"
-                            } else if (status === 'inactive' && 'displayRenewButton' in member) {
-                                enrollmentBtnText = 'Renew';
-                            } else if (status === 'inactive' && !('displayRenewButton' in member)) {
-                                enrollmentBtnText = 'Enroll a program';
-                            }
-                            enrollmentEle = "<button type='button' class='btn btn-danger btn-sm enrollment-btn' " +
-                                "data-toggle='modal' data-target='#enrollment-modal' data-id='" + member['id'] + "'>" + 
-                                enrollmentBtnText + "</button>"; 
+                        if (status === 'active') {
+                            programsEnrolled.forEach(function (program) {
+                                duration += program['date_started'] + ' - ' + program['date_expired'] + '<br/>';
+                            });
+
+                            memberLoginEle = "<a href='" + loginUrl + 
+                                "' class='btn btn-danger btn-sm enrollment-btn'>Member Login</a>"
+                        } else {
+                            classes = member['classes'].replace(/,/g, '<br>');
+                            duration = member['duration'].replace(',', '<br>');
+
+                            if (status === 'inactive' && 'displayRenewButton' in member) {
+                                renewEle = "<button type='button' class='btn btn-danger btn-sm renew-btn' data-toggle='modal' data-target='#renewal-modal' " +
+                                    "data-id='" + member['id'] + "'>Renew</button>";
+                            } 
                         }
+
+                        if (status !== 'frozen') {
+                            enrollmentEle = "<button type='button' class='btn btn-danger btn-sm enrollment-btn' data-toggle='modal' data-target='#enrollment-modal' " +
+                                "data-id='" + member['id'] + "'>" + enrollmentBtnText + "</button>";
+                        }
+
 
                         htmlMid += "<tr><th scope='row'>" + member['id'] + "</th>" +
                             "<td><a class='text-info member-dialog-link' href='" + urlFull + "'>" + member['name'] + "</a></td>" +
                             "<td>" + duration + "</td>" +
-                            "<td>" + classEle + "</td>" +
+                            "<td>" + classes + "</td>" +
                             "<td>" + isPaid + "</td>" +
-                            "<td>" + enrollmentEle + " " + memberLoginEle + " " + freezeEle + "</td></tr>";
+                            "<td>" + renewEle + " " + enrollmentEle + " " + memberLoginEle + " " + freezeEle + "</td></tr>";
 
                     });
 

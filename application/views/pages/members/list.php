@@ -154,18 +154,17 @@
 								</td>
 								<td>
 						  		<?php
+						  			$bttn_text = 'Add a program';
+						  			$enroll_link = false;
 						  			if (strtolower($type) !== 'frozen') {
 						  				if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 						  					echo '<button type="button" class="btn btn-danger btn-sm renew-btn" data-toggle="modal" data-target="#renewal-modal" data-id="' . $value['id'] . '">Renew</button> ';
-						  					$enroll_link = false;
 						  				}
 
 						  				if (strtolower($type) === 'active') {
-						  					$bttn_text = 'Add a program';
 						  					$enroll_link = true;
 						  				} else if (strtolower($type) === 'inactive' && !array_key_exists('displayRenewButton', $value)) {
 						  					$bttn_text = 'Enroll a program';
-						  					$enroll_link = false;
 						  				}
 
 						  				echo '<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="' . $value['id'] . '">' . $bttn_text . '</button> ';
