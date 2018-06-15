@@ -14,9 +14,30 @@ class Program_Model extends CI_Model {
     }
 
     public function get_all_programs() {
-        $sql = "SELECT p.id, p.type, pp.duration, pp.price FROM program p JOIN program_price pp ON p.id = pp.program_id";
 
-        return $this->db->query($sql)->result();
+        $programs = $this->get_all_programs_type();
+
+        foreach ($programs as $p) {
+            $sql = "SELECT * FROM program_price WHERE program_id = " . $p->id;
+            $p->price = $this->db->query($sql)->result();
+        }
+
+        return $programs;
+    }
+
+    public function get_program_info($program_id) {
+        $query = $this->db->get_where('program', ['id' => $program_id]);
+
+        $result = $query->result(); 
+
+        if ($result > 0) {            
+            foreach ($result as $row) {
+                $sql = "SELECT * FROM program_price WHERE program_id = " . $program_id;
+                $row->price = $this->db->query($sql)->result();   
+            }
+
+            return $result;
+        }
     }
 
     public function program_exists($type) {
@@ -35,6 +56,25 @@ class Program_Model extends CI_Model {
         return ($this->db->trans_status())? $id: false;
     }
 
+    public function add_program_rate($rates, $program_id) {
+
+        foreach ($rates as $key => $value) {
+            $this->db->trans_start();
+
+            $price_data = [
+                'duration' => $key,
+                'price' => $value,
+                'program_id' => $program_id
+            ];
+
+            $this->insert('program_price', $price_data);
+
+            $this->db->trans_complete();
+        }
+
+        return $this->db->trans_status();    
+    }
+
     public function add_program($data) {
         
         $program_id = $this->insert('program', ['type' => $data['program_name']]);
@@ -42,18 +82,39 @@ class Program_Model extends CI_Model {
         $status = true;
         
         if ($program_id) {
-            foreach ($data['rates'] as $key => $value) {
-                $price_data = [
-                    'duration' => $key,
-                    'price' => $value,
-                    'program_id' => $program_id
-                ];
-
-                $status = $this->insert('program_price', $price_data);
-            }
+            $status = $this->add_program_rate($data['rates'], $program_id);
         }
 
         return $status;
+    }
+
+    public function update_program($data, $id) {
+        $this->db->trans_start();
+
+        $this->db->where('id', $id);
+        $this->db->update('program', $data);
+
+        $this->db->trans_complete();
+    }
+
+    public function update_program_pricing($data, $id) {
+
+        $program_prices = $this->get_program_price_by_program_id($id);
+
+        foreach ($data as $index => $rate) {
+            foreach ($rate as $key => $value) {
+                $this->db->trans_start();
+
+                $this->db->where('program_id', $id);
+                $this->db->where('duration', $key);
+                $this->db->update('program_price', ['price' => $value]);
+
+                $this->db->trans_complete();
+            }
+        }
+
+        return $this->db->trans_status();
+
     }
 
     public function get_all_programs_type() {

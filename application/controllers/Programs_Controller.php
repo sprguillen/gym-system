@@ -13,6 +13,8 @@ class Programs_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
+        $this->load->model('Program_Model');
+        
         // Load libraries
         $this->load->library('session');
         $this->load->library('Breadcrumbs');
@@ -20,7 +22,7 @@ class Programs_Controller extends CI_Controller {
         $this->breadcrumbs->set(['Dashboard' => '/', 'Programs' => 'programs']);
 
         // Load database
-        $this->load->model('Program_Model');
+        $this->duration_types = ['1 Month', '3 Months', '6 Months', '1 Year'];
 
         if ($this->session->userdata('mode') !== 'admin') {
             redirect(base_url('/'));
@@ -40,6 +42,7 @@ class Programs_Controller extends CI_Controller {
      */
     public function programs_list() {
         $data['programs'] = $this->Program_Model->get_all_programs();
+        $data['duration'] = $this->duration_types;
         
         $this->breadcrumbs->set(['List' => 'programs']);
      
@@ -51,7 +54,7 @@ class Programs_Controller extends CI_Controller {
      */
     public function add_program() {
         $data['programs'] = $this->Program_Model->get_all_programs();
-        $data['duration'] = ['1 Month', '3 Months', '6 Months', '1 Year'];
+        $data['duration'] = $this->duration_types;
         
         $this->breadcrumbs->set(['New' => 'programs/add']);
         
@@ -84,6 +87,57 @@ class Programs_Controller extends CI_Controller {
         $result = $this->Program_Model->add_program($data);
 
         echo json_encode($result);
+    }
+
+    /**
+     * Ajax call to add pricing for a program
+     */
+    public function add_program_rate () {
+        $amount = $this->input->post('amount');
+        $duration = $this->input->post('duration');
+        $program_id = $this->input->post('program_id');
+
+        $data = [$duration => $amount];
+
+        $status = $this->Program_Model->add_program_rate($data, $program_id);
+
+        echo json_encode($status);
+    }
+
+    /**
+     * Get program information by id
+     * @return JSON
+     */
+    public function ajax_get_program_by_id () {
+        $program_id = $this->uri->segment(3);
+
+        $data['program_info'] = $this->Program_Model->get_program_info($program_id);
+        $data['duration'] = $this->duration_types;
+
+        echo json_encode($data);
+    }
+
+    /**
+     * Ajax call to update the program name AND the pricing
+     * NOTE: Does NOT add new pricing/rate
+     * @return [type] [description]
+     */
+    public function ajax_update_program () {
+        $rates = json_decode($this->input->post('rates'));
+        $program_name = $this->input->post('program_name');
+        $program_id = $this->input->post('program_id');
+
+
+        $data = [
+            'rates' => $rates,
+            'program_name' => $program_name,
+            'program_id' => $program_id
+        ];
+
+        $this->Program_Model->update_program(['type' => $program_name], $program_id);
+        $status = $this->Program_Model->update_program_pricing($rates, $program_id);
+
+        echo json_encode($status);
     }
 
     /**
