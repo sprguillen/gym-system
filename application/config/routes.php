@@ -134,3 +134,8 @@ $route['members/list/get_program_list'] = 'Programs_Controller/get_program_list'
 $route['members/list/get_program_list_per_member'] = 'Programs_Controller/get_program_list_per_member';
 $route['members/list/get_expired_program_list_per_member'] = 'Programs_Controller/get_expired_program_list_per_member';
 $route['members/list/get_program_payment_by_program_id'] = 'Programs_Controller/get_program_payment_by_program_id';
+
+/**
+ * Reports
+ */
+$route['reports'] = 'Reports_Controller/get_reports';
