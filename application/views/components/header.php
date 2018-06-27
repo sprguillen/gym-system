@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="<?php echo base_url('assets/css/product.css'); ?>" />
 		<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 		<!-- Stylesheet declarations end -->
 
 		<!-- JS declarations -->
@@ -26,6 +27,8 @@
 		<script type="text/javascript" src="<?php echo base_url("assets/js/Base64.js"); ?>"></script>
 		<script type="text/javascript" src="<?php echo base_url("assets/vendors/vex/dist/js/vex.combined.min.js"); ?>"></script>
 		<script type="text/javascript" src="<?php echo base_url("assets/js/Global.js"); ?>"></script>
+    	<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js">
+
 		<script>vex.defaultOptions.className = 'vex-theme-os'</script>
 		<!-- JS declarations end -->
 	</head>
