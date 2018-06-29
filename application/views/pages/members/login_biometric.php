@@ -2,16 +2,26 @@
     <div class="row ">
         <div class="card mx-auto">
             <div class="card-body text-center">
-                <h3 class="text-danger">BIOMETRIC LOGIN</h3>
+                <h1 class="text-danger">WELCOME <?php echo $first_name . ' ' . $middle_name . ' ' . $last_name ?></h3>
+                <h2><?php echo $login_time_display ?></h2>
                 <hr>
-                <h3 class="text-center mb-3">Please place your finger on the biometric scanner.</h3>
-                <img src="<?php echo base_url('assets/images/face.svg'); ?>" alt="..." class="img-thumbnail w-50 mx-auto d-block">
-                <a href="finspot:FingerspotVer;<?php echo $api_ver_url ?>" class='btn btn-xs btn-success'>Press to open fingerprint scanner API</a>
+                <img src="<?php echo $member_img_url ?>" alt="..." class="img-thumbnail w-50 mx-auto d-block">
             <div>
-            <div id="verification-result">
-            </div>
-            <a href="<?php echo base_url('members/list') ?>" class="btn-link">Go Back</a>
+            <?php
+                foreach($memberships as $membership) {
+                    if ($membership['status'] === 'Active') {
+                        echo "<h3 class='text-success'>Your membership for " . $membership['program'] . " is still active.</h1>";
+                    }
+
+                    if ($membership['status'] === 'Inactive') {
+                        echo "<h3 class='text-danger'>Your membership for " . $membership['program'] . " was inactive since " . $membership['expiration'] . ".</h1>";
+                    }
+
+                    if ($membership['status'] === 'Frozen') {
+                        echo "<h3 class='text-primary'>Your membership for " . $membership['program'] . " has been frozen, please unfreeze and repeat login process again.</h1>";
+                    }
+                }
+            ?>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo base_url("assets/js/MemberLogin.js"); ?>"></script>

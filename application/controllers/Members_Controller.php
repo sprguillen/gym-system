@@ -189,6 +189,7 @@ class Members_Controller extends CI_Controller {
 		$data['type'] = ($this->type === NULL)? 'active': $this->type;
 		$data['user_mode'] = $this->session->userdata('mode');
 		$data['members'] = $this->get_members($this->type);
+		$data['api_ver_url'] = FINGERPRINT_API_URL . "?action=verification&member_id=";
 
 		$this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
 
@@ -656,17 +657,6 @@ class Members_Controller extends CI_Controller {
 		return $matched;
 	}
 
-	/**
-     * Display login page of members - biometrics 
-     */
-    public function biometric_login() {
-    	$member_id = $_GET['member_id'];
-    	$data['login_done'] = false;
-    	$data['api_ver_url'] = base64_encode(FINGERPRINT_API_URL . "?action=verification&member_id=$member_id");
-
-        $this->render('login_biometric', $data);
-    }
-
     public function verify_fingerprint() {
     	$status = $_GET['status'];
     	$member_id = (int)$_GET['member_id'];
@@ -675,19 +665,17 @@ class Members_Controller extends CI_Controller {
     	$memberships = $this->Member_Model->get_memberships_by_member_id($member_id);
     	$member = $this->Member_Model->get_member_data_by_id($member_id);
 
-    	$data['login_done'] = true;
-    	$data['verification_status'] = $status;
     	$data['login_time'] = date('Y-m-d H:i:s', strtotime($time));
+    	$data['login_time_display'] = date('M d,Y h:i:s a', strtotime($time));
     	$data['first_name'] = $member[0]->fname;
     	$data['middle_name'] = $member[0]->mname;
-    	$data['middle_name'] = $member[0]->lname;
+    	$data['last_name'] = $member[0]->lname;
     	$data['memberships'] = array();
 
     	foreach($memberships as $membership) {
     		if ($membership->status === 'Inactive' || $membership->status === 'Frozen') {
     			$pushArray = array(
-    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
-    				'inactive' => true,
+    				'program' => $membership->type,
     				'status' => $membership->status,
     				'expiration' => $membership->date_expired
     			);
@@ -705,7 +693,7 @@ class Members_Controller extends CI_Controller {
     				);
     				$this->Member_Model->update_membership($update_data);
     				array_push($data['memberships'], array(
-	    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
+	    				'program' => $membership->type,
 	    				'inactive' => true,
 	    				'status' => 'Inactive',
 	    				'expiration' => $membership->date_expired
@@ -718,17 +706,17 @@ class Members_Controller extends CI_Controller {
 
 	    			$this->Member_Model->insert($insert_data, 'membership_attendance');
 	    			array_push($data['memberships'], array(
-	    				'program' => $this->Member_Model->get_program_type_by_id($membership->program_id),
+	    				'program' => $membership->type,
 	    				'inactive' => false,
 	    				'status' => $membership->status
 	    			));
-    			}
-    			
+    			}	
     		}
     	}
 
-    	$this->session->set_userdata('verification_result', $data, 300);
-    	echo "<script>window.close();</script>";
+    	$data['member_img_url'] = $member[0]->img;
+
+    	$this->render('login_biometric', $data);
     }
 
     /**

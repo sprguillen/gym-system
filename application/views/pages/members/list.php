@@ -156,6 +156,7 @@
 						  		<?php
 						  			$bttn_text = 'Add a program';
 						  			$enroll_link = false;
+						  			$bio_url = base64_encode($api_ver_url . $value['id']);
 						  			if (strtolower($type) !== 'frozen') {
 						  				if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 						  					echo '<button type="button" class="btn btn-danger btn-sm renew-btn" data-toggle="modal" data-target="#renewal-modal" data-id="' . $value['id'] . '">Renew</button> ';
@@ -170,7 +171,7 @@
 						  				echo '<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="' . $value['id'] . '">' . $bttn_text . '</button> ';
 
 						  				if ($enroll_link) {
-						  					echo '<a href="' . base_url() . 'members/biometric-login?member_id=' . $value['id'] . '" class="btn btn-danger btn-sm enrollment-btn">Member Login</a>';
+						  					echo '<a href="finspot:FingerspotVer;' . $bio_url . '" class="btn btn-sm btn-danger">Member Login</a>';
 						  				}
 						  			}
 						  		?>

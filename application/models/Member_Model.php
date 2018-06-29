@@ -331,10 +331,9 @@ class Member_Model extends CI_Model {
     }
 
     public function get_weekly_attendance() {
-        $current_dayname = date("l");
-            
         $week_start = date("Y-m-d",strtotime('monday this week'));
-        $week_end = date("Y-m-d",strtotime("sunday this week"));
+        $week_end = date("Y-m-d",strtotime("next monday"));
+
         $sql = "SELECT 
                 ma.id AS attendance_id, 
                 ma.attendance as logged_in, 
