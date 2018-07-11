@@ -50,20 +50,13 @@
   	</div>
   
   	<div class="col-md-12">
-		<div class="float-right">
+  		<div class="float-right">
 	  		<div class="input-group">
 				<a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('members/register'); ?>"><i class="fa fa-plus"></i> New</a>
-				<input type="text" id="search-text" class="form-control form-control-sm" placeholder="Search for members..." aria-label="Search for members..." aria-describedby="basic-addon2">
-				<div class="input-group-append">
-		  			<button class="btn btn-outline-primary btn-sm" type="button" id="search-bttn"><i class="fa fa-search"></i> Search</button>
-		  			<button class="btn btn-outline-secondary btn-sm" type="button" id="clear-bttn"><i class="fa fa-undo"></i> Clear</button>
-				</div>
 		  	</div>
 		</div>
-
-
 		<ul class="nav nav-tabs col-md-12 mb-2">
-		  	<li class="nav-item">
+			<li class="nav-item">
 				<a class="nav-link <?php echo (strtolower($type) === 'active' || strtolower($type) === NULL)? 'text-info active': 'text-secondary'; ?>" href="<?php echo base_url('members/list/active'); ?>">Active</a>
 		  	</li>
 		  	<li class="nav-item">
@@ -91,16 +84,16 @@
 		<?php endif; ?>
 		<div id="list-table">
 			<?php if (strtolower($type) !== 'guest'): ?>
-			  	<table class="table table-sm table-hover" id="list-table-contents">
+			  	<table class="table table-sm table-hover" id="list-table-contents" data-total-count="<?php echo $total_count ?>">
 					<thead class="thead">
-				  	<tr>
-						<th scope="col">#</th>
-						<th scope="col">Full Name</th>
-						<th scope="col">Enrollment Duration</th>
-						<th scope="col">Programs Enrolled</th>
-						<th scope="col">Paid?</th>
-						<th scope="col"></th>
-				  	</tr>
+					  	<tr>
+							<th scope="col">#</th>
+							<th scope="col">Full Name</th>
+							<th scope="col">Enrollment Duration</th>
+							<th scope="col">Programs Enrolled</th>
+							<th scope="col">Paid?</th>
+							<th scope="col"></th>
+					  	</tr>
 					</thead>
 					<tbody>
 				  		<?php foreach ($members as $key => $value): ?>
@@ -135,11 +128,12 @@
 											}
 
 											echo $classes;
-										} else if ($user_mode === 'admin'): ?>
-											<?php foreach ($value['programs_enrolled'] as $enrolled): ?>
-												<a href="#" class="text-info edit-program-modal" data-program_id="<?php echo $enrolled['id']?>" data-date_expired="<?php echo $enrolled['date_expired']; ?>" data-toggle="modal" data-target="#program-modal" data-program_name="<?php echo $enrolled['type']; ?>" data-membership_id="<?php echo $enrolled['membership_id']; ?>" title="Edit this program"><?php echo $enrolled['type']; ?></a> <br/>
-											<?php endforeach; ?>
-									<?php endif; ?>
+										} else if ($user_mode === 'admin') {
+											foreach ($value['programs_enrolled'] as $enrolled) {
+												echo '<a href="#" class="text-info edit-program-modal" data-program_id="' . $enrolled['id'] . '" data-date_expired="' . $enrolled['date_expired'] . '" data-toggle="modal" data-target="#program-modal" data-program_name="' . $enrolled['type'] . '" data-membership_id="' . $enrolled['membership_id'] . '" title="Edit this program">' . $enrolled['type'] . '</a> <br/>';
+											}
+										}
+									?>
 								</td>
 								<td>
 									<?php
@@ -156,7 +150,7 @@
 						  		<?php
 						  			$bttn_text = 'Add a program';
 						  			$enroll_link = false;
-						  			$bio_url = base64_encode($api_ver_url . $value['id']);
+						  			$bio_url = $api_ver_url . $value['id'];
 						  			if (strtolower($type) !== 'frozen') {
 						  				if (strtolower($type) === 'inactive' && array_key_exists('displayRenewButton', $value)) {
 						  					echo '<button type="button" class="btn btn-danger btn-sm renew-btn" data-toggle="modal" data-target="#renewal-modal" data-id="' . $value['id'] . '">Renew</button> ';
@@ -171,7 +165,7 @@
 						  				echo '<button type="button" class="btn btn-danger btn-sm enrollment-btn" data-toggle="modal" data-target="#enrollment-modal" data-id="' . $value['id'] . '">' . $bttn_text . '</button> ';
 
 						  				if ($enroll_link) {
-						  					echo '<a href="finspot:FingerspotVer;' . $bio_url . '" class="btn btn-sm btn-danger">Member Login</a>';
+						  					echo '<a data-id="' . $value['id'] . '" data-href="' . $bio_url . '" class="btn btn-sm btn-danger login-bttn">Member Login</a>';
 						  				}
 						  			}
 						  		?>
@@ -217,10 +211,7 @@
 			  	</table>
 			<?php endif; ?>
 		</div>
-		<div class="btn-group float-right" role="group" aria-label="Basic example">
-			  <button type="button" class="btn btn-sm btn-outline-danger">Prev</button>
-			  <button type="button" class="btn btn-sm btn-danger">Next</button>
-		</div>
+		<div id="page-nav"></div>
 	</div>
   
 </div>

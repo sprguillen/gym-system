@@ -6,11 +6,13 @@ $(document).ready(function() {
     $('#search-bttn').prop('disabled', true);
     $('#search-text').val(null);
 
+    $('#list-table-contents').DataTable();
+    $('#list-table-contents-guest').DataTable();
+
     $('.move-membership').on('click', function (e) {
         e.preventDefault();
         let programPriceId = $('#extension-field').val();
         let membershipId = $('.membership_id_val').val();
-
         vex.dialog.confirm({
             message: 'Are you sure?',
             callback: function (value) {
@@ -354,168 +356,46 @@ $(document).ready(function() {
         });
     });
 
-    $('#search-text').on('keyup', function () {
-        if ($('#search-text').val().length > 0) {
-             $('#search-bttn').prop('disabled', false);
-
-             $('#clear-bttn').show();
-        } else {
-            $('#search-bttn').prop('disabled', true);
-        }
-    });
-
-    $('#clear-bttn').on('click', function () {
-        if ($('#search-text').val().length > 0) {
-            $('#search-text').val(null);
-            $('#search-bttn').prop('disabled', true);
-            $(this).hide();
-
-            if ($('#list-table-contents').hasClass('append-table')) {
-                $('#list-table-contents').remove();
-                $('#list-table').append(listTableOrig);
-            }
-        } 
-    });
-
-    $('#search-bttn').on('click', function () {
-        var searchText = $('#search-text').val();
-        var pathName = window.location.pathname;
-
-        var pathArry = pathName.split("/");
-        var status = pathArry[4];
+    $(document).on('click', '.login-bttn', function () {
+        var memberId = $(this).data('id');
+        var fingerprintUrl = $(this).data('href');
+        var apiUrl = 'finspot:FingerspotVer;';
 
         $.ajax({
             method: 'GET',
-            url: 'get_member_by_name',
+            url: '/gym-system/Members_Controller/ajax_get_membership_logs',
             data: {
-                name: searchText,
-                status: status
+                'member_id': memberId
             }
         }).done(function (response) {
-            var urlFull, isPaid, enrollmentBtnText = 'Add a program';
-            var enrollmentEle = '';
-            var classes = '';
-            var htmlMid = '';
-            var freezeEle = '';
-            var memberLoginEle = '';
-            var duration = '';
-            var renewEle = '';
-            var baseUrl = window.location.origin + '/gym-system/members/info/';
             response = JSON.parse(response);
+            var programs = '';
+            var programSelectOpenTag = '<select name="membershipId">';
+            var programSelectClosingTag = '</select>';
 
-            if (response.status) {
-                var membersList = response.members;
-                var userMode = response.mode;
-                if (status !== 'guest') {
+            response.forEach(function (program) {
+                programs += '<option value="' + program['id'] + '">' + program['type'] + '</option>';
+            });
 
-                    var htmlTop = "<table class='table table-sm table-hover append-table' id='list-table-contents'>" +
-                        "<thead class='thead'>" +
-                        "<tr>" +
-                        "<th scope='col'>#</th>" +
-                        "<th scope='col'>Full Name</th>" +
-                        "<th scope='col'>Enrollment Duration</th>" +
-                        "<th scope='col'>Programs Enrolled</th>" +
-                        "<th scope='col'>Paid?</th>" +
-                        "<th scope='col'></th>" +
-                        "</tr>" +
-                        "</thead>" +
-                        "<tbody>";
-
-                    var htmlBot = "</tbody></table>";
-
-                    membersList.forEach(function (member) {
-                        var loginUrl = window.location.origin + '/gym-system/members/biometric-login?member_id=' + member['id'];
-                        urlFull = baseUrl + member['id'];
-
-                        isPaid = member['isPaid'].replace(/,/g, '<br>');
-
-                        if (userMode === 'admin') {
-                            if (status === 'active') {
-                                var programsEnrolled = member['programs_enrolled'];
-                                programsEnrolled.forEach(function (program) {
-
-                                    classes += "<a href='#' class='text-info edit-program-modal' data-date_expired='" +
-                                        program['date_expired'] + "' data-toggle='modal' data-target='#program-modal' " +
-                                        "data-program_name='" + program['type'] + "' data-membership_id='" + program['membership_id'] +
-                                        "' title='Edit this program'>" + program['type'] + "</a><br/>";
-                                });
-
-                                freezeEle = "<button type='button' data-id='" + member['id'] + "' data-name='" + member['name'] +
-                                    "' data-toggle='modal' data-target='#freezeMember' class='btn btn-sm btn-outline-primary " +
-                                    "freeze-data'>Freeze</button>";
-                            } else if (status === 'frozen') {
-                                freezeEle = "<button type='button' data-id='" + member['id'] + "' data-name='" + member['name'] +
-                                    "' data-toggle='modal' data-target='#unfreeze-member' class='btn btn-sm btn-outline-primary " +
-                                    "freeze-data'>Unfreeze</button>";
-                            }
-                        }
-
-                        if (status === 'active') {
-                            programsEnrolled.forEach(function (program) {
-                                duration += program['date_started'] + ' - ' + program['date_expired'] + '<br/>';
-                            });
-
-                            memberLoginEle = "<a href='" + loginUrl + 
-                                "' class='btn btn-danger btn-sm enrollment-btn'>Member Login</a>"
-                        } else {
-                            classes = member['classes'].replace(/,/g, '<br>');
-                            duration = member['duration'].replace(',', '<br>');
-
-                            if (status === 'inactive' && 'displayRenewButton' in member) {
-                                renewEle = "<button type='button' class='btn btn-danger btn-sm renew-btn' data-toggle='modal' data-target='#renewal-modal' " +
-                                    "data-id='" + member['id'] + "'>Renew</button>";
-                            } 
-                        }
-
-                        if (status !== 'frozen') {
-                            enrollmentEle = "<button type='button' class='btn btn-danger btn-sm enrollment-btn' data-toggle='modal' data-target='#enrollment-modal' " +
-                                "data-id='" + member['id'] + "'>" + enrollmentBtnText + "</button>";
-                        }
-
-
-                        htmlMid += "<tr><th scope='row'>" + member['id'] + "</th>" +
-                            "<td><a class='text-info member-dialog-link' href='" + urlFull + "'>" + member['name'] + "</a></td>" +
-                            "<td>" + duration + "</td>" +
-                            "<td>" + classes + "</td>" +
-                            "<td>" + isPaid + "</td>" +
-                            "<td>" + renewEle + " " + enrollmentEle + " " + memberLoginEle + " " + freezeEle + "</td></tr>";
-
-                    });
-
-                    $('#list-table-contents').remove();
-                    $('#list-table').append(htmlTop + htmlMid + htmlBot);
-                } else {
-                    var htmlTop = "<table class='table table-sm table-hover' id='list-table-contents-guest'>" +
-                        "<thead class='thead'>" +
-                        "<tr>" +
-                        "<th scope='col'>#</th>" +
-                        "<th scope='col'>Full Name</th>" +
-                        "<th scope='col'>Date Enrolled</th>" +
-                        "<th scope='col'>Program Enrolled</th>" +
-                        "<th scope='col'></th>" +
-                        "</tr>" +
-                        "</thead>" +
-                        "<tbody>";
-
-                    var htmlBot = "</tbody></table>";
-
-                    membersList.forEach(function (member) {
-                        htmlMid = "<tr><th scope='row'>" + member['id'] + "</th>" +
-                            "<td>" + member['name'] + "</td>" +
-                            "<td>" + member['duration'] + "</td>" +
-                            "<td>" + member['classes'] + "</td>" +
-                            "<td><button type='button' class='btn btn-outline-danger btn-sm register-bttn' data-id='" + member['id'] + "'>Register as member</button></td></tr>";
-                    });
-
-                    $('#list-table-contents-guest').remove();
-                    $('#list-table').append(htmlTop + htmlMid + htmlBot);
+            vex.dialog.open({
+                message: 'Pick your program:',
+                input: [
+                    programSelectOpenTag,
+                    programs,
+                    programSelectClosingTag
+                ].join(''),
+                buttons: [
+                    $.extend({}, vex.dialog.buttons.YES, {text: 'Login'}),
+                    $.extend({}, vex.dialog.buttons.NO, {text: 'Back'})
+                ],
+                callback: function (data) {
+                    if (data) {
+                        fingerprintUrl += '&membership_id=' + data['membershipId'];
+                        var encodedString = Base64.encode(fingerprintUrl);
+                        window.open(apiUrl + encodedString, "_self");
+                    }
                 }
-                                
-            } else {
-                vex.dialog.alert({
-                    message: response.message
-                });
-            }
+            });
         });
     });
 });

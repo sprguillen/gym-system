@@ -74,7 +74,7 @@ $(document).ready(function (e) {
         
         let memberId = returnMemberIDFromUrl();
         $.ajax({
-            method: 'POST',
+            method: 'GET',
             url: '/gym-system/Members_Controller/ajax_get_member_attendance',
             data: {
                 member_id: memberId
@@ -116,7 +116,7 @@ $(document).ready(function (e) {
 
         let memberId = returnMemberIDFromUrl();
         $.ajax({
-            method: 'POST',
+            method: 'GET',
             url: '/gym-system/Members_Controller/ajax_get_membership_logs',
             data: {
                 member_id: memberId

@@ -190,6 +190,7 @@ class Members_Controller extends CI_Controller {
 		$data['user_mode'] = $this->session->userdata('mode');
 		$data['members'] = $this->get_members($this->type);
 		$data['api_ver_url'] = FINGERPRINT_API_URL . "?action=verification&member_id=";
+		$data['total_count'] = count($this->get_members($this->type));
 
 		$this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
 
@@ -295,14 +296,16 @@ class Members_Controller extends CI_Controller {
 	 * @return [string]           
 	 */
 	public function get_sched_header($view_type) {
-		$header_title = 'Today - ' . date('M d, Y');
+		$header_title = 'Today - ' . date('F d, Y');
 
 		switch ($view_type) {
 			case 'weekly':
-				$header_title = 'April 23-28, 2018';
+				$week_start = date("F d, Y",strtotime('monday this week'));
+        		$week_end = date("F d, Y ",strtotime("next monday"));
+        		$header_title = $week_start . '-' .$week_end;
 			break;
 			case 'monthly':
-				$header_title = 'April 2018';
+				$header_title = date("F");
 			break;
 
 		}
@@ -314,7 +317,7 @@ class Members_Controller extends CI_Controller {
 	 * Get attendance of individual member
 	 */
 	public function ajax_get_member_attendance() {
-		$member_id = $this->input->post('member_id');
+		$member_id = $this->input->get('member_id');
 		$attendance = $this->Member_Model->get_attendance_by_member_id($member_id);
 
 		echo json_encode($attendance);
@@ -324,7 +327,7 @@ class Members_Controller extends CI_Controller {
 	 * Get list of memberships enrolled by user 
 	 */
 	public function ajax_get_membership_logs() {
-		$member_id = $this->input->post('member_id');
+		$member_id = $this->input->get('member_id');
 		$logs = $this->Member_Model->get_memberships_by_member_id($member_id);
 
 		echo json_encode($logs);
@@ -660,9 +663,10 @@ class Members_Controller extends CI_Controller {
     public function verify_fingerprint() {
     	$status = $_GET['status'];
     	$member_id = (int)$_GET['member_id'];
+    	$membership_id = (int)$_GET['membership_id'];
     	$time = $_GET['time'];
 
-    	$memberships = $this->Member_Model->get_memberships_by_member_id($member_id);
+    	$membership = $this->Member_Model->get_memberships_by_id($membership_id);
     	$member = $this->Member_Model->get_member_data_by_id($member_id);
 
     	$data['login_time'] = date('Y-m-d H:i:s', strtotime($time));
@@ -670,47 +674,44 @@ class Members_Controller extends CI_Controller {
     	$data['first_name'] = $member[0]->fname;
     	$data['middle_name'] = $member[0]->mname;
     	$data['last_name'] = $member[0]->lname;
-    	$data['memberships'] = array();
 
-    	foreach($memberships as $membership) {
-    		if ($membership->status === 'Inactive' || $membership->status === 'Frozen') {
-    			$pushArray = array(
-    				'program' => $membership->type,
-    				'status' => $membership->status,
-    				'expiration' => $membership->date_expired
+		if ($membership[0]->status === 'Inactive' || $membership[0]->status === 'Frozen') {
+    			$membership_arry = array(
+    				'program' => $membership[0]->type,
+    				'status' => $membership[0]->status,
+    				'expiration' => $membership[0]->date_expired
     			);
 
-    			if ($membership->status === 'Frozen') {
-    				$pushArray['frozen'] = true;
+    			if ($membership[0]->status === 'Frozen') {
+    				$membership_arry['frozen'] = true;
     			}
 
-    			array_push($data['memberships'], $pushArray);
+    			$data['membership'] = $membership_arry;
+		} else {
+    		if ($membership[0]->date_expired < date('Y-m-d', strtotime($time))) {
+				$update_data = array(
+					'id' => $membership[0]->id,
+					'status' => 'Inactive'
+				);
+    			$this->Member_Model->update_membership($update_data);
+				$data['membership'] = array(
+    				'program' => $membership[0]->type,
+    				'inactive' => true,
+    				'status' => 'Inactive',
+    				'expiration' => $membership[0]->date_expired
+    			);
     		} else {
-    			if ($membership->date_expired < date('Y-m-d', strtotime($time))) {
-    				$update_data = array(
-    					'id' => $membership->id,
-    					'status' => 'Inactive'
-    				);
-    				$this->Member_Model->update_membership($update_data);
-    				array_push($data['memberships'], array(
-	    				'program' => $membership->type,
-	    				'inactive' => true,
-	    				'status' => 'Inactive',
-	    				'expiration' => $membership->date_expired
-	    			));
-    			} else {
-	    			$insert_data = array(
-	    				'attendance' => $data['login_time'],
-	    				'membership_id' => $membership->id
-	    			);
+    			$insert_data = array(
+    				'attendance' => $data['login_time'],
+    				'membership_id' => $membership[0]->id
+    			);
 
-	    			$this->Member_Model->insert($insert_data, 'membership_attendance');
-	    			array_push($data['memberships'], array(
-	    				'program' => $membership->type,
-	    				'inactive' => false,
-	    				'status' => $membership->status
-	    			));
-    			}	
+    			$this->Member_Model->insert($insert_data, 'membership_attendance');
+    			$data['membership'] = array(
+    				'program' => $membership[0]->type,
+    				'inactive' => false,
+    				'status' => $membership[0]->status
+    			);
     		}
     	}
 

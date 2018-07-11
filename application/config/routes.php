@@ -76,6 +76,7 @@ $route['members'] = 'Members_Controller/members_list';
 $route['members/get_member_count'] = 'Members_Controller/get_member_count';
 $route['members/test_session'] = 'Members_Controller/test_session';
 $route['members/list'] = 'Members_Controller/members_list';
+$route['members/list/all'] = 'Members_Controller/members_list';
 $route['members/list/active'] = 'Members_Controller/members_list';
 $route['members/list/inactive'] = 'Members_Controller/members_list';
 $route['members/list/frozen'] = 'Members_Controller/members_list';
