@@ -166,4 +166,10 @@ class Program_Model extends CI_Model {
 
         return $this->db->query($sql, $program_id)->result();
     }
+
+    public function get_program_first_id() {
+        $sql = "SELECT min(id) AS first_id FROM program";
+
+        return $this->db->query($sql)->result()[0]->first_id;
+    }
 }

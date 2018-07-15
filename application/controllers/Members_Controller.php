@@ -972,8 +972,9 @@ class Members_Controller extends CI_Controller {
     		$programs_list[$program->id] = $program->type;
     	}
 
+    	$first_id = $this->Program_Model->get_program_first_id();
   		if (!$this->type) {
-  			redirect(base_url('members/programs/' . $programs_list[0]['id']));
+  			redirect(base_url('members/programs/' . $first_id));
   		}
 
   		$data['type'] = $programs_list[$this->type];
