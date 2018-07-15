@@ -61,10 +61,6 @@
 					<a class="btn <?php echo ($view_type === 'daily')? 'btn-info': 'btn-outline-info'; ?> btn-sm mr-2" href="<?php echo base_url('members/attendance/daily'); ?>"><i class="fa fa-clock"></i> Daily</a>
 				</div>
 				<span class="mr-2"></span>
-				<input type="date" id="date-filter" class="form-control form-control-sm" value="<?php echo date('Y-m-d', time()); ?>" aria-label="Search for members..." aria-describedby="basic-addon2">
-				<div class="input-group-append">
-					<button class="btn btn-outline-primary btn-sm" type="button" id="date-filter-btn"><i class="fa fa-search"></i> Select a date</button>
-				</div>
 			</div>
 		</div>
 		<div id="attendance-table">

@@ -429,14 +429,20 @@ class Members_Controller extends CI_Controller {
 		$member_id 	= $_POST['member_id'];
 		$program_id = $_POST['program_id'];
 		$program_price_id = $_POST['program_price_id'];
-
+		$old_member_date_started = $_POST['date_started'];
 		$program_price = $this->Program_Model->get_program_price_by_id($program_price_id);
 
 		if ($program_price) {
 			$duration = '+' . $program_price[0]->duration;
 
-			$date_started = date(MYSQL_DATE_FORMAT, strtotime("now"));
-			$date_expired = date(MYSQL_DATE_FORMAT, strtotime($duration));
+			
+			if ($old_member_date_started) {
+				$date_started = date(MYSQL_DATE_FORMAT, strtotime($old_member_date_started));
+				$date_expired = date(MYSQL_DATE_FORMAT, strtotime($duration, strtotime($old_member_date_started)));
+			} else {
+				$date_started = date(MYSQL_DATE_FORMAT, strtotime("now"));
+				$date_expired = date(MYSQL_DATE_FORMAT, strtotime($duration));
+			}
 
 			$data = [
 				'member_id' => $member_id,
@@ -622,6 +628,14 @@ class Members_Controller extends CI_Controller {
 				'code' => 200,
 				'message' => 'Membership successfully frozen.'
 			];
+
+			// $data = array(
+			// 	'payment_date_time' => $freeze_data,
+			// 	'membership_id' => 0,
+			// 	'program_price_id' => $program_price_id
+			// );
+
+			// $result = $this->Member_Model->insert($data, 'membership_payment');
 		}
 
 		echo json_encode($response);
@@ -948,6 +962,25 @@ class Members_Controller extends CI_Controller {
    		}
 
     	echo json_encode($data);
+    }
+
+    public function get_members_list_by_program() {
+    	$programs_list = array();
+    	$program_obj = $this->Program_Model->get_all_programs_type();
+
+    	foreach ($program_obj as $program) {
+    		$programs_list[$program->id] = $program->type;
+    	}
+
+  		if (!$this->type) {
+  			redirect(base_url('members/programs/' . $programs_list[0]['id']));
+  		}
+
+  		$data['type'] = $programs_list[$this->type];
+    	$data['members'] = $this->Program_Model->get_members_by_program($this->type);
+    	$data['programs_list'] = $programs_list;
+    	$this->breadcrumbs->set([ucfirst($data['type']) => 'members/list/' . $data['type']]);
+    	$this->render('programs', $data);
     }
 }
 

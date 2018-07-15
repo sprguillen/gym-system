@@ -53,6 +53,7 @@
   		<div class="float-right">
 	  		<div class="input-group">
 				<a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('members/register'); ?>"><i class="fa fa-plus"></i> New</a>
+				<a class="btn btn-info btn-sm mr-2" href="<?php echo base_url('members/programs'); ?>">Programs View</a>
 		  	</div>
 		</div>
 		<ul class="nav nav-tabs col-md-12 mb-2">
@@ -277,6 +278,13 @@
 			  		<label for="payment-length" class="hidden-by-default">Duration and Price</label>
 		  			<select class="form-control" id="payment-length">
 		  			</select>
+		  			<br/>
+		  			<input type="checkbox" id="old-member-check" />Old Member?
+		  			<br/>
+		  			<div id="date-form">
+		  				<label for="old-member-date">Date Started</label>
+		  				<input class="form-control" type="date" id="old-member-date" />
+		  			</div>
 				</div>
 	  		</div>
 			<div class="modal-footer">

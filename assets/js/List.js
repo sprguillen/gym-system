@@ -3,8 +3,19 @@ $(document).ready(function() {
 
 	$('.freeze-alert').hide();
     $('#clear-bttn').hide();
+    $('#date-form').hide();
     $('#search-bttn').prop('disabled', true);
     $('#search-text').val(null);
+
+    var now = new Date();
+ 
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $('#old-member-date').val(today);
+    $('#old-member-date').attr('max', today);
+
 
     $('#list-table-contents').DataTable();
     $('#list-table-contents-guest').DataTable();
@@ -192,7 +203,9 @@ $(document).ready(function() {
                     var programData = JSON.parse(response);
                     $('#enroll-program').append('<option disabled selected value>Select a program </option>');
                     programData.forEach(function (program) {
-                        $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+                        if (program['type'] !== 'Freeze Program') {
+                            $('#enroll-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+                        }
                     });
                 });
             });
@@ -213,7 +226,9 @@ $(document).ready(function() {
                         $('#payment-length > option').remove();
                         $('#payment-form').show();
                         schemeData.forEach(function (data) {
-                             $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            if (data['duration'] !== 'None' || data['duration'] !== '1 Day') {
+                                $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            }
                         });
                         $('#enroll-submit').prop('disabled', false);
                     }
@@ -277,13 +292,15 @@ $(document).ready(function() {
 
     $('#enroll-submit').on('click', function () {
         var memberId = $('#enrollment-modal').attr('data-id');
+
         $.ajax({
             method: 'POST',
             url: 'process_enrollment',
             data: {
                 'member_id': memberId,
                 'program_id': $('#enroll-program').val(),
-                'program_price_id': $('#payment-length').val()
+                'program_price_id': $('#payment-length').val(),
+                'date_started': $('#old-member-date').val()
             }
         }).done(function (response) {
             var parsedResponse = JSON.parse(response);
@@ -397,5 +414,13 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    $('#old-member-check').change(function () {
+        if ($(this).is(':checked') === true) {
+            $('#date-form').show();
+        } else {
+            $('#date-form').hide();
+        }
     });
 });

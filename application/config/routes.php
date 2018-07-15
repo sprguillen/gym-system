@@ -104,6 +104,8 @@ $route['members/get_verification_data'] = 'Members_Controller/get_verification_d
 $route['members/info/(:num)'] = 'Members_Controller/get_details';
 $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membership';
 $route['members/list/get_member_by_name'] = 'Members_Controller/get_member_by_name';
+$route['members/programs'] = 'Members_Controller/get_members_list_by_program';
+$route['members/programs/(:any)'] = 'Members_Controller/get_members_list_by_program';
 
 /**
  * Guests 
@@ -135,3 +137,8 @@ $route['members/list/get_program_list'] = 'Programs_Controller/get_program_list'
 $route['members/list/get_program_list_per_member'] = 'Programs_Controller/get_program_list_per_member';
 $route['members/list/get_expired_program_list_per_member'] = 'Programs_Controller/get_expired_program_list_per_member';
 $route['members/list/get_program_payment_by_program_id'] = 'Programs_Controller/get_program_payment_by_program_id';
+
+/**
+ * Reports
+ */
+$route['reports'] = 'Reports_Controller/get_reports';

@@ -24,7 +24,7 @@
         <h2 class="card-title font-weight-bold text-dark">Guests</h2>
         <hr/>
         <a href="<?php echo base_url('guests/register'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Register a guest</a>
-        <a href="<?php echo base_url('members/list/guest'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar-alt fa-xs"></i> View all guests</a>
+        <a href="<?php echo base_url('members/list/guest'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-users fa-xs"></i> View all guests</a>
           </div>
         </div>
     </div>
@@ -35,7 +35,8 @@
 				<h2 class="card-title font-weight-bold text-dark">Administrator</h2>
 				<hr/>
 				<a href="<?php echo base_url('programs/add'); ?>" class="btn btn-danger btn-block"><i class="fa fa-plus fa-xs"></i> Add a program</a>
-				<a href="<?php echo base_url('programs'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-calendar-alt fa-xs"></i> View all programs</a>
+                <a href="<?php echo base_url('programs'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-basketball-ball fa-xs"></i> View all programs</a>
+				<a href="<?php echo base_url('reports'); ?>" class="btn btn-outline-danger btn-block"><i class="fa fa-chart-bar fa-xs"></i> View reports</a>
       		</div>
     		</div>
   	</div>

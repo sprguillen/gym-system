@@ -10,7 +10,6 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Program_Model extends CI_Model {
     public function __construct() {
         $this->load->database();
-
     }
 
     public function get_all_programs() {
@@ -118,7 +117,7 @@ class Program_Model extends CI_Model {
     }
 
     public function get_all_programs_type() {
-        $sql = "SELECT * FROM program";
+        $sql = "SELECT * FROM program WHERE type <> 'Freeze Program'";
 
         return $this->db->query($sql)->result();
     }
@@ -151,5 +150,20 @@ class Program_Model extends CI_Model {
     public function get_program_price_by_id($id) {
         $sql = "SELECT * FROM program_price WHERE id = ?";
         return $this->db->query($sql, $id)->result();
+    }
+
+    public function get_members_by_program($program_id) {
+        $sql = "SELECT DISTINCT
+                m.id, 
+                m.fname, 
+                m.mname, 
+                m.lname, 
+                m.email,
+                ms.date_started,
+                ms.date_expired
+            FROM member m JOIN membership ms ON ms.member_id = m.id
+            WHERE ms.program_id = ?";
+
+        return $this->db->query($sql, $program_id)->result();
     }
 }
