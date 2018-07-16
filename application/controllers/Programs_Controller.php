@@ -22,7 +22,7 @@ class Programs_Controller extends CI_Controller {
         $this->breadcrumbs->set(['Dashboard' => '/', 'Programs' => 'programs']);
 
         // Load database
-        $this->duration_types = ['1 Month', '3 Months', '6 Months', '1 Year'];
+        $this->duration_types = ['Daily', '1 Month', '3 Months', '6 Months', '1 Year'];
 
         if ($this->session->userdata('mode') !== 'admin') {
             redirect(base_url('/'));

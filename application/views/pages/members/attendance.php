@@ -122,6 +122,7 @@
 		<div class="form-group">
 		  <label for="exampleFormControlSelect1">Payment Scheme</label>
 		  <select class="form-control" id="exampleFormControlSelect1">
+			<option>Daily</option>
 			<option>1 month</option>
 			<option>3 months</option>
 			<option>6 months</option>

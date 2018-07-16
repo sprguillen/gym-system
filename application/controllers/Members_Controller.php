@@ -435,6 +435,11 @@ class Members_Controller extends CI_Controller {
 		if ($program_price) {
 			$duration = '+' . $program_price[0]->duration;
 
+			$daily = ['Daily', 'daily'];
+
+			if (in_array($program_price[0]->duration, $daily)) {
+				$duration = "now";
+			}
 			
 			if ($old_member_date_started) {
 				$date_started = date(MYSQL_DATE_FORMAT, strtotime($old_member_date_started));

@@ -69,7 +69,7 @@ $(document).ready(function() {
             if (schemeData) {
                 $('#extension-field > option').remove();
                 schemeData.forEach(function (data) {
-                     $('#extension-field').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                     $('#extension-field').append('<option value="' + data['id'] + '">' + data['duration'] + ' - ' + data['price'] + '</option>'); 
                 });
             }
         });
