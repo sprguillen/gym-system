@@ -24,7 +24,8 @@ class Member_Model extends CI_Model {
     }
 
     public function get_all_membership_by_status($status) {
-    	$sql = "SELECT m.id, m.fname, m.mname, m.lname, m.date_created,
+    	$sql = "SELECT m.id, m.fname, m.mname, m.lname, m.date_created, 
+            DATE_FORMAT(ms.date_started, '%M %d %Y') as date_started,
             GROUP_CONCAT(CONCAT(DATE_FORMAT(ms.date_started, '%M %d %Y'), 
             ' - ', DATE_FORMAT(ms.date_expired, '%M %d %Y')) SEPARATOR ', ') as duration, 
             GROUP_CONCAT(status) as programs_status, GROUP_CONCAT(p.type) as programs_type

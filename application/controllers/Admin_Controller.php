@@ -43,7 +43,7 @@ class Admin_Controller extends CI_Controller {
             'password' => sha1($this->input->post('password'))
         );
 
-        $userAccountData = $this->user_model->login($data);
+        $userAccountData = $this->User_Model->login($data);
 
         if ($userAccountData) {
             $this->session->set_userdata('mode', 'admin');

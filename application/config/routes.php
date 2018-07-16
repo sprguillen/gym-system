@@ -112,7 +112,7 @@ $route['members/programs/(:any)'] = 'Members_Controller/get_members_list_by_prog
  */
 $route['guests/register'] = 'Members_Controller/register_as_guest';
 $route['guests/registration'] = 'Members_Controller/guest_registration';
-$route['guests/get_program_list'] = 'Members_Controller/get_program_list';
+$route['guests/get_program_list'] = 'Programs_Controller/get_daily_program_list';
 
 
 /**

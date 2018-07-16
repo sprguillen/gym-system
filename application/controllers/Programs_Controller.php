@@ -194,4 +194,9 @@ class Programs_Controller extends CI_Controller {
 
         echo json_encode($program_list);
     }
+
+    public function get_daily_program_list() {
+        $program_list = $this->Program_Model->get_daily_program_list();
+        echo json_encode($program_list);
+    }
 }

@@ -58,10 +58,10 @@ class Home_Controller extends CI_Controller {
 				'password' => sha1($this->input->post('pass_input'))
 			);
 
-            $userAccountData = $this->user_model->login($data);
+            $userAccountData = $this->User_Model->login($data);
 
             if($userAccountData !== false) {
-                $userProfileData = $this->user_model->get_user_profile(
+                $userProfileData = $this->User_Model->get_user_profile(
                     $userAccountData['0']->user_profile_id);
                 
                 if($userProfileData !== false) {

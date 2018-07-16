@@ -225,7 +225,7 @@
             html += '<tr>'
             html += `<th>${i+1}</th>`
             html += `<td>${item.payment_date_time.split(' ')[0]}</td>`
-            html += `<td>${item.fname} ${item.lname}</td>`
+            html += `<td>${item.fname} ${item.mname} ${item.lname}</td>`
             html += `<td>${item.type}</td>`
             html += `<td>P ${item.price}</td>`
             html += '</tr>'
@@ -263,7 +263,7 @@
                       let amt = 0
                       html += `<td>`
                       result.forEach(function (members, i) {
-                        html += `${members['fname']} ${members['fname']} <br/>`
+                        html += `${members['fname']} ${members['mname']} ${members['lname']}<br/>`
                         amt += parseInt(members['price'])
                       })
                       html += `</td>`

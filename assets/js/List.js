@@ -226,7 +226,7 @@ $(document).ready(function() {
                         $('#payment-length > option').remove();
                         $('#payment-form').show();
                         schemeData.forEach(function (data) {
-                            if (data['duration'] !== 'None' || data['duration'] !== '1 Day') {
+                            if (data['duration'] !== 'Daily') {
                                 $('#payment-length').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
                             }
                         });
@@ -281,7 +281,9 @@ $(document).ready(function() {
                         $('#payment-length-renew > option').remove();
                         $('#payment-renew-form').show();
                         schemeData.forEach(function (data) {
-                             $('#payment-length-renew').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            if (data['duration'] !== 'Daily') {
+                                $('#payment-length-renew').append('<option value="' + data['id'] + '">' + data['duration'] + '-' + data['price'] + '</option>'); 
+                            }
                         });
                         $('#renew-submit').prop('disabled', false);
                     }

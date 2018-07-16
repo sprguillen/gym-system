@@ -32,6 +32,7 @@ class Reports_Controller extends CI_Controller {
      */
     public function get_reports() {
         $data['results'] = $this->Report_Model->get_membership_payments();
+        // print_r($data['results']);
         $this->render('list', $data);
     }
 

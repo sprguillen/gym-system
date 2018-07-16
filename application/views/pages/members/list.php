@@ -191,7 +191,7 @@
 				  		<tr>
 							<th scope="col">#</th>
 							<th scope="col">Full Name</th>
-							<th scope="col">Date Enrolled</th>
+							<th scope="col">Last Session Date</th>
 							<th scope="col">Program Enrolled</th>
 							<th scope="col"></th>
 				  		</tr>

@@ -146,7 +146,7 @@ class Members_Controller extends CI_Controller {
 			$pushed_data = [
 				'id' => $member->id,
 				'name' => $member->fname . ' ' . $member->mname . ' ' . $member->lname,
-				'duration' => $member->duration,
+				'duration' => $member->date_started,
 				'classes' => $member->programs_type
 			];
 			array_push($return_data, $pushed_data);
@@ -781,7 +781,7 @@ class Members_Controller extends CI_Controller {
         $this->form_validation->set_rules('lname', 'Last Name', 'trim|required');
         $this->form_validation->set_rules('gender', 'Gender', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-        $this->form_validation->set_rules('program_id', 'Program', 'required');
+        $this->form_validation->set_rules('program_price_id', 'Program Price', 'required');
 
         if ($this->form_validation->run() === FALSE) {
         	$data['status'] = false;
@@ -798,24 +798,40 @@ class Members_Controller extends CI_Controller {
             $result = $this->Member_Model->insert($member_data, 'member');
 
             if ($result) {
-            	$current_date = date('Y-m-d');
+            	$current_date = date(MYSQL_DATE_FORMAT);
+            	$current_date_time = date(MYSQL_DATE_TIME_FORMAT);
             	$status = GUEST_STATUS;
-            	$program_id = $this->input->post('program_id');
+            	$program_price_id = $this->input->post('program_price_id');
             	$member_id = $result;
 
+            	$program_price = $this->Program_Model->get_program_price_by_id($program_price_id);
             	$membership_data = array(
             		'date_started' => $current_date,
             		'date_expired' => $current_date,
             		'status' => $status,
             		'member_id' => $member_id,
-            		'program_id' => $program_id
+            		'program_id' => $program_price[0]->program_id
             	);
 
-            	$result2 = $this->Member_Model->insert($membership_data, 'membership');
 
+
+            	$result2 = $this->Member_Model->insert($membership_data, 'membership');
             	if ($result2) {
-            		$data['status'] = true;
-            		$data['message'] = 'Successfully registered guest member.';
+            		$membership_payment_data = array(
+	            		'payment_date_time' => $current_date_time,
+	            		'membership_id' => $result2,
+	            		'program_price_id' => $program_price_id
+	            	);
+
+	            	$result3 = $this->Member_Model->insert($membership_payment_data, 'membership_payment');
+
+	            	if ($result3) {
+	            		$data['status'] = true;
+            			$data['message'] = 'Successfully registered guest member.';
+	            	} else {
+	            		$data['status'] = true;
+	            		$data['message'] = 'Successfully registered guest member yet error on recording payment. Please contact admin!';
+	            	}
             	} else {
             		$data['status'] = false;
             		$data['message'] = 'Error creating guest member. Please contact admin!';

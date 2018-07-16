@@ -8,7 +8,7 @@ $(document).ready(function () {
             }).done(function (response) {
                 var programData = JSON.parse(response);
                 programData.forEach(function (program) {
-                    $('#guest-program').append('<option value="' + program['id'] + '">' + program['type'] + '</option>'); 
+                    $('#guest-program').append('<option value="' + program['id'] + '">' + program['type'] + '-' + program['price'] + '</option>'); 
                 });
             });
 		});
@@ -24,7 +24,7 @@ $(document).ready(function () {
 				'lname': $('#guest-lname').val(),
 				'gender': $('#guest-gender').val(),
 				'email': $('#guest-email').val(),
-				'program_id': $('#guest-program').val()
+				'program_price_id': $('#guest-program').val()
 			}
 		}).done(function (response) {
 			response = JSON.parse(response);

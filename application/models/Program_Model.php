@@ -172,4 +172,11 @@ class Program_Model extends CI_Model {
 
         return $this->db->query($sql)->result()[0]->first_id;
     }
+
+    public function get_daily_program_list() {
+        $sql = "SELECT DISTINCT pp.id, p.type, pp.price FROM program p JOIN program_price pp ON p.id = pp.program_id
+                WHERE pp.duration = 'Daily'";
+
+        return $this->db->query($sql)->result();
+    }
 }
