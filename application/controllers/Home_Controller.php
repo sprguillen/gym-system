@@ -26,7 +26,7 @@ class Home_Controller extends CI_Controller {
         $this->load->helper('url');
 
         // Load database
-        $this->load->model('user_model');
+        $this->load->model('User_Model');
 
     }
 

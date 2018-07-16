@@ -120,8 +120,9 @@ $route['guests/get_program_list'] = 'Members_Controller/get_program_list';
  */
 $route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
 $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
-$route['admin/add'] = 'Admin_Controller/add_admin';
-$route['admin/add_user'] = 'Admin_Controller/add_user';
+$route['users/add'] = 'Admin_Controller/add_admin';
+$route['users/add_user'] = 'Admin_Controller/add_user';
+$route['users/list'] = 'Admin_Controller/user_list';
 
 /**
  * Coaches

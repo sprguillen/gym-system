@@ -6,7 +6,7 @@
  */
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_model extends CI_Model {
+class User_Model extends CI_Model {
 
     public function __construct() {
         $this->load->database();
@@ -96,5 +96,17 @@ class User_model extends CI_Model {
         }
 
         return $data;
+    }
+
+    public function get_complete_user_details() {
+        $sql = "SELECT
+                ua.username,
+                up.fname,
+                up.lname,
+                up.email
+                FROM user_account ua JOIN user_profile up
+                ON ua.user_profile_id = up.id";
+
+        return $this->db->query($sql)->result();
     }
 }

@@ -1,18 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3">
-    <div class="col-md-12 mb-2"> 
-        <small>
-            <?php
-                foreach ($breadcrumbs as $index => $route) {
-                    foreach ($route as $name => $url) {
-                        echo '<a class="mt-0 text-muted" href="' . base_url($url) . '"> ' . $name . '</a> / ';
-                    }
-                }
-            ?>
-        </small>
-        <h3 class="text-danger"> <?php echo $name; ?></h3>
-        <hr/>
-    </div>
     <div class="modal fade" id="registration-dialog" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

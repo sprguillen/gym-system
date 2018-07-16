@@ -3,7 +3,7 @@
 			<p>&copy; 2017-2018 HiTechnologies, Inc. &middot; 
             <?php if (isset($user_type) && $user_type === 'admin' ): ?>
                 &middot; 
-                <a href="<?php echo base_url('admin/add'); ?>">Add Admin</a></p>
+                <a href="<?php echo base_url('users/add'); ?>">Add Users</a></p>
             <?php endif; ?>
             <?php if ($this->session->userdata('logged_in')['account_type'] === 'Admin'
         			&& $user_type !== 'admin'): ?>

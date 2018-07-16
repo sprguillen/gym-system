@@ -129,4 +129,8 @@ class Admin_Controller extends CI_Controller {
         }
     }
 
+    public function user_list() {
+        $data['users'] = $this->User_Model->get_complete_user_details();
+        $this->render('list', $data);
+    }
 }
