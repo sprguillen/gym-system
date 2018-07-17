@@ -34,36 +34,46 @@ $(document).ready(function () {
       e.preventDefault()
       $('#alert-msg').addClass('d-none')  
 
-      $.ajax({
-          method: 'POST',
-          url: '/gym-system/Programs_Controller/ajax_check_if_program_exists',
-          data: { 
-              program_name: $('#program-name').val()
-          }
-      }).done(function (response) {
-          response = JSON.parse(response)
-          
-          if (response) {
-              $('#alert-msg').removeClass('d-none')   
-          } else {
-              console.log('here')
-              $('#title-pricing').removeClass('d-none')
-              $('#form-btn').removeClass('d-none')
+      let programName = $('#program-name').val()
 
-              $('.pricing-input').html('')
-              $('#program-name').attr('disabled', true)
-              $('#add-pricing').attr('disabled', true)
+      if(programName.match(/freeze/i)) {
+        $('#alert-msg').removeClass('d-none')  
+        $('.freeze-msg').removeClass('d-none')        
+        $('.exists-msg').addClass('d-none')        
+      } else {
 
-              ratesArr.forEach(function (item, index) {
-                  let itemName = item.replace(/ /g, '_').toLowerCase()
+        $.ajax({
+            method: 'POST',
+            url: '/gym-system/Programs_Controller/ajax_check_if_program_exists',
+            data: { 
+                program_name: programName
+            }
+        }).done(function (response) {
+            response = JSON.parse(response)
+            
+            if (response) {
+                $('.exists-msg').removeClass('d-none')
+                $('.freeze-msg').addClass('d-none')
+                $('#alert-msg').removeClass('d-none')   
+            } else {
+                $('#title-pricing').removeClass('d-none')
+                $('#form-btn').removeClass('d-none')
 
-                  let inputHtml = `<label for="rate-type" class="rate-type mt-3">${item}</label>
-                                  <input type="number" class="form-control" placeholder="Enter price" name="price_month[${index}]" required>`
+                $('.pricing-input').html('')
+                $('#program-name').attr('disabled', true)
+                $('#add-pricing').attr('disabled', true)
 
-                                  $('.pricing-input').append(inputHtml)
-              })
-          }
-      })
+                ratesArr.forEach(function (item, index) {
+                    let itemName = item.replace(/ /g, '_').toLowerCase()
+
+                    let inputHtml = `<label for="rate-type" class="rate-type mt-3">${item}</label>
+                                    <input type="number" class="form-control" placeholder="Enter price" name="price_month[${index}]" required>`
+
+                                    $('.pricing-input').append(inputHtml)
+                })
+            }
+        })
+      }
   })
 
   $('#program-add-submit').on('click', function (e) {
