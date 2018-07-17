@@ -93,14 +93,7 @@
 		                      		<textarea class="form-control" id="address-text" rows="3" name="address"  ></textarea>
 		                  		</div>
 		              		</div>
-
-		              		<div class="col-md-3">
-		                  		<div class="form-group">
-		                      		<label class="text-dark" for="birth-date">Date of birth</label>
-		                      		<input type="date" class="form-control" id="birthdate" name="birthdate"  >
-		                  		</div>
-		              		</div>
-		              		<div class="col-md-3">
+		              		<div class="col-md-4">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="gender-input">Gender</label>
 		                      		<?php if ($guest_data) { ?>
@@ -116,28 +109,33 @@
 		                      		<?php } ?>
 		                  		</div>
 		              		</div>
-		              		<div class="col-md-3">
+		              		<div class="col-md-4">
 		                  		<div class="form-group">
 			                      	<label class="text-dark" for="weight-number">Weight (in kgs)</label>
 			                      	<input type="number" class="form-control" id="weight-number" name="weight"  >
 		                  		</div>
 		              		</div>
-		              		<div class="col-md-3">
+		              		<div class="col-md-4">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="height-number">Height (in cm)</label>
 		                      		<input type="number" class="form-control" id="height-number" name="height"  >
 		                  		</div>
 		              		</div>
-
-		              		<div class="col-md-6">
+							<div class="col-md-4">
+		                  		<div class="form-group">
+		                      		<label class="text-dark" for="birth-date">Date of birth</label>
+		                      		<input type="date" class="form-control" id="birthdate" name="birthdate"  >
+		                  		</div>
+		              		</div>
+		              		<div class="col-md-4">
 		                  		<div class="form-group">
 		                      		<label class="text-dark" for="number-text">Phone number</label>
 		                      		<input type="text" class="form-control" id="number-text" name="cellnumber"  >
 		                  		</div>
 		              		</div>
-		              		<div class="col-md-6">
+		              		<div class="col-md-4">
 		                  		<div class="form-group">
-		                      		<label class="text-dark" for="email-input">E-mail address</label>
+		                      		<label class="text-dark" for="email-input">E-mail</label>
 		                      		<?php if ($guest_data) { ?>
 		                          		<input type="email" class="form-control" id="email-input" name="email" aria-describedby="emailHelp" value="<?php echo $guest_data->email ?>" >
 		                      		<?php } else { ?>

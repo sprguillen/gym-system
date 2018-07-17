@@ -602,6 +602,22 @@ class Members_Controller extends CI_Controller {
 	}
 
 	/**
+	 * Ajax call to check if email exists on the database
+	 * @return json
+	 */
+	public function check_email() {
+		$email = urldecode($_GET['email']);
+
+		$result = $this->Member_Model->check_email_if_exists($email);
+
+		if ($result > 0) {
+			echo json_encode(false);
+		} else {
+			echo json_encode(true);
+		}
+	}
+
+	/**
 	 * Ajax call to freeze the member and insert data to membership_frozen table
 	 */
 	public function ajax_freeze_member() {

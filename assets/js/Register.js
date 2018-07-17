@@ -5,6 +5,7 @@ $(document).ready(function (e) {
     $('#webcam-validation-error').hide();
     $('#fingerprint-validation-error').hide();
 
+    // $.extend($.validator.messages, {remote: "Email address already taken"});
     form.steps({
         headerTag: "h3",
         bodyTag: "section",
@@ -102,7 +103,8 @@ $(document).ready(function (e) {
             },
             email: {
                 required: true,
-                email: true
+                email: true,
+                remote: 'check_email'
             },
             birthdate: {
                 required: true,
@@ -125,6 +127,11 @@ $(document).ready(function (e) {
             },
             relationship: {
                 required: true
+            }
+        },
+        messages: {
+            email: {
+                remote: $.validator.format("Email is already in use.")
             }
         }
     });

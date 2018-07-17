@@ -106,6 +106,7 @@ $route['members/cancel-membership/(:any)'] = 'Members_Controller/cancel_membersh
 $route['members/list/get_member_by_name'] = 'Members_Controller/get_member_by_name';
 $route['members/programs'] = 'Members_Controller/get_members_list_by_program';
 $route['members/programs/(:any)'] = 'Members_Controller/get_members_list_by_program';
+$route['members/check_email'] = 'Members_Controller/check_email';
 
 /**
  * Guests 

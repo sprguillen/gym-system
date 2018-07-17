@@ -385,4 +385,9 @@ class Member_Model extends CI_Model {
 
         return $this->db->query($sql, $name)->result();
     }
+
+    public function check_email_if_exists($email) {
+        $sql = "SELECT id FROM member WHERE email = '$email'";
+        return $this->db->query($sql)->num_rows();
+    }
 }
