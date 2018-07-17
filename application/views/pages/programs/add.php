@@ -16,7 +16,8 @@
 
     <div class="col-md-6 p-lg-8 mx-auto my-5">
         <div class="alert alert-danger alert-dismissible fade show d-none" id="alert-msg" role="alert">
-            Program with that name already exists.
+            <span class="exists-msg">Program with that name already exists.</span>
+            <span class="freeze-msg">Freeze is a built-in functionality and cannot be created.</span>
             
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>

@@ -117,7 +117,8 @@ class Program_Model extends CI_Model {
     }
 
     public function get_all_programs_type() {
-        $sql = "SELECT * FROM program WHERE type <> 'Freeze Program'";
+        // $sql = "SELECT * FROM program WHERE type <> 'Freeze Program'";
+        $sql = "SELECT * FROM program";
 
         return $this->db->query($sql)->result();
     }

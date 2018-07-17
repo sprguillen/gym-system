@@ -52,8 +52,10 @@
 						?>
 						</td>
 						<td>
+							<?php if ($value->type !== 'Freeze Program'): ?>
 							<button type="button" class="btn btn-sm btn-danger add-pricing" data-programId="<?php echo $value->id ?>" data-toggle="modal" data-target="#addProgramPricing" <?php echo (count($duration) <= count($value->price))? 'disabled': '' ?>>Add pricing</button>
-							<button type="button" class="btn btn-sm btn-danger edit-program-info" data-programId="<?php echo $value->id ?>" data-toggle="modal" data-target="#editProgramInfo">Edit</button>
+							<?php endif; ?>
+							<button type="button" class="btn btn-sm btn-danger edit-program-info" data-programId="<?php echo $value->id ?>" data-toggle="modal" data-target="#editProgramInfo">Edit <?php echo ($value->type === 'Freeze Program')? 'pricing': ''; ?></button>
 							<!-- <button type="button" class="btn btn-sm btn-outline-primary delete-program" data-programId="<?php echo $value->id ?>">Delete</button> -->
 						</td>
 					</tr>
