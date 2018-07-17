@@ -180,4 +180,10 @@ class Program_Model extends CI_Model {
 
         return $this->db->query($sql)->result();
     }
+
+    public function get_freeze_program_price() {
+        $sql = "SELECT pp.id FROM program_price pp JOIN program p ON pp.program_id = p.id WHERE p.type = 'Freeze Program'";
+
+        return $this->db->query($sql)->result()[0]->id;
+    }
 }

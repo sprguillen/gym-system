@@ -642,21 +642,32 @@ class Members_Controller extends CI_Controller {
 			];
 		} else {
 
-			$freeze_data['date_frozen'] = date("Y-m-d");
+			$freeze_data['date_frozen'] = date(MYSQL_DATE_FORMAT);
 			$this->Member_Model->freeze_membership($member_id, $freeze_data);
 
-			$response = [
-				'code' => 200,
-				'message' => 'Membership successfully frozen.'
-			];
+			$result = $this->Program_Model->get_freeze_program_price();
 
-			// $data = array(
-			// 	'payment_date_time' => $freeze_data,
-			// 	'membership_id' => 0,
-			// 	'program_price_id' => $program_price_id
-			// );
+			if ($result) {
+				$data = array(
+					'payment_date_time' => date(MYSQL_DATE_FORMAT),
+					'program_price_id' => $result
+				);
 
-			// $result = $this->Member_Model->insert($data, 'membership_payment');
+				$result2 = $this->Member_Model->insert($data, 'membership_payment');
+
+				if ($result2) {
+					$response = [
+						'code' => 200,
+						'message' => 'Membership successfully frozen.'
+					];
+				} else {
+					$response = [
+						'code' => 200,
+						'message' => 'Membership successfully frozen yet failed to record payment. Contact admin now!'
+					];
+				}
+			}
+			
 		}
 
 		echo json_encode($response);

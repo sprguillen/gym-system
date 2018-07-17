@@ -125,13 +125,14 @@ $(document).ready(function() {
 			success: function (data) {
 				data = JSON.parse(data);
 				
-				if (data['code'] === 400) {
-					$(".freeze-alert").html(data['message']);
-					$(".freeze-alert").show();
-				} else if (data['code'] === 200) {
-					window.location.reload();
-				}
-
+                vex.dialog.alert({
+                    message: data['message'],
+                    callback: function (value) {
+                        if (data['code'] === 200) {
+                            window.location.reload();
+                        }
+                    }
+                });
 			}
 		});
 	})
