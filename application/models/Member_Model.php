@@ -72,7 +72,7 @@ class Member_Model extends CI_Model {
         return $this->db->query($sql, $id)->result();
     }
 
-    public function freeze_membership($member_id, $freeze_data) {
+    public function freeze_membership($member_id, $freeze_data, $payment_data) {
         $sql = "SELECT membership.id AS membership_id FROM membership JOIN member ON membership.member_id = member.id
         WHERE member.id = '" . $member_id . "' AND membership.status = 'Active'"; 
 
@@ -90,6 +90,8 @@ class Member_Model extends CI_Model {
             ];
 
             $this->update_membership($membership_data);
+            $payment_data['membership_id'] = $row->membership_id;
+            $this->insert($payment_data, 'membership_payment');
         }
 
         $this->db->trans_complete();

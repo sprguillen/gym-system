@@ -61,13 +61,15 @@ class User_Model extends CI_Model {
         $user_profile_data = array(
             'fname' => $data['fname'],
             'lname' => $data['lname'],
-            'email' => $data['email']
+            'email' => $data['email'],
+            'img'   => $data['user_img']
         );
 
         $result = $this->insert($user_profile_data, 'user_profile');
 
         if ($result) {
             $user_account_data = array(
+                'id' => $data['finger_data']['id'],
                 'username' => $data['username'],
                 'password' => $data['password'],
                 'email' => $data['email'],
@@ -75,9 +77,10 @@ class User_Model extends CI_Model {
                 'user_profile_id' => $result
             );
 
-            $final_result = $this->insert($user_account_data, 'user_account');
+            $result2 = $this->insert($user_account_data, 'user_account');
+            $result3 = $this->insert($data['finger_data'], 'user_account_finger');
 
-            if ($final_result) {
+            if ($result2 && $result3) {
                 $data = array(
                     'status' => true,
                     'message' => 'Successfully created new user!'
@@ -100,12 +103,46 @@ class User_Model extends CI_Model {
 
     public function get_complete_user_details() {
         $sql = "SELECT
+                ua.id,
                 ua.username,
                 up.fname,
                 up.lname,
                 up.email
                 FROM user_account ua JOIN user_profile up
                 ON ua.user_profile_id = up.id";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function get_max_id() {
+        $sql = "SELECT MAX(id) as uid FROM user_account";
+
+        return $this->db->query($sql)->result()[0]->uid;
+    }
+
+    public function check_if_username_exists($username) {
+        $sql = "SELECT id FROM user_account WHERE username = '$username'";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function get_user_profile_by_account_id($user_account_id) {
+        $this->db->select('*');
+        $this->db->from('user_profile');
+        $this->db->join('user_account', 'user_account.user_profile_id = user_profile.id');
+        $this->db->where('user_account.id', $user_account_id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+
+        if ($query->num_rows() == 1) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function get_user_account_attendance($user_account_id) {
+        $sql = "SELECT * FROM user_account_attendance WHERE user_account_id = $user_account_id";
 
         return $this->db->query($sql)->result();
     }

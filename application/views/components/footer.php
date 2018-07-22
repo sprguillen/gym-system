@@ -1,5 +1,9 @@
 		<footer class="container mt-5">
-			<p class="float-right"><a href="#">Back to top</a></p>
+			<?php if (strpos($_SERVER['REQUEST_URI'], 'login_for_attendance') === false): ?>
+				<p class="float-right"><a href="#">Back to top</a></p>
+			<?php else: ?>
+				<p class="float-right"><a href="<?php echo base_url('') ?>">Gym Membership System</a></p>
+			<?php endif; ?>
 			<p>&copy; 2017-2018 HiTechnologies, Inc. &middot; 
             <?php if (isset($user_type) && $user_type === 'admin' ): ?>
                 &middot; 
@@ -8,6 +12,9 @@
             <?php if ($this->session->userdata('logged_in')['account_type'] === 'Admin'
         			&& $user_type !== 'admin'): ?>
 				<a class="text-info btn-sm mr-2" data-toggle="modal" data-target="#adminModeModal" href="#"><i class="fa fa-lock"></i> Enter Admin Mode</a>
+            <?php endif; ?>
+            <?php if (!$this->session->userdata('logged_in') && strpos($_SERVER['REQUEST_URI'], 'login_for_attendance') === false): ?>
+				<a class="text-info btn-sm mr-2" href="<?php echo base_url('users/login_for_attendance') ?>">Employee Attendance</a> 
             <?php endif; ?>
 	  	</footer>
 	  	<div class="modal fade" id="adminModeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

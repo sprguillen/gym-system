@@ -1,13 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <div class="position-relative overflow-hidden px-5 list-page-body">
 	<div class="col-md-12 mb-2"> 
-		<h3 class="text-danger">Users List</h3>
+		<h3 class="text-danger"></h3>
 		<hr/>
 	</div>
 	<div class="col-md-12">
 		<div class="float-right">
 	  		<div class="input-group">
-	  			<a class="btn btn-success btn-sm mr-2" href="<?php echo base_url('users/add'); ?>"><i class="fa fa-plus"></i> New User</a>
 	  			<a class="btn btn-secondary btn-sm mr-2" href="<?php echo base_url('dashboard'); ?>">Back</a>
 	  		</div>
 	  	</div>
@@ -17,20 +16,17 @@
   			<thead>
 				<tr>
 					<th scope="col">#</th>
-					<th scope="col">Username</th>
-					<th scope="col">Fullname</th>
-					<th scope="col">Email</th>
+					<th scope="col">Attendance</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php 
-					foreach ($users as $key => $user) {
+					foreach ($attendance as $key => $att) {
 						$key += 1;
+						$date_time_attendance = DateTime::createFromFormat(MYSQL_DATE_TIME_FORMAT, $att->attendance);
 						echo '<tr>';
 						echo '<th scope="row">' . $key . '</th>';
-						echo '<td><a class="text-info" href="' . base_url('users/attendance?user_account_id=' . $user->id) . '">' . $user->username . '</a></td>';
-						echo '<td>' . $user->fname . ' ' . $user->lname . '</td>';
-						echo '<td>' . $user->email . '</td>';
+						echo '<td>' . date_format($date_time_attendance, "F d, Y H:i:s") . '</td>';
 						echo '</tr>';
 					}
 				?>

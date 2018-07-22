@@ -175,7 +175,7 @@
 										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#freezeMember" class="btn btn-sm btn-outline-primary freeze-data">Freeze</button>
 									<?php endif; ?>
 									<?php if (strtolower($type) === 'frozen'): ?>
-										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#unfreeze-member" class="btn btn-sm btn-outline-primary freeze-data">Unfreeze</button>
+										<button type="button" data-id="<?php echo $value['id']; ?>" data-name="<?php echo $value['name']; ?>" data-toggle="modal" data-target="#unfreeze-member" class="btn btn-sm btn-outline-primary freeze-data unfreeze-bttn">Unfreeze</button>
 									<?php endif; ?>
 				  				<?php endif; ?>
 								</td>

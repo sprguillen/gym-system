@@ -123,7 +123,15 @@ $route['admin/unlock/(:any)'] = 'Admin_Controller/unlock';
 $route['admin/lock/(:any)'] = 'Admin_Controller/lock';
 $route['users/add'] = 'Admin_Controller/add_admin';
 $route['users/add_user'] = 'Admin_Controller/add_user';
+$route['users/save_fingerprint'] = 'Admin_Controller/save_fingerprint';
 $route['users/list'] = 'Admin_Controller/user_list';
+$route['users/get_fingerprint_data'] = 'Admin_Controller/get_fingerprint_data';
+$route['users/attendance'] = 'Admin_Controller/get_user_attendance';
+$route['users/login_for_attendance'] = 'Admin_Controller/login_for_attendance';
+$route['users/get_username_for_attendance'] = 'Admin_Controller/get_username_for_attendance';
+$route['users/verify_fingerprint'] = 'Admin_Controller/verify_fingerprint';
+$route['users/ajax_done_verification'] = 'Admin_Controller/ajax_done_verification';
+$route['users/clear_done_verification'] = 'Admin_Controller/clear_done_verification';
 
 /**
  * Coaches

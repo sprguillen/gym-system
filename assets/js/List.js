@@ -80,9 +80,14 @@ $(document).ready(function() {
 
     })
 
+    var memberId;
+    $('.unfreeze-bttn').on('click', function () {
+        memberId = $(this).attr('data-id'); 
+    });
+
 	$(".confirm-unfreeze").on('click', function (e) {
 		e.preventDefault();
-		let id = $(this).attr('data-id');
+		let id = memberId;
 
 		$.ajax({
 			url: '/gym-system/Members_Controller/ajax_unfreeze_member',

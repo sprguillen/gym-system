@@ -43,7 +43,7 @@
 				<a class="d-none d-md-inline-block font-weight-bold text-danger" href="<?php echo base_url(); ?>">Elevation Fitness</a>
 	  		</h5>
 
-			<?php if ($isDashboard): ?>
+			<?php if ($this->session->userdata('logged_in') && $isDashboard): ?>
 				<?php
 			  		$title = ['Home', 'Members'];
 			  		$nav = ['Home', 'Members'];

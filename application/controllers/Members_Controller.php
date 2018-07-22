@@ -260,6 +260,7 @@ class Members_Controller extends CI_Controller {
 		);
 
 		$finger_data = $this->session->userdata('current_finger_data');
+		$this->session->unset_userdata('current_finger_data');
 
 		$result1 = $this->Member_Model->insert($member_data, 'member');
 		$result2 = $this->Member_Model->insert($contact_data, 'emergency_contact');
@@ -642,30 +643,25 @@ class Members_Controller extends CI_Controller {
 			];
 		} else {
 
-			$freeze_data['date_frozen'] = date(MYSQL_DATE_FORMAT);
-			$this->Member_Model->freeze_membership($member_id, $freeze_data);
-
 			$result = $this->Program_Model->get_freeze_program_price();
 
+			$freeze_data['date_frozen'] = date(MYSQL_DATE_FORMAT);
+			$payment_data = array(
+				'payment_date_time' => date(MYSQL_DATE_TIME_FORMAT),
+				'program_price_id' => $result
+			);
+			$last_frozen_id = $this->Member_Model->freeze_membership($member_id, $freeze_data, $payment_data);
+
 			if ($result) {
-				$data = array(
-					'payment_date_time' => date(MYSQL_DATE_FORMAT),
-					'program_price_id' => $result
-				);
-
-				$result2 = $this->Member_Model->insert($data, 'membership_payment');
-
-				if ($result2) {
-					$response = [
-						'code' => 200,
-						'message' => 'Membership successfully frozen.'
-					];
-				} else {
-					$response = [
-						'code' => 200,
-						'message' => 'Membership successfully frozen yet failed to record payment. Contact admin now!'
-					];
-				}
+				$response = [
+					'code' => 200,
+					'message' => 'Membership successfully frozen.'
+				];
+			} else {
+				$response = [
+					'code' => 400,
+					'message' => 'Error on freezing member.'
+				];
 			}
 			
 		}
